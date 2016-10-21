@@ -1,0 +1,47 @@
+{
+  "name": "errorreporter",
+  "version": "1.0.0",
+  "description": "Error reporter for client.",
+  "documentationWebsite": {
+    "name": "errorReporter",
+    "tagline": "Error reporter for client.",
+    "trackingCode": ""
+  },
+  "keywords": [
+    "client",
+    "error",
+    "reporter"
+  ],
+  "files": [
+    "index.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thaibault/errorReporter"
+  },
+  "homepage": "http://torben.website/errorReporter",
+  "main": "index.compiled.js",
+  "scripts": {
+    "build": "webOptimizer build",
+    "buildDLL": "webOptimizer buildDLL",
+    "clear": "webOptimizer clear",
+    "document": "webOptimizer document",
+    "export": "webOptimizer build '{development:{tool:false},module:{preprocessor:{babel:{plugins:{__remove__:\"transform-runtime\"}}}}}' && babel --plugins transform-flow-strip-types,transform-runtime --presets latest,stage-0 --source-maps inline --out-file test.compiled.js test.js",
+    "lint": "webOptimizer typeCheck && webOptimizer lint",
+    "prepublish": "npm run build",
+    "serve": "webOptimizer serve",
+    "start": "npm run serve",
+    "test": "webOptimizer test",
+    "testInBrowser": "webOptimizer testInBrowser",
+    "update": "npm version patch && npm publish",
+    "updateDocumentation": "documentationWebsite --log-level info",
+    "watch": "webOptimizer build --watch",
+    "watchDLL": "webOptimizer buildDLL --watch"
+  },
+  "license": "CC-BY-3.0",
+  "devDependencies": {
+    "documentation-website": "latest",
+    "source-map-support": "latest",
+    "weboptimizer": "latest"
+  }
+}
