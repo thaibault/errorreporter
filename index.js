@@ -18,7 +18,7 @@
     endregion
 */
 // region imports
-import type {PlainObject} from 'weboptimizer/type'
+import type {PlainObject} from 'clientnode'
 // endregion
 const globalContext:Object = (():Object => {
     if (typeof window === 'undefined') {
@@ -50,10 +50,14 @@ globalContext.onerror = (
             'debug' in globalContext.options && globalContext.options.debug
         )
             globalContext.alert(error)
-        // If we have a Bad Gateway error "only" the proxy server
-        // should have reported the error.
-        /*else if(status !== 502)
-            window.alert(error);*/
+        /*
+            If we have a Bad Gateway error "only" the proxy server should have
+            reported the error.
+        */
+        /*
+        else if(status !== 502)
+            window.alert(error);
+        */
     }
     /*
         All technologies which completely match will be ignored.
@@ -93,28 +97,27 @@ globalContext.onerror = (
         {errorMessage: /^Error: Permission denied to access property .+/},
         {
             browser: {name: 'Opera'},
-            errorMessage: /^Uncaught SecurityError: Blocked a frame with origin "/
+            errorMessage:
+                /^Uncaught SecurityError: Blocked a frame with origin "/
         },
         {browser: {name: 'IE', version: /[56]/}},
-        {
-            browser: {name: 'IE', version: '11'},
-            errorMessage:
-                /(Das System kann den angegebenen Pfad nicht finden\.\\n|Nicht genügend Arbeitsspeicher\.)/
-        },
-        {
-            browser: {name: 'IE'},
-            errorMessage:
-                'In den Microsoft-Interneterweiterungen ist ein interner Fehler aufgetreten.\r\n'
+        {errorMessage: 'Das System kann den angegebenen Pfad nicht finden.\n'},
+        {errorMessage: 'Nicht genügend Arbeitsspeicher\.'},
+        {errorMessage:
+            'In den Microsoft-Interneterweiterungen ist ein interner Fehler ' +
+            'aufgetreten.\r\n'
         },
         {errorMessage: /^Access is denied\.[\s\S]+/},
         {errorMessage: 'Unbekannter Fehler.'},
-        {errorMessage: /Für diesen Vorgang ist nicht genügend Speicher verfügbar\.[\s\S]+/},
-        {errorMessage: 'Nicht genügend Arbeitsspeicher.'}
+        {errorMessage: new RegExp(
+            'Für diesen Vorgang ist nicht genügend Speicher verfügbar\\.' +
+            '[\s\S]+'
+        )}
     ]
     // Handler to call for browser which should be ignored.
     const technologyIgnoredHandler:Function = (
         technology:PlainObject, technologyToIgnore:PlainObject
-    ) => {
+    ):void => {
         // NOTE: We should avoid error message if a specific error message
         // should be ignored.
         if (!technologyToIgnore.errorMessage)
@@ -126,7 +129,7 @@ globalContext.onerror = (
     try {
         const technology:string = 'Unclear'
         if (globalContext.UAParser) {
-            const technology:string = (new globalContext.UAParser(
+            const technology:PlainObject = (new globalContext.UAParser(
             )).getResult()
             technology.errorMessage = errorMessage
             technology.description =
@@ -168,7 +171,7 @@ globalContext.onerror = (
                             } else if (!ignoreObject[key].test(
                                 `${object[key]}`
                             ))
-                                return false;
+                                return false
                 return true
             }
             for (const technologyToIgnore:PlainObject of technologiesToIgnore)
@@ -183,16 +186,16 @@ globalContext.onerror = (
         if (globalContext.JSON && globalContext.JSON.stringify)
             serializeJSON = globalContext.JSON.stringify
         else
-            serializeJSON = (object:Object):string {
-                const toString:Function = (value:any):string {
+            serializeJSON = (object:Object):string => {
+                const toString:Function = (value:any):string => {
                     value = `${value}`
                     if(value.replace)
                         return value.replace(/(?:\r\n|\r|\n)/g, '\\n').replace(
                             /\\?"/g, '\\"')
                     return value
                 }
-                var result = '{'
-                for (var key in object)
+                let result:string = '{'
+                for (const key:string in object)
                     if (object.hasOwnProperty(key)) {
                         if (result !== '{')
                             result += ','
@@ -219,7 +222,7 @@ globalContext.onerror = (
                 `${location.protocol}//${globalContext.location.hostname}:` +
                 `${globalContext.location.port}${errorReportPath}`, {
                     headers: new Headers({
-                        'Content-type', 'application/json'
+                        'Content-type': 'application/json'
                     }),
                     body: serializeJSON({
                         technologyDescription:
