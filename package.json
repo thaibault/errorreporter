@@ -1,7 +1,9 @@
 {
   "name": "errorreporter",
   "version": "1.0.2",
+  "license": "CC-BY-3.0",
   "description": "Error reporter for client.",
+  "homepage": "http://torben.website/errorReporter",
   "documentationWebsite": {
     "name": "errorReporter",
     "tagline": "Error reporter for client.",
@@ -15,12 +17,11 @@
   "files": [
     "index.js"
   ],
+  "main": "index.compiled.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/thaibault/errorReporter"
   },
-  "homepage": "http://torben.website/errorReporter",
-  "main": "index.compiled.js",
   "scripts": {
     "build": "webOptimizer build",
     "buildDLL": "webOptimizer buildDLL",
@@ -38,7 +39,6 @@
     "watch": "webOptimizer build --watch",
     "watchDLL": "webOptimizer buildDLL --watch"
   },
-  "license": "CC-BY-3.0",
   "devDependencies": {
     "clientnode": "latest",
     "documentation-website": "latest",
