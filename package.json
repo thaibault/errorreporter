@@ -7,7 +7,7 @@
   "documentationWebsite": {
     "name": "errorReporter",
     "tagline": "Error reporter for client.",
-    "trackingCode": ""
+    "trackingCode": "TODO"
   },
   "keywords": [
     "client",
