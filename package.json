@@ -42,8 +42,6 @@
   "devDependencies": {
     "clientnode": "latest",
     "documentation-website": "latest",
-    "qunitjs": "latest",
-    "qunit-cli": "latest",
     "source-map-support": "latest",
     "weboptimizer": "latest"
   }
