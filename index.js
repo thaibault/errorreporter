@@ -96,27 +96,36 @@ globalContext.onerror = (
         }
     */
     const technologiesToIgnore:Array<PlainObject> = [
-        {errorMessage: /^NS_ERROR[A-Z_]*:.*/},
-        {errorMessage: /^ReferenceError: "gapi" is not defined\..*/},
+        {browser: {name: 'IE', major: /[56789]/}},
+        {errorMessage: /^Access is denied\.[\s\S]+/},
+        {errorMessage: /^Error: Das System kann auf die Datei nicht zugreifen[\s\S]+/},
         {errorMessage: /^Error: Permission denied to access property .+/},
+        {errorMessage: /Für diesen Vorgang ist nicht genügend Speicher verfügbar\.[\s\S]+/},
+        {errorMessage: 'Nicht genügend Arbeitsspeicher.'},
+        {errorMessage: /^NS_ERROR[A-Z_]*:.*/},
+        {errorMessage: /^QuotaExceededError:/},
+        {errorMessage: /^ReferenceError: "gapi" is not defined\..*/},
+        {errorMessage: 'Script error.'},
+        {errorMessage: /^SecurityError: .*The operation is insecure\.$/},
+        {errorMessage: /^TypeError: Expected argument of type object, but instead had type object/},
+        {errorMessage: /^TypeError: null is not an object (evaluating 'window\.localStorage.*/},
+        {errorMessage: /^uncaught exception: /},
+        {errorMessage: /^uncaught exception: \[Exception\.\.\. "Not enough arguments".*/},
+        {errorMessage: "Uncaught SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document."},
+        {errorMessage: 'Unbekannter Fehler.'},
+        {errorMessage: /^Zugriff verweigert\.?[\s\S]+/},
         {
             browser: {name: 'Opera'},
-            errorMessage:
-                /^Uncaught SecurityError: Blocked a frame with origin "/
+            errorMessage: /^Uncaught SecurityError: Blocked a frame with origin "/
         },
-        {browser: {name: 'IE', version: /[56]/}},
-        {errorMessage: 'Das System kann den angegebenen Pfad nicht finden.\n'},
-        {errorMessage: 'Nicht genügend Arbeitsspeicher\.'},
-        {errorMessage:
-            'In den Microsoft-Interneterweiterungen ist ein interner Fehler ' +
-            'aufgetreten.\r\n'
+        {
+            browser: {name: 'IE', version: '11'},
+            errorMessage: 'Das System kann den angegebenen Pfad nicht finden.\n'
         },
-        {errorMessage: /^Access is denied\.[\s\S]+/},
-        {errorMessage: 'Unbekannter Fehler.'},
-        {errorMessage: new RegExp(
-            'Für diesen Vorgang ist nicht genügend Speicher verfügbar\\.' +
-            '[\s\S]+'
-        )}
+        {
+            browser: {name: 'IE'},
+            errorMessage: 'In den Microsoft-Interneterweiterungen ist ein interner Fehler aufgetreten.\r\n'
+        }
     ]
     // Handler to call for browser which should be ignored.
     const technologyIgnoredHandler:Function = (
