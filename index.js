@@ -108,7 +108,7 @@ globalContext.onerror = (
         {errorMessage: 'Script error.'},
         {errorMessage: /^SecurityError: .*The operation is insecure\.$/},
         {errorMessage: /^TypeError: Expected argument of type object, but instead had type object/},
-        {errorMessage: /^TypeError: null is not an object (evaluating 'window\.localStorage.*/},
+        {errorMessage: /^TypeError: null is not an object \(evaluating 'window\.localStorage.*/},
         {errorMessage: /^uncaught exception: /},
         {errorMessage: /^uncaught exception: \[Exception\.\.\. "Not enough arguments".*/},
         {errorMessage: "Uncaught SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document."},
