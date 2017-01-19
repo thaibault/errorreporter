@@ -131,8 +131,10 @@ globalContext.onerror = (
     const technologyIgnoredHandler:Function = (
         technology:PlainObject, technologyToIgnore:PlainObject
     ):void => {
-        // NOTE: We should avoid error message if a specific error message
-        // should be ignored.
+        /*
+            We should avoid error message if a specific error message should be
+            ignored.
+        */
         if (!technologyToIgnore.errorMessage)
             globalContext.alert(
                 `Your technology "${technology.description}" to display this` +
@@ -252,7 +254,10 @@ globalContext.onerror = (
     }
     return false
 }
-// NOTE: Trick to avoid global variable pollution.
+/*
+    Bound reported errors to globale error handler to avoid global variable
+    pollution.
+*/
 globalContext.onerror.reportedErrors = {}
 // region vim modline
 // vim: set tabstop=4 shiftwidth=4 expandtab:
