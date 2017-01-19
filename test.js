@@ -68,13 +68,15 @@ registerTest(function(roundType:string, targetTechnology:?string, $:any):void {
         onError.casesToIgnore = [{errorMessage: /Access is denied/}]
         assert.notOk(onError('Access is denied.', '', 0, 0, {}))
         assert.strictEqual(
-            caseToIgnoreHandlerCall[0].errorMessage, 'Access is denied')
+            caseToIgnoreHandlerCall[0].errorMessage, 'Access is denied.')
+        onError.casesToIgnore = [{errorMessage: 'Access is denied.'}]
+        assert.strictEqual(
+            caseToIgnoreHandlerCall[0].errorMessage, 'Access is denied.')
+        assert.notOk(onError('Access is denied.', '', 0, 0, {}))
         caseToIgnoreHandlerCall = []
         onError.casesToIgnore = []
-        // TODO check vor empty errorMessage
         assert.notOk(onError('Access is denied.', '', 0, 0, {}))
-        assert.strictEqual(
-            caseToIgnoreHandlerCall[0].errorMessage, 'Access is denied')
+        assert.deepEqual(caseToIgnoreHandlerCall, [])
         globalContext.fetch = null
         assert.notOk(onError('', '', 0, 0, {}))
         assert.deepEqual(failedHandlerCall, [])
