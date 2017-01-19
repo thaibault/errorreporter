@@ -23,11 +23,10 @@ try {
 } catch (error) {}
 // endregion
 registerTest(function(roundType:string, targetTechnology:?string, $:any):void {
-    require('./index')
+    const onerror:Function = require('./index').default
     // region tests
     this.test('onerror', (assert:Object):void => {
-        assert.ok(true)
-        console.log(onerror)
+        assert.deepEqual(onerror.reportedErrors, {})
     })
     // endregion
 }, ['plain'])

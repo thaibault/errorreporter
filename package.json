@@ -69,7 +69,7 @@
         "clientnode/test$": "clientnode/test.compiled"
       },
       "skipParseRegularExpressions": {
-        "__evaluate__": "/\\/module\\.js(?:\\?.+|$)/"
+        "__evaluate__": "/\\/(?:module|global)\\.js(?:\\?.+|$)/"
       }
     }
   }

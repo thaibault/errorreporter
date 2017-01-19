@@ -24,7 +24,7 @@ try {
     module.require('source-map-support/register')
 } catch (error) {}
 // endregion
-const globalContext:Object = (():Object => {
+export const globalContext:Object = (():Object => {
     if (typeof window === 'undefined') {
         if (typeof global === 'undefined')
             return (typeof module === 'undefined') ? {} : module
@@ -34,7 +34,7 @@ const globalContext:Object = (():Object => {
     }
     return window
 })()
-globalContext.onerror = (
+export default globalContext.onerror = (
     errorMessage:string, url:string, lineNumber:number, columnNumber:number,
     errorObject:Object
 ):boolean => {
