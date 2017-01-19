@@ -55,7 +55,7 @@ export default globalContext.onerror = (
                 globalContext.alert(error)
         }
     /*
-        All technologies which completely match will be ignored.
+        All cases which completely match will be ignored.
 
         Possible structure (unneeded keys can be omitted):
 
@@ -86,14 +86,14 @@ export default globalContext.onerror = (
             }
         }
     */
-    if (!globalContext.onerror.technologiesToIgnore)
-        globalContext.onerror.technologiesToIgnore = [
+    if (!globalContext.onerror.casesToIgnore)
+        globalContext.onerror.casesToIgnore = [
             {browser: {name: 'IE', major: /[56789]/}},
             {errorMessage: /Access is denied/},
             {errorMessage: /Das System kann auf die Datei nicht zugreifen/},
             {errorMessage: /Permission denied to access property/},
-            {errorMessage: /FÃ¼r diesen Vorgang ist nicht genÃ¼gend Speicher verfÃ¼gbar/},
-            {errorMessage: /Nicht genÃ¼gend Arbeitsspeicher/},
+            {errorMessage: /Für diesen Vorgang ist nicht genügend Speicher verfügbar/},
+            {errorMessage: /Nicht genügend Arbeitsspeicher/},
             {errorMessage: /^NS_ERROR[A-Z_]*:.*/},
             {errorMessage: /^QuotaExceededError:/},
             {errorMessage: /^ReferenceError: "gapi" is not defined\..*/},
@@ -117,7 +117,7 @@ export default globalContext.onerror = (
     // Handler to call for browser which should be ignored.
     if (!globalContext.onerror.caseToIgnoreHandler)
         globalContext.onerror.caseToIgnoreHandler = (
-            case:PlainObject, caseToIgnore:PlainObject
+            instance:PlainObject, caseToIgnore:PlainObject
         ):void => {
             /*
                 We should avoid error message if a specific error message
@@ -125,7 +125,7 @@ export default globalContext.onerror = (
             */
             if (!caseToIgnore.errorMessage)
                 globalContext.alert(
-                    `Your technology "${case.technologyDescription}" to ` +
+                    `Your technology "${instance.technologyDescription}" to ` +
                     `display this website isn't supported any more. Please ` +
                     'upgrade your browser engine.')
         }
@@ -133,25 +133,26 @@ export default globalContext.onerror = (
     if (!globalContext.onerror.reportedHandler)
         globalContext.onerror.reportedHandler = ():void => {}
     try {
-        let case:PlainObject {technologyDescription: 'Unclear'}
+        let instance:PlainObject = {technologyDescription: 'Unclear'}
         if (globalContext.UAParser) {
-            case = (new globalContext.UAParser()).getResult()
-            case.technologyDescription =
-                `${case.browser.name} ${case.browser.major}  (` +
-                `${case.browser.version} | ${case.engine.name} ` +
-                `${case.engine.version}) | ${case.os.name} ${case.os.version}`
+            instance = (new globalContext.UAParser()).getResult()
+            instance.technologyDescription =
+                `${instance.browser.name} ${instance.browser.major}  (` +
+                `${instance.browser.version} | ${instance.engine.name} ` +
+                `${instance.engine.version}) | ${instance.os.name} ` +
+                instance.os.version
             if (
-                case.device && case.device.model && case.device.type &&
-                case.device.vendor
+                instance.device && instance.device.model &&
+                instance.device.type && instance.device.vendor
             )
-                case.technologyDescription +=
-                    ` | ${case.device.model} ${case.device.type} ` +
-                    case.device.vendor
+                instance.technologyDescription +=
+                    ` | ${instance.device.model} ${instance.device.type} ` +
+                    instance.device.vendor
         }
-        case.errorMessage = errorMessage
+        instance.errorMessage = errorMessage
         // Checks if given object completely matches given match object.
         const checkIfCaseMatches:Function = (
-            object:PlainObject, matchObject:PlainObject
+            object:any, matchObject:any
         ):boolean => {
             if (Object.prototype.toString.call(
                 matchObject
@@ -175,10 +176,11 @@ export default globalContext.onerror = (
         }
         for (
             const caseToIgnore:PlainObject of
-            globalContext.onerror.caseToIgnore
+            globalContext.onerror.casesToIgnore
         )
-            if (checkIfCaseMatches(case, caseToIgnore)) {
-                caseIgnoredHandler(case, caseToIgnore)
+            if (checkIfCaseMatches(instance, caseToIgnore)) {
+                globalContext.onerror.caseToIgnoreHandler(
+                    instance, caseToIgnore)
                 return false
             }
         let serializeJSON:Function
@@ -225,7 +227,7 @@ export default globalContext.onerror = (
                     headers: new globalContext.Headers({
                         'Content-type': 'application/json'}),
                     body: serializeJSON({
-                        technologyDescription: case.technologyDescription,
+                        technologyDescription: instance.technologyDescription,
                         url: url,
                         errorMessage: errorMessage,
                         absoluteURL: globalContext.window.location.href,

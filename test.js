@@ -46,6 +46,7 @@ registerTest(function(roundType:string, targetTechnology:?string, $:any):void {
     onError.caseToIgnoreHandler = (...parameter:Array<any>):void => {
         caseToIgnoreHandlerCall = parameter
     }
+    onError.casesToIgnore = []
     // endregion
     // region tests
     this.test('onError', async (assert:Object):Promise<void> => {
@@ -64,8 +65,16 @@ registerTest(function(roundType:string, targetTechnology:?string, $:any):void {
             assert.notOk(onError('', '', 0, 0, {}))
             globalContext.location.protocol = protocol
         }
+        onError.casesToIgnore = [{errorMessage: /Access is denied/}]
         assert.notOk(onError('Access is denied.', '', 0, 0, {}))
-        console.log(caseToIgnoreHandlerCall)
+        assert.strictEqual(
+            caseToIgnoreHandlerCall[0].errorMessage, 'Access is denied')
+        caseToIgnoreHandlerCall = []
+        onError.casesToIgnore = []
+        // TODO check vor empty errorMessage
+        assert.notOk(onError('Access is denied.', '', 0, 0, {}))
+        assert.strictEqual(
+            caseToIgnoreHandlerCall[0].errorMessage, 'Access is denied')
         globalContext.fetch = null
         assert.notOk(onError('', '', 0, 0, {}))
         assert.deepEqual(failedHandlerCall, [])
