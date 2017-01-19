@@ -46,23 +46,14 @@ export default globalContext.onerror = (
         Opera 11.60+, Safari 5.1+
     */
     // URL to send error messages to.
-    const errorReportPath:string = '/__error_report__'
+    if (!globalContext.onerror.reportPath)
+        globalContext.onerror.reportPath = '/__error_report__'
     // Handler to call if error reporting fails.
-    const errorReportFailedHandler:Function = (error:Error):void => {
-        if (
-            'alert' in globalContext && 'options' in globalContext &&
-            'debug' in globalContext.options && globalContext.options.debug
-        )
-            globalContext.alert(error)
-        /*
-            If we have a Bad Gateway error "only" the proxy server should have
-            reported the error.
-        */
-        /*
-        else if(status !== 502)
-            window.alert(error);
-        */
-    }
+    if (!globalContext.onerror.failedHandler)
+        globalContext.onerror.failedHandler = (error:Error):void => {
+            if ('alert' in globalContext)
+                globalContext.alert(error)
+        }
     /*
         All technologies which completely match will be ignored.
 
@@ -95,106 +86,101 @@ export default globalContext.onerror = (
             }
         }
     */
-    const technologiesToIgnore:Array<PlainObject> = [
-        {browser: {name: 'IE', major: /[56789]/}},
-        {errorMessage: /^Access is denied\.[\s\S]+/},
-        {errorMessage: /^Error: Das System kann auf die Datei nicht zugreifen[\s\S]+/},
-        {errorMessage: /^Error: Permission denied to access property .+/},
-        {errorMessage: /Für diesen Vorgang ist nicht genügend Speicher verfügbar\.[\s\S]+/},
-        {errorMessage: 'Nicht genügend Arbeitsspeicher.'},
-        {errorMessage: /^NS_ERROR[A-Z_]*:.*/},
-        {errorMessage: /^QuotaExceededError:/},
-        {errorMessage: /^ReferenceError: "gapi" is not defined\..*/},
-        {errorMessage: 'Script error.'},
-        {errorMessage: /^SecurityError: .*The operation is insecure\.$/},
-        {errorMessage: /^TypeError: Expected argument of type object, but instead had type object/},
-        {errorMessage: /^TypeError: null is not an object \(evaluating 'window\.localStorage.*/},
-        {errorMessage: /^uncaught exception: /},
-        {errorMessage: /^uncaught exception: \[Exception\.\.\. "Not enough arguments".*/},
-        {errorMessage: "Uncaught SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied for this document."},
-        {errorMessage: 'Unbekannter Fehler.'},
-        {errorMessage: /^Zugriff verweigert\.?[\s\S]+/},
-        {
-            browser: {name: 'Opera'},
-            errorMessage: /^Uncaught SecurityError: Blocked a frame with origin "/
-        },
-        {
-            browser: {name: 'IE', version: '11'},
-            errorMessage: 'Das System kann den angegebenen Pfad nicht finden.\n'
-        },
-        {
-            browser: {name: 'IE'},
-            errorMessage: 'In den Microsoft-Interneterweiterungen ist ein interner Fehler aufgetreten.\r\n'
-        }
-    ]
+    if (!globalContext.onerror.technologiesToIgnore)
+        globalContext.onerror.technologiesToIgnore = [
+            {browser: {name: 'IE', major: /[56789]/}},
+            {errorMessage: /Access is denied/},
+            {errorMessage: /Das System kann auf die Datei nicht zugreifen/},
+            {errorMessage: /Permission denied to access property/},
+            {errorMessage: /FÃ¼r diesen Vorgang ist nicht genÃ¼gend Speicher verfÃ¼gbar/},
+            {errorMessage: /Nicht genÃ¼gend Arbeitsspeicher/},
+            {errorMessage: /^NS_ERROR[A-Z_]*:.*/},
+            {errorMessage: /^QuotaExceededError:/},
+            {errorMessage: /^ReferenceError: "gapi" is not defined\..*/},
+            {errorMessage: 'Script error.'},
+            {errorMessage: /SecurityError:/},
+            {errorMessage: /TypeError: Expected argument of type object, but instead had type object/},
+            {errorMessage: /null is not an object \(evaluating 'window\.localStorage/},
+            {errorMessage: /^uncaught exception: /},
+            {errorMessage: /Uncaught SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied/},
+            {errorMessage: /Unbekannter Fehler/},
+            {errorMessage: /Zugriff verweigert/},
+            {
+                browser: {name: 'IE', version: '11'},
+                errorMessage: /Das System kann den angegebenen Pfad nicht finden/
+            },
+            {
+                browser: {name: 'IE'},
+                errorMessage: /In den Microsoft-Interneterweiterungen ist ein interner Fehler aufgetreten/
+            }
+        ]
     // Handler to call for browser which should be ignored.
-    const technologyIgnoredHandler:Function = (
-        technology:PlainObject, technologyToIgnore:PlainObject
-    ):void => {
-        /*
-            We should avoid error message if a specific error message should be
-            ignored.
-        */
-        if (!technologyToIgnore.errorMessage)
-            globalContext.alert(
-                `Your technology "${technology.description}" to display this` +
-                `website isn't supported any more. Please upgrade your ` +
-                'browser engine.')
-    }
+    if (!globalContext.onerror.caseToIgnoreHandler)
+        globalContext.onerror.caseToIgnoreHandler = (
+            case:PlainObject, caseToIgnore:PlainObject
+        ):void => {
+            /*
+                We should avoid error message if a specific error message
+                should be ignored.
+            */
+            if (!caseToIgnore.errorMessage)
+                globalContext.alert(
+                    `Your technology "${case.technologyDescription}" to ` +
+                    `display this website isn't supported any more. Please ` +
+                    'upgrade your browser engine.')
+        }
+    // Handler to call when error reporting was successful.
+    if (!globalContext.onerror.reportedHandler)
+        globalContext.onerror.reportedHandler = ():void => {}
     try {
-        const technology:string = 'Unclear'
+        let case:PlainObject {technologyDescription: 'Unclear'}
         if (globalContext.UAParser) {
-            const technology:PlainObject = (new globalContext.UAParser(
-            )).getResult()
-            technology.errorMessage = errorMessage
-            technology.description =
-                `${technology.browser.name} ${technology.browser.major}  (` +
-                `${technology.browser.version} | ${technology.engine.name} ` +
-                `${technology.engine.version}) | ${technology.os.name} ` +
-                technology.os.version
+            case = (new globalContext.UAParser()).getResult()
+            case.technologyDescription =
+                `${case.browser.name} ${case.browser.major}  (` +
+                `${case.browser.version} | ${case.engine.name} ` +
+                `${case.engine.version}) | ${case.os.name} ${case.os.version}`
             if (
-                technology.device && technology.device.model &&
-                technology.device.type && technology.device.vendor
+                case.device && case.device.model && case.device.type &&
+                case.device.vendor
             )
-                technology.description +=
-                    ` | ${technology.device.model} ${technology.device.type}` +
-                    ` ${technology.device.vendor}`
-            const checkAgainTechnologyToIgnore:Function = (
-                object:PlainObject, ignoreObject:PlainObject
-            ):boolean => {
-                /*
-                    Check if given ignore object completely matches given
-                    object.
-                */
-                for (const key:string in ignoreObject)
-                    if (ignoreObject.hasOwnProperty(key))
-                        if (Object.prototype.toString.call(
-                            ignoreObject[key]
-                        ) === '[object Object]') {
-                            if (!checkAgainTechnologyToIgnore(
-                                object[key], ignoreObject[key]
-                            ))
-                                return false
-                        } else if (key in object)
-                            if (typeof ignoreObject[key] === 'string' || !(
-                                'test' in ignoreObject[key]
-                            )) {
-                                if (ignoreObject[key] !== object[key])
-                                    return false
-                            } else if (!ignoreObject[key].test(
-                                `${object[key]}`
-                            ))
-                                return false
+                case.technologyDescription +=
+                    ` | ${case.device.model} ${case.device.type} ` +
+                    case.device.vendor
+        }
+        case.errorMessage = errorMessage
+        // Checks if given object completely matches given match object.
+        const checkIfCaseMatches:Function = (
+            object:PlainObject, matchObject:PlainObject
+        ):boolean => {
+            if (Object.prototype.toString.call(
+                matchObject
+            ) === '[object Object]' && Object.prototype.toString.call(
+                object
+            ) === '[object Object]') {
+                for (const key:string in matchObject)
+                    if (matchObject.hasOwnProperty(key)) {
+                        if (!(key in object && checkIfCaseMatches(
+                            object[key], matchObject[key]
+                        )))
+                            return false
+                    }
                 return true
             }
-            for (const technologyToIgnore:PlainObject of technologiesToIgnore)
-                if (checkAgainTechnologyToIgnore(
-                    technology, technologyToIgnore
-                )) {
-                    technologyIgnoredHandler(technology, technologyToIgnore)
-                    return false
-                }
+            if (Object.prototype.toString.call(
+                matchObject
+            ) === '[object RegExp]')
+                return matchObject.test(`${object}`)
+            return matchObject === object
         }
+        for (
+            const caseToIgnore:PlainObject of
+            globalContext.onerror.caseToIgnore
+        )
+            if (checkIfCaseMatches(case, caseToIgnore)) {
+                caseIgnoredHandler(case, caseToIgnore)
+                return false
+            }
         let serializeJSON:Function
         if (globalContext.JSON && globalContext.JSON.stringify)
             serializeJSON = globalContext.JSON.stringify
@@ -228,29 +214,34 @@ export default globalContext.onerror = (
         const errorKey:string =
             `${errorMessage}#${globalContext.location.href}#${lineNumber}#` +
             columnNumber
-        if (!globalContext.onerror.reportedErrors[errorKey]) {
-            globalContext.onerror.reportedErrors[errorKey] = true
-            fetch(
-                `${location.protocol}//${globalContext.location.hostname}:` +
-                `${globalContext.location.port}${errorReportPath}`, {
-                    headers: new Headers({'Content-type': 'application/json'}),
+        if (!globalContext.onerror.reported[errorKey]) {
+            globalContext.onerror.reported[errorKey] = true
+            const portPrefix:string = globalContext.location.port ?
+                `:${globalContext.location.port}` : ''
+            globalContext.fetch(
+                `${globalContext.location.protocol}//` +
+                `${globalContext.location.hostname}${portPrefix}` +
+                globalContext.onerror.reportPath, {
+                    headers: new globalContext.Headers({
+                        'Content-type': 'application/json'}),
                     body: serializeJSON({
-                        technologyDescription: technology.description ||
-                            'unclear',
+                        technologyDescription: case.technologyDescription,
                         url: url,
                         errorMessage: errorMessage,
-                        absoluteURL: window.location.href,
+                        absoluteURL: globalContext.window.location.href,
                         lineNumber: lineNumber,
                         columnNumber: columnNumber,
-                        userAgent: window.navigator.userAgent,
+                        userAgent: globalContext.window.navigator.userAgent,
                         stack: errorObject && errorObject.stack
                     }),
                     method: 'PUT'
                 }
-            ).catch(errorReportFailedHandler)
+            )
+            .then(globalContext.onerror.reportedHandler)
+            .catch(globalContext.onerror.failedHandler)
         }
     } catch(error) {
-        errorReportFailedHandler(error)
+        globalContext.onerror.failedHandler(error)
     }
     return false
 }
@@ -258,7 +249,7 @@ export default globalContext.onerror = (
     Bound reported errors to globale error handler to avoid global variable
     pollution.
 */
-globalContext.onerror.reportedErrors = {}
+globalContext.onerror.reported = {}
 // region vim modline
 // vim: set tabstop=4 shiftwidth=4 expandtab:
 // vim: foldmethod=marker foldmarker=region,endregion:

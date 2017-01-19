@@ -15,6 +15,7 @@
     endregion
 */
 // region imports
+import Tools from 'clientnode'
 import type {$DomNode} from 'clientnode'
 import registerTest from 'clientnode/test'
 // NOTE: Only needed for debugging this file.
@@ -23,10 +24,54 @@ try {
 } catch (error) {}
 // endregion
 registerTest(function(roundType:string, targetTechnology:?string, $:any):void {
-    const onerror:Function = require('./index').default
+    // region prepare environment
+    const index:Object = require('./index')
+    const globalContext:Object = index.globalContext
+    const onError:Function = index.default
+    globalContext.Headers = class {}
+    let fetchHandlerCall:Array<any> = []
+    globalContext.fetch = (...parameter:Array<any>):Promise<string> => {
+        fetchHandlerCall = parameter
+        return Promise.resolve('dummyFetchResult')
+    }
+    let failedHandlerCall:Array<any> = []
+    onError.failedHandler = (...parameter:Array<any>):void => {
+        failedHandlerCall = parameter
+    }
+    let reportedHandlerCall:Array<any> = []
+    onError.reportedHandler = (...parameter:Array<any>):void => {
+        reportedHandlerCall = parameter
+    }
+    let caseToIgnoreHandlerCall:Array<any> = []
+    onError.caseToIgnoreHandler = (...parameter:Array<any>):void => {
+        caseToIgnoreHandlerCall = parameter
+    }
+    // endregion
     // region tests
-    this.test('onerror', (assert:Object):void => {
-        assert.deepEqual(onerror.reportedErrors, {})
+    this.test('onError', async (assert:Object):Promise<void> => {
+        const done:Function = assert.async()
+        assert.deepEqual(onError.reported, {})
+        assert.notOk(onError('', '', 0, 0, {}))
+        assert.deepEqual(failedHandlerCall, [])
+        assert.deepEqual(caseToIgnoreHandlerCall, [])
+        assert.ok(fetchHandlerCall[0].endsWith(
+            globalContext.onerror.reportPath))
+        await Tools.timeout()
+        assert.strictEqual(reportedHandlerCall[0], 'dummyFetchResult')
+        if (targetTechnology === 'node') {
+            const protocol:string = globalContext.location.protocol
+            globalContext.location.protocol = 'file:'
+            assert.notOk(onError('', '', 0, 0, {}))
+            globalContext.location.protocol = protocol
+        }
+        assert.notOk(onError('Access is denied.', '', 0, 0, {}))
+        console.log(caseToIgnoreHandlerCall)
+        globalContext.fetch = null
+        assert.notOk(onError('', '', 0, 0, {}))
+        assert.deepEqual(failedHandlerCall, [])
+        assert.notOk(onError('a', '', 0, 0, {}))
+        assert.ok(failedHandlerCall[0] instanceof Error)
+        done()
     })
     // endregion
 }, ['plain'])
