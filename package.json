@@ -44,5 +44,33 @@
     "documentation-website": "latest",
     "source-map-support": "latest",
     "weboptimizer": "latest"
+  },
+  "webOptimizer": {
+    "injection": {
+      "external": {
+        "implicit": {
+          "pattern": {
+            "exclude": {
+              "__append__": {
+                "__evaluate__": "/^clientnode\\/test(?:\\.compiled)?(?:\\.js)?$/"
+              }
+            }
+          }
+        }
+      },
+      "internal": {
+        "vendor": {
+          "__evaluate__": "self.debug && 2 < self.givenCommandLineArguments.length && ['buildDLL', 'serve', 'testInBrowser', 'watchDLL'].includes(self.givenCommandLineArguments[2]) ? ['babel-polyfill', 'clientnode'].concat(self.givenCommandLineArguments[2] === 'serve' ? [] : ['script!qunitjs', 'weboptimizer/browserAPI']) : []"
+        }
+      }
+    },
+    "module": {
+      "aliases": {
+        "clientnode/test$": "clientnode/test.compiled"
+      },
+      "skipParseRegularExpressions": {
+        "__evaluate__": "/\\/module\\.js(?:\\?.+|$)/"
+      }
+    }
   }
 }
