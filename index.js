@@ -161,8 +161,8 @@ globalContext.onerror = (
                 object:PlainObject, ignoreObject:PlainObject
             ):boolean => {
                 /*
-                    Check if given ignore object completely matches
-                    given object.
+                    Check if given ignore object completely matches given
+                    object.
                 */
                 for (const key:string in ignoreObject)
                     if (ignoreObject.hasOwnProperty(key))
@@ -174,11 +174,9 @@ globalContext.onerror = (
                             ))
                                 return false
                         } else if (key in object)
-                            if (typeof ignoreObject[
-                                key
-                            ] === 'string' || !('test' in ignoreObject[
-                                key
-                            ])) {
+                            if (typeof ignoreObject[key] === 'string' || !(
+                                'test' in ignoreObject[key]
+                            )) {
                                 if (ignoreObject[key] !== object[key])
                                     return false
                             } else if (!ignoreObject[key].test(
@@ -221,25 +219,22 @@ globalContext.onerror = (
                         )
                             result += `${object[key]}`
                         else
-                            result += '"' + toString(
-                                object[key]
-                            ) + '"'
+                            result += `"${toString(object[key])}"`
                     }
                 return `${result}}`
             }
-        const errorKey:string = `${errorMessage}#` +
-            `${globalContext.location.href}#${lineNumber}#${columnNumber}`
+        const errorKey:string =
+            `${errorMessage}#${globalContext.location.href}#${lineNumber}#` +
+            columnNumber
         if (!globalContext.onerror.reportedErrors[errorKey]) {
             globalContext.onerror.reportedErrors[errorKey] = true
             fetch(
                 `${location.protocol}//${globalContext.location.hostname}:` +
                 `${globalContext.location.port}${errorReportPath}`, {
-                    headers: new Headers({
-                        'Content-type': 'application/json'
-                    }),
+                    headers: new Headers({'Content-type': 'application/json'}),
                     body: serializeJSON({
-                        technologyDescription:
-                            technology.description || 'unclear',
+                        technologyDescription: technology.description ||
+                            'unclear',
                         url: url,
                         errorMessage: errorMessage,
                         absoluteURL: window.location.href,
