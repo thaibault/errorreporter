@@ -28,6 +28,7 @@
     "clear": "webOptimizer clear",
     "document": "webOptimizer document",
     "export": "webOptimizer build '{development:{tool:false},module:{preprocessor:{javaScript:{configuration:{plugins:{__remove__:\"transform-runtime\"}}}}}}'",
+    "exportCompatible": "webOptimizer build '{development:{tool:false},module:{preprocessor:{javaScript:{configuration:{plugins:{__remove__:\"transform-runtime\"},presets:[\"latest\",\"stage-0\"]}}}}}' && npm run buildTest",
     "lint": "webOptimizer typeCheck && webOptimizer lint",
     "prepublish": "npm run build",
     "serve": "webOptimizer serve",
@@ -41,6 +42,7 @@
   },
   "devDependencies": {
     "clientnode": "latest",
+    "babel-preset-latest": "latest",
     "documentation-website": "latest",
     "source-map-support": "latest",
     "weboptimizer": "latest"
