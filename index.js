@@ -91,6 +91,7 @@ export default globalContext.onerror = (
             {browser: {name: 'IE', major: /[56789]/}},
             {errorMessage: /Access is denied/},
             {errorMessage: /Das System kann auf die Datei nicht zugreifen/},
+            {errorMessage: 'Error loading script'},
             {errorMessage: /Permission denied to access property/},
             {errorMessage: /Für diesen Vorgang ist nicht genügend Speicher verfügbar/},
             {errorMessage: /Nicht genügend Arbeitsspeicher/},
