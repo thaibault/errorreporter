@@ -24,6 +24,7 @@ try {
     module.require('source-map-support/register')
 } catch (error) {}
 // endregion
+let clientData:PlainObject = {}
 export const globalContext:Object = (():Object => {
     if (typeof window === 'undefined') {
         if (typeof global === 'undefined')
@@ -135,23 +136,22 @@ export default globalContext.onerror = (
     if (!globalContext.onerror.reportedHandler)
         globalContext.onerror.reportedHandler = ():void => {}
     try {
-        let instance:PlainObject = {technologyDescription: 'Unclear'}
-        if (globalContext.UAParser) {
-            instance = (new globalContext.UAParser()).getResult()
-            instance.technologyDescription =
-                `${instance.browser.name} ${instance.browser.major}  (` +
-                `${instance.browser.version} | ${instance.engine.name} ` +
-                `${instance.engine.version}) | ${instance.os.name} ` +
-                instance.os.version
+        clientData.technologyDescription = 'Unclear'
+        if (clientData.hasOwnProperty('browser')) {
+            clientData.technologyDescription =
+                `${clientData.browser.name} ${clientData.browser.major}  (` +
+                `${clientData.browser.version} | ${clientData.engine.name} ` +
+                `${clientData.engine.version}) | ${clientData.os.name} ` +
+                clientData.os.version
             if (
-                instance.device && instance.device.model &&
-                instance.device.type && instance.device.vendor
+                clientData.device && clientData.device.model &&
+                clientData.device.type && clientData.device.vendor
             )
-                instance.technologyDescription +=
-                    ` | ${instance.device.model} ${instance.device.type} ` +
-                    instance.device.vendor
+                clientData.technologyDescription +=
+                    ` | ${clientData.device.model} ${clientData.device.type}` +
+                    ` ${clientData.device.vendor}`
         }
-        instance.errorMessage = errorMessage
+        clientData.errorMessage = errorMessage
         // Checks if given object completely matches given match object.
         const checkIfCaseMatches:Function = (
             object:any, matchObject:any
@@ -180,9 +180,9 @@ export default globalContext.onerror = (
             const caseToIgnore:PlainObject of
             globalContext.onerror.casesToIgnore
         )
-            if (checkIfCaseMatches(instance, caseToIgnore)) {
+            if (checkIfCaseMatches(clientData, caseToIgnore)) {
                 globalContext.onerror.caseToIgnoreHandler(
-                    instance, caseToIgnore)
+                    clientData, caseToIgnore)
                 return false
             }
         let serializeJSON:Function
@@ -229,7 +229,8 @@ export default globalContext.onerror = (
                     headers: new globalContext.Headers({
                         'Content-type': 'application/json'}),
                     body: serializeJSON({
-                        technologyDescription: instance.technologyDescription,
+                        technologyDescription:
+                            clientData.technologyDescription,
                         url: url,
                         errorMessage: errorMessage,
                         absoluteURL: globalContext.window.location.href,
@@ -254,6 +255,9 @@ export default globalContext.onerror = (
     pollution.
 */
 globalContext.onerror.reported = {}
+try {
+    clientData = require('ua-parser-js')()
+} catch (error) {}
 // region vim modline
 // vim: set tabstop=4 shiftwidth=4 expandtab:
 // vim: foldmethod=marker foldmarker=region,endregion:
