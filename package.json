@@ -40,6 +40,9 @@
     "watch": "webOptimizer build --watch",
     "watchDLL": "webOptimizer buildDLL --watch"
   },
+  "peerDependencies": {
+    "ua-parser-js": "latest"
+  },
   "devDependencies": {
     "clientnode": "latest",
     "babel-plugin-transform-proto-to-assign": "latest",
