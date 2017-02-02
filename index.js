@@ -139,7 +139,7 @@ export default globalContext.onerror = (
         clientData.technologyDescription = 'Unclear'
         if (clientData.hasOwnProperty('browser')) {
             clientData.technologyDescription =
-                `${clientData.browser.name} ${clientData.browser.major}  (` +
+                `${clientData.browser.name} ${clientData.browser.major} (` +
                 `${clientData.browser.version} | ${clientData.engine.name} ` +
                 `${clientData.engine.version}) | ${clientData.os.name} ` +
                 clientData.os.version
