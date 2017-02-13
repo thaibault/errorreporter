@@ -93,6 +93,7 @@ export default globalContext.onerror = (
             {errorMessage: /Access is denied/},
             {errorMessage: /Das System kann auf die Datei nicht zugreifen/},
             {errorMessage: 'Error loading script'},
+            {errorMessage: /^In den Microsoft-Interneterweiterungen ist ein interner Fehler aufgetreten\./},
             {errorMessage: /Permission denied to access property/},
             {errorMessage: /Für diesen Vorgang ist nicht genügend Speicher verfügbar/},
             {errorMessage: /Nicht genügend Arbeitsspeicher/},
@@ -111,10 +112,6 @@ export default globalContext.onerror = (
             {
                 browser: {name: 'IE', version: '11'},
                 errorMessage: /Das System kann den angegebenen Pfad nicht finden/
-            },
-            {
-                browser: {name: 'IE'},
-                errorMessage: /In den Microsoft-Interneterweiterungen ist ein interner Fehler aufgetreten/
             }
         ]
     // Handler to call for browser which should be ignored.
