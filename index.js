@@ -94,6 +94,7 @@ export default globalContext.onerror = (
             {errorMessage: /Das System kann auf die Datei nicht zugreifen/},
             {errorMessage: 'Error loading script'},
             {errorMessage: /^In den Microsoft-Interneterweiterungen ist ein interner Fehler aufgetreten\./},
+            {errorMessage: /^IndexSizeError: Index or size is negative or greater than the allowed amount/},
             {errorMessage: /Permission denied to access property/},
             {errorMessage: /Für diesen Vorgang ist nicht genügend Speicher verfügbar/},
             {errorMessage: /Nicht genügend Arbeitsspeicher/},
