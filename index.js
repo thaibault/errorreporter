@@ -93,28 +93,27 @@ export default globalContext.onerror = (
             {errorMessage: /Access is denied/},
             {errorMessage: /Das System kann auf die Datei nicht zugreifen/},
             {errorMessage: 'Error loading script'},
-            {errorMessage: /Permission denied to access property/},
             {errorMessage: /Für diesen Vorgang ist nicht genügend Speicher verfügbar/},
+            {errorMessage: /^In den Microsoft-Interneterweiterungen ist ein interner Fehler aufgetreten\./},
+            {errorMessage: /^IndexSizeError: Index or size is negative or greater than the allowed amount/},
             {errorMessage: /Nicht genügend Arbeitsspeicher/},
             {errorMessage: /^NS_ERROR[A-Z_]*:.*/},
+            {errorMessage: /null is not an object \(evaluating 'window\.localStorage/},
+            {errorMessage: /Permission denied to access property/},
             {errorMessage: /^QuotaExceededError:/},
             {errorMessage: /^ReferenceError: "gapi" is not defined\..*/},
             {errorMessage: 'Script error.'},
             {errorMessage: /SecurityError:/},
             {errorMessage: /TypeError: Expected argument of type object, but instead had type object/},
             {errorMessage: 'TypeError: window.localStorage is null'},
-            {errorMessage: /null is not an object \(evaluating 'window\.localStorage/},
-            {errorMessage: /^uncaught exception: /},
             {errorMessage: /Uncaught SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied/},
-            {errorMessage: /Unbekannter Fehler/},
+            {errorMessage: 'Unbekannter Fehler'},
+            {errorMessage: 'UnknownError'},
+            {errorMessage: /^uncaught exception: /},
             {errorMessage: /Zugriff verweigert/},
             {
                 browser: {name: 'IE', version: '11'},
                 errorMessage: /Das System kann den angegebenen Pfad nicht finden/
-            },
-            {
-                browser: {name: 'IE'},
-                errorMessage: /In den Microsoft-Interneterweiterungen ist ein interner Fehler aufgetreten/
             }
         ]
     // Handler to call for browser which should be ignored.
