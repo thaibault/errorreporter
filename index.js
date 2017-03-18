@@ -106,7 +106,9 @@ export default globalContext.onerror = (
             {errorMessage: /SecurityError:/},
             {errorMessage: /TypeError: Expected argument of type object, but instead had type object/},
             {errorMessage: 'TypeError: window.localStorage is null'},
+            {errorMessage: 'Uncaught ReferenceError: androidInterface is not defined'},
             {errorMessage: /Uncaught SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied/},
+            {errorMessage: /Uncaught ReferenceError: ztePageScrollModule is not defined/},
             {errorMessage: 'Unbekannter Fehler'},
             {errorMessage: 'UnknownError'},
             {errorMessage: /^uncaught exception: /},
@@ -191,7 +193,7 @@ export default globalContext.onerror = (
             serializeJSON = (object:Object):string => {
                 const toString:Function = (value:any):string => {
                     value = `${value}`
-                    if(value.replace)
+                    if (value.replace)
                         return value.replace(/(?:\r\n|\r|\n)/g, '\\n').replace(
                             /\\?"/g, '\\"')
                     return value
@@ -228,15 +230,16 @@ export default globalContext.onerror = (
                     headers: new globalContext.Headers({
                         'Content-type': 'application/json'}),
                     body: serializeJSON({
+                        absoluteURL: globalContext.window.location.href,
+                        casesToIgnore: globalContext.onerror.casesToIgnore,
+                        columnNumber: columnNumber,
+                        errorMessage: errorMessage,
+                        lineNumber: lineNumber,
+                        stack: errorObject && errorObject.stack,
                         technologyDescription:
                             clientData.technologyDescription,
                         url: url,
-                        errorMessage: errorMessage,
-                        absoluteURL: globalContext.window.location.href,
-                        lineNumber: lineNumber,
-                        columnNumber: columnNumber,
-                        userAgent: globalContext.window.navigator.userAgent,
-                        stack: errorObject && errorObject.stack
+                        userAgent: globalContext.window.navigator.userAgent
                     }),
                     method: 'PUT'
                 }
