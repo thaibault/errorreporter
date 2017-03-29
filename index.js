@@ -103,7 +103,7 @@ export default globalContext.onerror = (
             {errorMessage: /^QuotaExceededError:/},
             {errorMessage: /^ReferenceError: "gapi" is not defined\..*/},
             {errorMessage: 'Script error.'},
-            {errorMessage: /SecurityError:/},
+            {errorMessage: /^SecurityError/},
             {errorMessage: /TypeError: Expected argument of type object, but instead had type object/},
             {errorMessage: 'TypeError: window.localStorage is null'},
             {errorMessage: 'Uncaught ReferenceError: androidInterface is not defined'},
