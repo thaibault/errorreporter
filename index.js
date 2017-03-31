@@ -92,6 +92,7 @@ export default globalContext.onerror = (
             {browser: {name: 'IE', major: /[56789]/}},
             {errorMessage: /Access is denied/},
             {errorMessage: /Das System kann auf die Datei nicht zugreifen/},
+            {errorMessage: /Der RPC-Server ist nicht verfügbar/},
             {errorMessage: 'Error loading script'},
             {errorMessage: /Für diesen Vorgang ist nicht genügend Speicher verfügbar/},
             {errorMessage: /^In den Microsoft-Interneterweiterungen ist ein interner Fehler aufgetreten\./},
