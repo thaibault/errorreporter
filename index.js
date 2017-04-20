@@ -90,8 +90,10 @@ export default globalContext.onerror = (
     if (!globalContext.onerror.casesToIgnore)
         globalContext.onerror.casesToIgnore = [
             {browser: {name: 'IE', major: /[56789]/}},
+            {browser: {name: 'Firefox', major: /[123456789]|10/}},
             {errorMessage: /Access is denied/},
             {errorMessage: /Das System kann auf die Datei nicht zugreifen/},
+            {errorMessage: /Der RPC-Server ist nicht verfügbar/},
             {errorMessage: 'Error loading script'},
             {errorMessage: /Für diesen Vorgang ist nicht genügend Speicher verfügbar/},
             {errorMessage: /^In den Microsoft-Interneterweiterungen ist ein interner Fehler aufgetreten\./},
@@ -103,10 +105,12 @@ export default globalContext.onerror = (
             {errorMessage: /^QuotaExceededError:/},
             {errorMessage: /^ReferenceError: "gapi" is not defined\..*/},
             {errorMessage: 'Script error.'},
-            {errorMessage: /SecurityError:/},
+            {errorMessage: /^SecurityError/},
             {errorMessage: /TypeError: Expected argument of type object, but instead had type object/},
             {errorMessage: 'TypeError: window.localStorage is null'},
+            {errorMessage: 'Uncaught ReferenceError: androidInterface is not defined'},
             {errorMessage: /Uncaught SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied/},
+            {errorMessage: /Uncaught ReferenceError: ztePageScrollModule is not defined/},
             {errorMessage: 'Unbekannter Fehler'},
             {errorMessage: 'UnknownError'},
             {errorMessage: /^uncaught exception: /},
@@ -184,18 +188,21 @@ export default globalContext.onerror = (
                     clientData, caseToIgnore)
                 return false
             }
+        const toString:Function = (value:any):string => {
+            value = `${value}`
+            if (value.replace)
+                return value.replace(/(?:\r\n|\r)/g, '\\n').replace(
+                    /"/g, '\\"')
+            return value
+        }
         let serializeJSON:Function
         if (globalContext.JSON && globalContext.JSON.stringify)
-            serializeJSON = globalContext.JSON.stringify
+            serializeJSON = (object:Object):string =>
+                globalContext.JSON.stringify(object, (
+                    key:string, value:any
+                ):string => toString(value))
         else
             serializeJSON = (object:Object):string => {
-                const toString:Function = (value:any):string => {
-                    value = `${value}`
-                    if(value.replace)
-                        return value.replace(/(?:\r\n|\r|\n)/g, '\\n').replace(
-                            /\\?"/g, '\\"')
-                    return value
-                }
                 let result:string = '{'
                 for (const key:string in object)
                     if (object.hasOwnProperty(key)) {
@@ -228,15 +235,16 @@ export default globalContext.onerror = (
                     headers: new globalContext.Headers({
                         'Content-type': 'application/json'}),
                     body: serializeJSON({
+                        absoluteURL: globalContext.window.location.href,
+                        casesToIgnore: globalContext.onerror.casesToIgnore,
+                        columnNumber: columnNumber,
+                        errorMessage: errorMessage,
+                        lineNumber: lineNumber,
+                        stack: errorObject && errorObject.stack,
                         technologyDescription:
                             clientData.technologyDescription,
                         url: url,
-                        errorMessage: errorMessage,
-                        absoluteURL: globalContext.window.location.href,
-                        lineNumber: lineNumber,
-                        columnNumber: columnNumber,
-                        userAgent: globalContext.window.navigator.userAgent,
-                        stack: errorObject && errorObject.stack
+                        userAgent: globalContext.window.navigator.userAgent
                     }),
                     method: 'PUT'
                 }
