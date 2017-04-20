@@ -90,6 +90,7 @@ export default globalContext.onerror = (
     if (!globalContext.onerror.casesToIgnore)
         globalContext.onerror.casesToIgnore = [
             {browser: {name: 'IE', major: /[56789]/}},
+            {browser: {name: 'Firefox', major: /[123456789]|10/}},
             {errorMessage: /Access is denied/},
             {errorMessage: /Das System kann auf die Datei nicht zugreifen/},
             {errorMessage: /Der RPC-Server ist nicht verfügbar/},
@@ -187,18 +188,21 @@ export default globalContext.onerror = (
                     clientData, caseToIgnore)
                 return false
             }
+        const toString:Function = (value:any):string => {
+            value = `${value}`
+            if (value.replace)
+                return value.replace(/(?:\r\n|\r)/g, '\\n').replace(
+                    /"/g, '\\"')
+            return value
+        }
         let serializeJSON:Function
         if (globalContext.JSON && globalContext.JSON.stringify)
-            serializeJSON = globalContext.JSON.stringify
+            serializeJSON = (object:Object):string =>
+                globalContext.JSON.stringify(object, (
+                    key:string, value:any
+                ):string => toString(value))
         else
             serializeJSON = (object:Object):string => {
-                const toString:Function = (value:any):string => {
-                    value = `${value}`
-                    if (value.replace)
-                        return value.replace(/(?:\r\n|\r|\n)/g, '\\n').replace(
-                            /\\?"/g, '\\"')
-                    return value
-                }
                 let result:string = '{'
                 for (const key:string in object)
                     if (object.hasOwnProperty(key)) {
