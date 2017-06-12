@@ -16,14 +16,13 @@
 */
 // region imports
 import Tools from 'clientnode'
-import type {$DomNode} from 'clientnode'
 import registerTest from 'clientnode/test'
 // NOTE: Only needed for debugging this file.
 try {
     module.require('source-map-support/register')
 } catch (error) {}
 // endregion
-registerTest(function(roundType:string, targetTechnology:?string, $:any):void {
+registerTest(function(roundType:string, targetTechnology:?string):void {
     // region prepare environment
     const index:Object = require('./index')
     const globalContext:Object = index.globalContext

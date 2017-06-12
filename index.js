@@ -165,12 +165,11 @@ export default globalContext.onerror = (
                 object
             ) === '[object Object]') {
                 for (const key:string in matchObject)
-                    if (matchObject.hasOwnProperty(key)) {
-                        if (!(key in object && checkIfCaseMatches(
-                            object[key], matchObject[key]
-                        )))
-                            return false
-                    }
+                    if (matchObject.hasOwnProperty(key) && !(
+                        key in object && checkIfCaseMatches(
+                            object[key], matchObject[key])
+                    ))
+                        return false
                 return true
             }
             if (Object.prototype.toString.call(
@@ -252,7 +251,7 @@ export default globalContext.onerror = (
             .then(globalContext.onerror.reportedHandler)
             .catch(globalContext.onerror.failedHandler)
         }
-    } catch(error) {
+    } catch (error) {
         globalContext.onerror.failedHandler(error)
     }
     return false
