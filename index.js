@@ -89,6 +89,7 @@ export default globalContext.onerror = (
     */
     if (!globalContext.onerror.casesToIgnore)
         globalContext.onerror.casesToIgnore = [
+            /* eslint-disable max-len */
             {browser: {name: 'IE', major: /[56789]/}},
             {browser: {name: 'Firefox', major: /[123456789]|10/}},
             {errorMessage: /Access is denied/},
@@ -119,6 +120,7 @@ export default globalContext.onerror = (
                 browser: {name: 'IE', version: '11'},
                 errorMessage: /Das System kann den angegebenen Pfad nicht finden/
             }
+            /* eslint-enable max-len */
         ]
     // Handler to call for browser which should be ignored.
     if (!globalContext.onerror.caseToIgnoreHandler)
@@ -159,11 +161,12 @@ export default globalContext.onerror = (
         const checkIfCaseMatches:Function = (
             object:any, matchObject:any
         ):boolean => {
-            if (Object.prototype.toString.call(
-                matchObject
-            ) === '[object Object]' && Object.prototype.toString.call(
-                object
-            ) === '[object Object]') {
+            if (
+                Object.prototype.toString.call(
+                    matchObject
+                ) === '[object Object]' &&
+                Object.prototype.toString.call(object) === '[object Object]'
+            ) {
                 for (const key:string in matchObject)
                     if (matchObject.hasOwnProperty(key) && !(
                         key in object && checkIfCaseMatches(
@@ -248,8 +251,8 @@ export default globalContext.onerror = (
                     method: 'PUT'
                 }
             )
-            .then(globalContext.onerror.reportedHandler)
-            .catch(globalContext.onerror.failedHandler)
+                .then(globalContext.onerror.reportedHandler)
+                .catch(globalContext.onerror.failedHandler)
         }
     } catch (error) {
         globalContext.onerror.failedHandler(error)
