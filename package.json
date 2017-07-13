@@ -44,11 +44,20 @@
     "ua-parser-js": "latest"
   },
   "devDependencies": {
-    "clientnode": "latest",
+    "babel-eslint": "latest",
     "babel-plugin-transform-proto-to-assign": "latest",
     "babel-preset-env": "latest",
+    "clientnode": "latest",
     "documentation-website": "latest",
+    "eslint": "latest",
+    "eslint-config-google": "latest",
+    "eslint-plugin-flowtype": "latest",
+    "eslint-plugin-jsdoc": "latest",
+    "flow-bin": "latest",
+    "jsdoc": "latest",
     "source-map-support": "latest",
+    "webpack": "^3.2.0",
+    "webpack-dev-server": "latest",
     "weboptimizer": "latest"
   },
   "webOptimizer": {
