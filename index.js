@@ -197,32 +197,22 @@ export default globalContext.onerror = (
                     /"/g, '\\"')
             return value
         }
-        let serializeJSON:Function
-        if (globalContext.JSON && globalContext.JSON.stringify)
-            serializeJSON = (object:Object):string =>
-                globalContext.JSON.stringify(object, (
-                    key:string, value:any
-                ):string => toString(value))
-        else
-            serializeJSON = (object:Object):string => {
-                let result:string = '{'
-                for (const key:string in object)
-                    if (object.hasOwnProperty(key)) {
-                        if (result !== '{')
-                            result += ','
-                        result += `"${key}":`
-                        if (
-                            typeof object[key] === 'boolean' ||
-                            typeof object[key] === 'number' &&
-                            /[0-9.]+/.test('' + object[key]) ||
-                            object[key] === null
-                        )
-                            result += `${object[key]}`
-                        else
-                            result += `"${toString(object[key])}"`
-                    }
-                return `${result}}`
-            }
+        const serialize:Function = (object:Object):string => {
+            let result:string = '{'
+            for (const key:string in object)
+                if (object.hasOwnProperty(key)) {
+                    if (result !== '{')
+                        result += ','
+                    result += `"${key}":`
+                    if (
+                        typeof object[key] === 'object' && object[key] !== null
+                    )
+                        result += `${serialize(object[key])}`
+                    else
+                        result += `${toString(object[key])}`
+                }
+            return `${result}}`
+        }
         const errorKey:string =
             `${errorMessage}#${globalContext.location.href}#${lineNumber}#` +
             columnNumber
@@ -236,7 +226,7 @@ export default globalContext.onerror = (
                 globalContext.onerror.reportPath, {
                     headers: new globalContext.Headers({
                         'Content-type': 'application/json'}),
-                    body: serializeJSON({
+                    body: serialize({
                         absoluteURL: globalContext.window.location.href,
                         casesToIgnore: globalContext.onerror.casesToIgnore,
                         columnNumber: columnNumber,

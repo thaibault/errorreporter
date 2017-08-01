@@ -12,6 +12,8 @@ License
 
 endregion -->
 
+[![Build Status](https://travis-ci.org/thaibault/errorReporter.svg?branch=master)](https://travis-ci.org/thaibault/errorReporter)
+
 Use case
 --------
 
