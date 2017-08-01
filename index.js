@@ -199,21 +199,27 @@ export default globalContext.onerror = (
                     /"/g, '\\"')
             return value
         }
-        const serialize:Function = (object:Object):string => {
-            let result:string = '{'
-            for (const key:string in object)
-                if (object.hasOwnProperty(key)) {
-                    if (result !== '{')
-                        result += ','
-                    result += `"${key}":`
-                    if (
-                        typeof object[key] === 'object' && object[key] !== null
-                    )
-                        result += `${serialize(object[key])}`
-                    else
-                        result += `${toString(object[key])}`
+        const serialize:Function = (value:any):string => {
+            if (typeof value === 'object' && value !== null) {
+                if (Array.isArray(value)) {
+                    let result:string = '['
+                    for (const item:any of value) {
+                        if (result !== '[')
+                            result += ','
+                        result += serialize(item)
+                    }
+                    return `${result}]`
                 }
-            return `${result}}`
+                let result:string = '{'
+                for (const key:string in value)
+                    if (value.hasOwnProperty(key)) {
+                        if (result !== '{')
+                            result += ','
+                        result += `"${key}":${serialize(value[key])}`
+                    }
+                return `${result}}`
+            }
+            return `${toString(value)}`
         }
         const errorKey:string =
             `${errorMessage}#${globalContext.location.href}#${lineNumber}#` +
