@@ -191,7 +191,9 @@ export default globalContext.onerror = (
                 return false
             }
         const toString:Function = (value:any):string => {
-            value = `${value}`
+            value = ['number', 'boolean'].includes(
+                typeof value
+            ) ? `${value}` : `"${value}"`
             if (value.replace)
                 return value.replace(/(?:\r\n|\r)/g, '\\n').replace(
                     /"/g, '\\"')
