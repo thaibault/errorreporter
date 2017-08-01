@@ -191,16 +191,18 @@ export default globalContext.onerror = (
                 return false
             }
         const toString:Function = (value:any):string => {
-            value = ['number', 'boolean'].includes(
-                typeof value
-            ) ? `${value}` : `"${value}"`
-            if (value.replace)
-                return value.replace(/(?:\r\n|\r)/g, '\\n').replace(
-                    /"/g, '\\"')
-            return value
+            if (['boolean', 'number'].includes(typeof value) || value === null)
+                return `${value}`
+            return '"' +
+                `${value}`.replace(/(?:\r\n|\r)/g, '\\n').replace(
+                    /"/g, '\\"') +
+                '"'
         }
         const serialize:Function = (value:any):string => {
-            if (typeof value === 'object' && value !== null) {
+            if (
+                typeof value === 'object' && value !== null &&
+                !(value instanceof RegExp)
+            ) {
                 if (Array.isArray(value)) {
                     let result:string = '['
                     for (const item:any of value) {
