@@ -194,9 +194,10 @@ export default globalContext.onerror = (
             if (['boolean', 'number'].includes(typeof value) || value === null)
                 return `${value}`
             return '"' +
-                `${value}`.replace(/(?:\r\n|\r)/g, '\\n').replace(
-                    /"/g, '\\"'
-                ).replace(/\\/g, '\\\\') +
+                `${value}`
+                    .replace(/\\/g, '\\\\')
+                    .replace(/(?:\r\n|\r)/g, '\\n')
+                    .replace(/"/g, '\\"') +
                 '"'
         }
         const serialize:Function = (value:any):string => {
