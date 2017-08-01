@@ -195,7 +195,8 @@ export default globalContext.onerror = (
                 return `${value}`
             return '"' +
                 `${value}`.replace(/(?:\r\n|\r)/g, '\\n').replace(
-                    /"/g, '\\"') +
+                    /"/g, '\\"'
+                ).replace(/\\/g, '\\\\') +
                 '"'
         }
         const serialize:Function = (value:any):string => {
