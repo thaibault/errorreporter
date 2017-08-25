@@ -37,10 +37,12 @@ export const globalContext:Object = (():Object => {
 })()
 export default globalContext.onerror = (
     errorMessage:string, url:string, lineNumber:number, columnNumber:number,
-    errorObject:Object
-):boolean => {
+    errorObject:Object, ...additionalParameter:Array<any>
+):any => {
     if (!globalContext.location.protocol.startsWith('http'))
-        return false
+        return globalContext.onerror.callbackBackup(
+            errorMessage, url, lineNumber, columnNumber, errorObject,
+            ...additionalParameter)
     /*
         Sends an error report to current requested domain via ajax in json
         format. Supported by Chrome 13+, Firefox 6.0+, Internet Explorer 5.5+,
@@ -188,7 +190,9 @@ export default globalContext.onerror = (
             if (checkIfCaseMatches(clientData, caseToIgnore)) {
                 globalContext.onerror.caseToIgnoreHandler(
                     clientData, caseToIgnore)
-                return false
+                return globalContext.onerror.callbackBackup(
+                    errorMessage, url, lineNumber, columnNumber, errorObject,
+                    ...additionalParameter)
             }
         const toString:Function = (value:any):string => {
             if (['boolean', 'number'].includes(typeof value) || value === null)
@@ -259,8 +263,13 @@ export default globalContext.onerror = (
     } catch (error) {
         globalContext.onerror.failedHandler(error)
     }
-    return false
+    return globalContext.onerror.callbackBackup(
+        errorMessage, url, lineNumber, columnNumber, errorObject,
+        ...additionalParameter)
 }
+globalContext.onerror.callbackBackup =
+    globalContext.onerror ? globalContext.onerror.bind(globalContext) : (
+    ):false => false
 /*
     Bound reported errors to globale error handler to avoid global variable
     pollution.
