@@ -35,6 +35,7 @@ export const globalContext:Object = (():Object => {
     }
     return window
 })()
+const onErrorCallbackBackup:Function = globalContext.onerror
 export default globalContext.onerror = (
     errorMessage:string, url:string, lineNumber:number, columnNumber:number,
     errorObject:Object, ...additionalParameter:Array<any>
@@ -268,7 +269,7 @@ export default globalContext.onerror = (
         ...additionalParameter)
 }
 globalContext.onerror.callbackBackup =
-    globalContext.onerror ? globalContext.onerror.bind(globalContext) : (
+    onErrorCallbackBackup ? onErrorCallbackBackup.bind(globalContext) : (
     ):false => false
 /*
     Bound reported errors to globale error handler to avoid global variable
