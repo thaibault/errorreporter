@@ -83,6 +83,9 @@
     "module": {
       "aliases": {
         "clientnode/test$": "clientnode/test.compiled"
+      },
+      "optimizer": {
+        "babelMinify": null
       }
     }
   }
