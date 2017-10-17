@@ -23,6 +23,11 @@ error with detailed client informations. You can filter each non supported
 client technology to avoid getting error reports from environments which aren't
 expected.
 
+    #!HTML
+
+    <script src="http://torben.website/errorReporter/data/distributionBundle/index.compiled.js">
+    </script>
+
 <!-- region vim modline
 vim: set tabstop=4 shiftwidth=4 expandtab:
 vim: foldmethod=marker foldmarker=region,endregion:
