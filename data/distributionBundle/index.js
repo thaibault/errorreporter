@@ -24,6 +24,7 @@ try {
     module.require('source-map-support/register')
 } catch (error) {}
 // endregion
+let clientData:PlainObject = {}
 export const globalContext:Object = (():Object => {
     if (typeof window === 'undefined') {
         if (typeof global === 'undefined')
@@ -34,12 +35,15 @@ export const globalContext:Object = (():Object => {
     }
     return window
 })()
+const onErrorCallbackBackup:Function = globalContext.onerror
 export default globalContext.onerror = (
     errorMessage:string, url:string, lineNumber:number, columnNumber:number,
-    errorObject:Object
-):boolean => {
+    errorObject:Object, ...additionalParameter:Array<any>
+):any => {
     if (!globalContext.location.protocol.startsWith('http'))
-        return false
+        return globalContext.onerror.callbackBackup(
+            errorMessage, url, lineNumber, columnNumber, errorObject,
+            ...additionalParameter)
     /*
         Sends an error report to current requested domain via ajax in json
         format. Supported by Chrome 13+, Firefox 6.0+, Internet Explorer 5.5+,
@@ -88,33 +92,38 @@ export default globalContext.onerror = (
     */
     if (!globalContext.onerror.casesToIgnore)
         globalContext.onerror.casesToIgnore = [
+            /* eslint-disable max-len */
             {browser: {name: 'IE', major: /[56789]/}},
+            {browser: {name: 'Firefox', major: /[123456789]|10/}},
             {errorMessage: /Access is denied/},
             {errorMessage: /Das System kann auf die Datei nicht zugreifen/},
+            {errorMessage: /Der RPC-Server ist nicht verfügbar/},
             {errorMessage: 'Error loading script'},
-            {errorMessage: /Permission denied to access property/},
             {errorMessage: /Für diesen Vorgang ist nicht genügend Speicher verfügbar/},
+            {errorMessage: /^In den Microsoft-Interneterweiterungen ist ein interner Fehler aufgetreten\./},
+            {errorMessage: /^IndexSizeError: Index or size is negative or greater than the allowed amount/},
             {errorMessage: /Nicht genügend Arbeitsspeicher/},
             {errorMessage: /^NS_ERROR[A-Z_]*:.*/},
+            {errorMessage: /null is not an object \(evaluating 'window\.localStorage/},
+            {errorMessage: /Permission denied to access property/},
             {errorMessage: /^QuotaExceededError:/},
             {errorMessage: /^ReferenceError: "gapi" is not defined\..*/},
             {errorMessage: 'Script error.'},
-            {errorMessage: /SecurityError:/},
+            {errorMessage: /^SecurityError/},
             {errorMessage: /TypeError: Expected argument of type object, but instead had type object/},
             {errorMessage: 'TypeError: window.localStorage is null'},
-            {errorMessage: /null is not an object \(evaluating 'window\.localStorage/},
-            {errorMessage: /^uncaught exception: /},
+            {errorMessage: 'Uncaught ReferenceError: androidInterface is not defined'},
             {errorMessage: /Uncaught SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied/},
-            {errorMessage: /Unbekannter Fehler/},
+            {errorMessage: /Uncaught ReferenceError: ztePageScrollModule is not defined/},
+            {errorMessage: 'Unbekannter Fehler'},
+            {errorMessage: 'UnknownError'},
+            {errorMessage: /^uncaught exception: /},
             {errorMessage: /Zugriff verweigert/},
             {
                 browser: {name: 'IE', version: '11'},
                 errorMessage: /Das System kann den angegebenen Pfad nicht finden/
-            },
-            {
-                browser: {name: 'IE'},
-                errorMessage: /In den Microsoft-Interneterweiterungen ist ein interner Fehler aufgetreten/
             }
+            /* eslint-enable max-len */
         ]
     // Handler to call for browser which should be ignored.
     if (!globalContext.onerror.caseToIgnoreHandler)
@@ -135,39 +144,38 @@ export default globalContext.onerror = (
     if (!globalContext.onerror.reportedHandler)
         globalContext.onerror.reportedHandler = ():void => {}
     try {
-        let instance:PlainObject = {technologyDescription: 'Unclear'}
-        if (globalContext.UAParser) {
-            instance = (new globalContext.UAParser()).getResult()
-            instance.technologyDescription =
-                `${instance.browser.name} ${instance.browser.major}  (` +
-                `${instance.browser.version} | ${instance.engine.name} ` +
-                `${instance.engine.version}) | ${instance.os.name} ` +
-                instance.os.version
+        clientData.technologyDescription = 'Unclear'
+        if (clientData.hasOwnProperty('browser')) {
+            clientData.technologyDescription =
+                `${clientData.browser.name} ${clientData.browser.major} (` +
+                `${clientData.browser.version} | ${clientData.engine.name} ` +
+                `${clientData.engine.version}) | ${clientData.os.name} ` +
+                clientData.os.version
             if (
-                instance.device && instance.device.model &&
-                instance.device.type && instance.device.vendor
+                clientData.device && clientData.device.model &&
+                clientData.device.type && clientData.device.vendor
             )
-                instance.technologyDescription +=
-                    ` | ${instance.device.model} ${instance.device.type} ` +
-                    instance.device.vendor
+                clientData.technologyDescription +=
+                    ` | ${clientData.device.model} ${clientData.device.type}` +
+                    ` ${clientData.device.vendor}`
         }
-        instance.errorMessage = errorMessage
+        clientData.errorMessage = errorMessage
         // Checks if given object completely matches given match object.
         const checkIfCaseMatches:Function = (
             object:any, matchObject:any
         ):boolean => {
-            if (Object.prototype.toString.call(
-                matchObject
-            ) === '[object Object]' && Object.prototype.toString.call(
-                object
-            ) === '[object Object]') {
+            if (
+                Object.prototype.toString.call(
+                    matchObject
+                ) === '[object Object]' &&
+                Object.prototype.toString.call(object) === '[object Object]'
+            ) {
                 for (const key:string in matchObject)
-                    if (matchObject.hasOwnProperty(key)) {
-                        if (!(key in object && checkIfCaseMatches(
-                            object[key], matchObject[key]
-                        )))
-                            return false
-                    }
+                    if (matchObject.hasOwnProperty(key) && !(
+                        key in object && checkIfCaseMatches(
+                            object[key], matchObject[key])
+                    ))
+                        return false
                 return true
             }
             if (Object.prototype.toString.call(
@@ -180,41 +188,48 @@ export default globalContext.onerror = (
             const caseToIgnore:PlainObject of
             globalContext.onerror.casesToIgnore
         )
-            if (checkIfCaseMatches(instance, caseToIgnore)) {
+            if (checkIfCaseMatches(clientData, caseToIgnore)) {
                 globalContext.onerror.caseToIgnoreHandler(
-                    instance, caseToIgnore)
-                return false
+                    clientData, caseToIgnore)
+                return globalContext.onerror.callbackBackup(
+                    errorMessage, url, lineNumber, columnNumber, errorObject,
+                    ...additionalParameter)
             }
-        let serializeJSON:Function
-        if (globalContext.JSON && globalContext.JSON.stringify)
-            serializeJSON = globalContext.JSON.stringify
-        else
-            serializeJSON = (object:Object):string => {
-                const toString:Function = (value:any):string => {
-                    value = `${value}`
-                    if(value.replace)
-                        return value.replace(/(?:\r\n|\r|\n)/g, '\\n').replace(
-                            /\\?"/g, '\\"')
-                    return value
+        const toString:Function = (value:any):string => {
+            if (['boolean', 'number'].includes(typeof value) || value === null)
+                return `${value}`
+            return '"' +
+                `${value}`
+                    .replace(/\\/g, '\\\\')
+                    .replace(/(?:\r\n|\r)/g, '\\n')
+                    .replace(/"/g, '\\"') +
+                '"'
+        }
+        const serialize:Function = (value:any):string => {
+            if (
+                typeof value === 'object' && value !== null &&
+                !(value instanceof RegExp)
+            ) {
+                if (Array.isArray(value)) {
+                    let result:string = '['
+                    for (const item:any of value) {
+                        if (result !== '[')
+                            result += ','
+                        result += serialize(item)
+                    }
+                    return `${result}]`
                 }
                 let result:string = '{'
-                for (const key:string in object)
-                    if (object.hasOwnProperty(key)) {
+                for (const key:string in value)
+                    if (value.hasOwnProperty(key)) {
                         if (result !== '{')
                             result += ','
-                        result += `"${key}":`
-                        if (
-                            typeof object[key] === 'boolean' ||
-                            typeof object[key] === 'number' &&
-                            /[0-9.]+/.test('' + object[key]) ||
-                            object[key] === null
-                        )
-                            result += `${object[key]}`
-                        else
-                            result += `"${toString(object[key])}"`
+                        result += `"${key}":${serialize(value[key])}`
                     }
                 return `${result}}`
             }
+            return `${toString(value)}`
+        }
         const errorKey:string =
             `${errorMessage}#${globalContext.location.href}#${lineNumber}#` +
             columnNumber
@@ -228,32 +243,42 @@ export default globalContext.onerror = (
                 globalContext.onerror.reportPath, {
                     headers: new globalContext.Headers({
                         'Content-type': 'application/json'}),
-                    body: serializeJSON({
-                        technologyDescription: instance.technologyDescription,
-                        url: url,
-                        errorMessage: errorMessage,
+                    body: serialize({
                         absoluteURL: globalContext.window.location.href,
-                        lineNumber: lineNumber,
+                        casesToIgnore: globalContext.onerror.casesToIgnore,
                         columnNumber: columnNumber,
-                        userAgent: globalContext.window.navigator.userAgent,
-                        stack: errorObject && errorObject.stack
+                        errorMessage: errorMessage,
+                        lineNumber: lineNumber,
+                        stack: errorObject && errorObject.stack,
+                        technologyDescription:
+                            clientData.technologyDescription,
+                        url: url,
+                        userAgent: globalContext.window.navigator.userAgent
                     }),
                     method: 'PUT'
                 }
             )
-            .then(globalContext.onerror.reportedHandler)
-            .catch(globalContext.onerror.failedHandler)
+                .then(globalContext.onerror.reportedHandler)
+                .catch(globalContext.onerror.failedHandler)
         }
-    } catch(error) {
+    } catch (error) {
         globalContext.onerror.failedHandler(error)
     }
-    return false
+    return globalContext.onerror.callbackBackup(
+        errorMessage, url, lineNumber, columnNumber, errorObject,
+        ...additionalParameter)
 }
+globalContext.onerror.callbackBackup =
+    onErrorCallbackBackup ? onErrorCallbackBackup.bind(globalContext) : (
+    ):false => false
 /*
     Bound reported errors to globale error handler to avoid global variable
     pollution.
 */
 globalContext.onerror.reported = {}
+try {
+    clientData = require('ua-parser-js')()
+} catch (error) {}
 // region vim modline
 // vim: set tabstop=4 shiftwidth=4 expandtab:
 // vim: foldmethod=marker foldmarker=region,endregion:
