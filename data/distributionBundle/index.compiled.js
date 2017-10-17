@@ -1,2 +1,156 @@
 'use strict';
-(function(o,p){'object'==typeof exports&&'object'==typeof module?module.exports=p():'function'==typeof define&&define.amd?define('errorreporter',[],p):'object'==typeof exports?exports.errorreporter=p():o.errorreporter=p()})(this,function(){return function(n){function o(q){if(p[q])return p[q].exports;var r=p[q]={i:q,l:!1,exports:{}};return n[q].call(r.exports,r,r.exports,o),r.l=!0,r.exports}var p={};return o.m=n,o.c=p,o.i=function(q){return q},o.d=function(q,r,s){o.o(q,r)||Object.defineProperty(q,r,{configurable:!1,enumerable:!0,get:s})},o.n=function(q){var r=q&&q.__esModule?function(){return q['default']}:function(){return q};return o.d(r,'a',r),r},o.o=function(q,r){return Object.prototype.hasOwnProperty.call(q,r)},o.p='',o(o.s=3)}([function(n,o,p){'use strict';(function(q,r){o.__esModule=!0;try{q.require('source-map-support/register')}catch(t){}const s=o.globalContext=function(){return'undefined'==typeof window?'undefined'==typeof r?q:'window'in r?r.window:r:window}();o.default=s.onerror=function(t,u,v,w,x){if(!s.location.protocol.startsWith('http'))return!1;s.onerror.reportPath||(s.onerror.reportPath='/__error_report__'),s.onerror.failedHandler||(s.onerror.failedHandler=function(y){'alert'in s&&s.alert(y)}),s.onerror.casesToIgnore||(s.onerror.casesToIgnore=[{browser:{name:'IE',major:/[56789]/}},{errorMessage:/Access is denied/},{errorMessage:/Das System kann auf die Datei nicht zugreifen/},{errorMessage:'Error loading script'},{errorMessage:/Permission denied to access property/},{errorMessage:/Für diesen Vorgang ist nicht genügend Speicher verfügbar/},{errorMessage:/Nicht genügend Arbeitsspeicher/},{errorMessage:/^NS_ERROR[A-Z_]*:.*/},{errorMessage:/^QuotaExceededError:/},{errorMessage:/^ReferenceError: "gapi" is not defined\..*/},{errorMessage:'Script error.'},{errorMessage:/SecurityError:/},{errorMessage:/TypeError: Expected argument of type object, but instead had type object/},{errorMessage:'TypeError: window.localStorage is null'},{errorMessage:/null is not an object \(evaluating 'window\.localStorage/},{errorMessage:/^uncaught exception: /},{errorMessage:/Uncaught SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied/},{errorMessage:/Unbekannter Fehler/},{errorMessage:/Zugriff verweigert/},{browser:{name:'IE',version:'11'},errorMessage:/Das System kann den angegebenen Pfad nicht finden/},{browser:{name:'IE'},errorMessage:/In den Microsoft-Interneterweiterungen ist ein interner Fehler aufgetreten/}]),s.onerror.caseToIgnoreHandler||(s.onerror.caseToIgnoreHandler=function(y,z){z.errorMessage||s.alert(`Your technology "${y.technologyDescription}" to `+`display this website isn't supported any more. Please `+'upgrade your browser engine.')}),s.onerror.reportedHandler||(s.onerror.reportedHandler=function(){});try{let y={technologyDescription:'Unclear'};s.UAParser&&(y=new s.UAParser().getResult(),y.technologyDescription=`${y.browser.name} ${y.browser.major}  (`+`${y.browser.version} | ${y.engine.name} `+`${y.engine.version}) | ${y.os.name} `+y.os.version,y.device&&y.device.model&&y.device.type&&y.device.vendor&&(y.technologyDescription+=` | ${y.device.model} ${y.device.type} `+y.device.vendor)),y.errorMessage=t;const z=function(C,D){if('[object Object]'===Object.prototype.toString.call(D)&&'[object Object]'===Object.prototype.toString.call(C)){for(const E in D)if(D.hasOwnProperty(E)&&!(E in C&&z(C[E],D[E])))return!1;return!0}return'[object RegExp]'===Object.prototype.toString.call(D)?D.test(`${C}`):D===C};for(const C of s.onerror.casesToIgnore)if(z(y,C))return s.onerror.caseToIgnoreHandler(y,C),!1;let A=s.JSON&&s.JSON.stringify?s.JSON.stringify:function(D){const E=function(G){return G=`${G}`,G.replace?G.replace(/(?:\r\n|\r|\n)/g,'\\n').replace(/\\?"/g,'\\"'):G};let F='{';for(const G in D)D.hasOwnProperty(G)&&('{'!=F&&(F+=','),F+=`"${G}":`,F+='boolean'==typeof D[G]||'number'==typeof D[G]&&/[0-9.]+/.test(''+D[G])||null===D[G]?`${D[G]}`:`"${E(D[G])}"`);return`${F}}`};const B=`${t}#${s.location.href}#${v}#`+w;if(!s.onerror.reported[B]){s.onerror.reported[B]=!0;const C=s.location.port?`:${s.location.port}`:'';s.fetch(`${s.location.protocol}//`+`${s.location.hostname}${C}`+s.onerror.reportPath,{headers:new s.Headers({'Content-type':'application/json'}),body:A({technologyDescription:y.technologyDescription,url:u,errorMessage:t,absoluteURL:s.window.location.href,lineNumber:v,columnNumber:w,userAgent:s.window.navigator.userAgent,stack:x&&x.stack}),method:'PUT'}).then(s.onerror.reportedHandler).catch(s.onerror.failedHandler)}}catch(y){s.onerror.failedHandler(y)}return!1},s.onerror.reported={}}).call(o,p(2)(n),p(1))},function(n){var p=function(){return this}();try{p=p||Function('return this')()||(1,eval)('this')}catch(q){'object'==typeof window&&(p=window)}n.exports=p},function(n){n.exports=function(p){return p.webpackPolyfill||(p.deprecate=function(){},p.paths=[],!p.children&&(p.children=[]),Object.defineProperty(p,'loaded',{enumerable:!0,get:function(){return p.l}}),Object.defineProperty(p,'id',{enumerable:!0,get:function(){return p.i}}),p.webpackPolyfill=1),p}},function(n,o,p){n.exports=p(0)}])});
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory((function webpackLoadOptionalExternalModule() { try { return require("ua-parser-js"); } catch(e) {} }()));
+	else if(typeof define === 'function' && define.amd)
+		define("errorreporter", ["ua-parser-js"], factory);
+	else if(typeof exports === 'object')
+		exports["errorreporter"] = factory((function webpackLoadOptionalExternalModule() { try { return require("ua-parser-js"); } catch(e) {} }()));
+	else
+		root['errorreporter'] = factory(root["ua-parser-js"]);
+})(this, function(__WEBPACK_EXTERNAL_MODULE_4__) {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(1);
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(module, global) {exports.__esModule=!0;try{module.require('source-map-support/register')}catch(a){}let clientData={};const globalContext=exports.globalContext=function(){return'undefined'==typeof window?'undefined'==typeof global? false?{}:module:'window'in global?global.window:global:window}(),onErrorCallbackBackup=globalContext.onerror;exports.default=globalContext.onerror=function(a,b,c,d,e,...f){if(!globalContext.location.protocol.startsWith('http'))return globalContext.onerror.callbackBackup(a,b,c,d,e,...f);globalContext.onerror.reportPath||(globalContext.onerror.reportPath='/__error_report__'),globalContext.onerror.failedHandler||(globalContext.onerror.failedHandler=function(a){'alert'in globalContext&&globalContext.alert(a)}),globalContext.onerror.casesToIgnore||(globalContext.onerror.casesToIgnore=[{browser:{name:'IE',major:/[56789]/}},{browser:{name:'Firefox',major:/[123456789]|10/}},{errorMessage:/Access is denied/},{errorMessage:/Das System kann auf die Datei nicht zugreifen/},{errorMessage:/Der RPC-Server ist nicht verfügbar/},{errorMessage:'Error loading script'},{errorMessage:/Für diesen Vorgang ist nicht genügend Speicher verfügbar/},{errorMessage:/^In den Microsoft-Interneterweiterungen ist ein interner Fehler aufgetreten\./},{errorMessage:/^IndexSizeError: Index or size is negative or greater than the allowed amount/},{errorMessage:/Nicht genügend Arbeitsspeicher/},{errorMessage:/^NS_ERROR[A-Z_]*:.*/},{errorMessage:/null is not an object \(evaluating 'window\.localStorage/},{errorMessage:/Permission denied to access property/},{errorMessage:/^QuotaExceededError:/},{errorMessage:/^ReferenceError: "gapi" is not defined\..*/},{errorMessage:'Script error.'},{errorMessage:/^SecurityError/},{errorMessage:/TypeError: Expected argument of type object, but instead had type object/},{errorMessage:'TypeError: window.localStorage is null'},{errorMessage:'Uncaught ReferenceError: androidInterface is not defined'},{errorMessage:/Uncaught SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied/},{errorMessage:/Uncaught ReferenceError: ztePageScrollModule is not defined/},{errorMessage:'Unbekannter Fehler'},{errorMessage:'UnknownError'},{errorMessage:/^uncaught exception: /},{errorMessage:/Zugriff verweigert/},{browser:{name:'IE',version:'11'},errorMessage:/Das System kann den angegebenen Pfad nicht finden/}]),globalContext.onerror.caseToIgnoreHandler||(globalContext.onerror.caseToIgnoreHandler=function(a,b){b.errorMessage||globalContext.alert(`Your technology "${a.technologyDescription}" to `+`display this website isn't supported any more. Please `+'upgrade your browser engine.')}),globalContext.onerror.reportedHandler||(globalContext.onerror.reportedHandler=function(){});try{clientData.technologyDescription='Unclear',clientData.hasOwnProperty('browser')&&(clientData.technologyDescription=`${clientData.browser.name} ${clientData.browser.major} (`+`${clientData.browser.version} | ${clientData.engine.name} `+`${clientData.engine.version}) | ${clientData.os.name} `+clientData.os.version,clientData.device&&clientData.device.model&&clientData.device.type&&clientData.device.vendor&&(clientData.technologyDescription+=` | ${clientData.device.model} ${clientData.device.type}`+` ${clientData.device.vendor}`)),clientData.errorMessage=a;const g=function(a,b){if('[object Object]'===Object.prototype.toString.call(b)&&'[object Object]'===Object.prototype.toString.call(a)){for(const c in b)if(b.hasOwnProperty(c)&&!(c in a&&g(a[c],b[c])))return!1;return!0}return'[object RegExp]'===Object.prototype.toString.call(b)?b.test(`${a}`):b===a};for(const h of globalContext.onerror.casesToIgnore)if(g(clientData,h))return globalContext.onerror.caseToIgnoreHandler(clientData,h),globalContext.onerror.callbackBackup(a,b,c,d,e,...f);const h=function(a){return['boolean','number'].includes(typeof a)||null===a?`${a}`:'"'+`${a}`.replace(/\\/g,'\\\\').replace(/(?:\r\n|\r)/g,'\\n').replace(/"/g,'\\"')+'"'},i=function(a){if('object'==typeof a&&null!==a&&!(a instanceof RegExp)){if(Array.isArray(a)){let b='[';for(const c of a)'['!=b&&(b+=','),b+=i(c);return`${b}]`}let b='{';for(const c in a)a.hasOwnProperty(c)&&('{'!=b&&(b+=','),b+=`"${c}":${i(a[c])}`);return`${b}}`}return`${h(a)}`},j=`${a}#${globalContext.location.href}#${c}#`+d;if(!globalContext.onerror.reported[j]){globalContext.onerror.reported[j]=!0;const f=globalContext.location.port?`:${globalContext.location.port}`:'';globalContext.fetch(`${globalContext.location.protocol}//`+`${globalContext.location.hostname}${f}`+globalContext.onerror.reportPath,{headers:new globalContext.Headers({"Content-type":'application/json'}),body:i({absoluteURL:globalContext.window.location.href,casesToIgnore:globalContext.onerror.casesToIgnore,columnNumber:d,errorMessage:a,lineNumber:c,stack:e&&e.stack,technologyDescription:clientData.technologyDescription,url:b,userAgent:globalContext.window.navigator.userAgent}),method:'PUT'}).then(globalContext.onerror.reportedHandler).catch(globalContext.onerror.failedHandler)}}catch(a){globalContext.onerror.failedHandler(a)}return globalContext.onerror.callbackBackup(a,b,c,d,e,...f)},globalContext.onerror.callbackBackup=onErrorCallbackBackup?onErrorCallbackBackup.bind(globalContext):function(){return!1},globalContext.onerror.reported={};try{clientData=__webpack_require__(4)()}catch(a){}
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)(module), __webpack_require__(3)))
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports) {
+
+module.exports = function(module) {
+	if(!module.webpackPolyfill) {
+		module.deprecate = function() {};
+		module.paths = [];
+		// module.parent = undefined by default
+		if(!module.children) module.children = [];
+		Object.defineProperty(module, "loaded", {
+			enumerable: true,
+			get: function() {
+				return module.l;
+			}
+		});
+		Object.defineProperty(module, "id", {
+			enumerable: true,
+			get: function() {
+				return module.i;
+			}
+		});
+		module.webpackPolyfill = 1;
+	}
+	return module;
+};
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports) {
+
+if(typeof __WEBPACK_EXTERNAL_MODULE_4__ === 'undefined') {var e = new Error("Cannot find module \"ua-parser-js\""); e.code = 'MODULE_NOT_FOUND'; throw e;}
+module.exports = __WEBPACK_EXTERNAL_MODULE_4__;
+
+/***/ })
+/******/ ]);
+});
