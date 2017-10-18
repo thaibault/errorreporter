@@ -25,8 +25,7 @@ expected.
 
     #!HTML
 
-    <script src="http://torben.website/errorReporter/data/distributionBundle/index.compiled.js">
-    </script>
+    <script src="https://goo.gl/a4b9oS"></script>
 
 <!-- region vim modline
 vim: set tabstop=4 shiftwidth=4 expandtab:
