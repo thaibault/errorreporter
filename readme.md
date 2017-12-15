@@ -16,7 +16,7 @@ endregion -->
 [![dependencies](https://img.shields.io/david/thaibault/errorreporter.svg)](https://david-dm.org/thaibault/errorreporter)
 [![devDependencies](https://img.shields.io/david/dev/thaibault/errorreporter.svg)](https://david-dm.org/thaibault/errorreporter?type=dev)
 [![peerDependencies](https://img.shields.io/david/peer/thaibault/errorreporter.svg)](https://david-dm.org/thaibault/errorreporter?type=peer)
-[![documentation-website](https://img.shields.io/website-up-down-green-red/http/torben.website/errorreporter.svg?label=documentation-website)](http://torben.website/errorreporter)
+[![documentation-website](https://img.shields.io/website-up-down-green-red/http/torben.website/errorReporter.svg?label=documentation-website)](http://torben.website/errorReporter)
 
 Use case
 --------
