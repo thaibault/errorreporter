@@ -112,6 +112,7 @@ export default globalContext.onerror = (
             {errorMessage: /^SecurityError/},
             {errorMessage: /TypeError: Expected argument of type object, but instead had type object/},
             {errorMessage: 'TypeError: window.localStorage is null'},
+            {errorMessage: `TypeError: undefined is not an object (evaluating '__firefox__.favicons.getFavicons')`},
             {errorMessage: 'Uncaught ReferenceError: androidInterface is not defined'},
             {errorMessage: /Uncaught SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied/},
             {errorMessage: /Uncaught ReferenceError: ztePageScrollModule is not defined/},
