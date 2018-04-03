@@ -17,10 +17,6 @@
 // region imports
 import Tools, {globalContext as genericGlobalContext} from 'clientnode'
 import registerTest from 'clientnode/test'
-// NOTE: Only needed for debugging this file.
-try {
-    module.require('source-map-support/register')
-} catch (error) {}
 // endregion
 registerTest(function(roundType:string, targetTechnology:?string):void {
     // region prepare environment
