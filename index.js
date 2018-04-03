@@ -19,10 +19,6 @@
 */
 // region imports
 import type {PlainObject} from 'clientnode'
-// NOTE: Only needed for debugging this file.
-try {
-    module.require('source-map-support/register')
-} catch (error) {}
 // endregion
 let clientData:PlainObject = {}
 export const globalContext:Object = (():Object => {
