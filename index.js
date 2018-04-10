@@ -36,7 +36,10 @@ export default globalContext.onerror = (
     errorMessage:string, url:string, lineNumber:number, columnNumber:number,
     errorObject:Object, ...additionalParameter:Array<any>
 ):any => {
-    if (!globalContext.location.protocol.startsWith('http'))
+    if (
+        !globalContext.location.protocol.startsWith('http') &&
+        typeof globalContext.onerror.callbackBackup === 'function'
+    )
         return globalContext.onerror.callbackBackup(
             errorMessage, url, lineNumber, columnNumber, errorObject,
             ...additionalParameter)
@@ -192,9 +195,14 @@ export default globalContext.onerror = (
             if (checkIfCaseMatches(clientData, caseToIgnore)) {
                 globalContext.onerror.caseToIgnoreHandler(
                     clientData, caseToIgnore)
-                return globalContext.onerror.callbackBackup(
-                    errorMessage, url, lineNumber, columnNumber, errorObject,
-                    ...additionalParameter)
+                if (typeof globalContext.onerror.callbackBackup === 'function')
+                    return globalContext.onerror.callbackBackup(
+                        errorMessage,
+                        url,
+                        lineNumber,
+                        columnNumber,
+                        errorObject,
+                        ...additionalParameter)
             }
         const toString:Function = (value:any):string => {
             if (['boolean', 'number'].includes(typeof value) || value === null)
@@ -265,9 +273,10 @@ export default globalContext.onerror = (
     } catch (error) {
         globalContext.onerror.failedHandler(error)
     }
-    return globalContext.onerror.callbackBackup(
-        errorMessage, url, lineNumber, columnNumber, errorObject,
-        ...additionalParameter)
+    if (typeof globalContext.onerror.callbackBackup === 'function')
+        return globalContext.onerror.callbackBackup(
+            errorMessage, url, lineNumber, columnNumber, errorObject,
+            ...additionalParameter)
 }
 globalContext.onerror.callbackBackup =
     onErrorCallbackBackup ? onErrorCallbackBackup.bind(globalContext) : (
