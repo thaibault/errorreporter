@@ -122,6 +122,10 @@ export default globalContext.onerror = (
             }
             /* eslint-enable max-len */
         ]
+    if (Array.isArray(globalContext.onerror.additionalCasesToIgnore))
+        globalContext.onerror.casesToIgnore =
+            globalContext.onerror.casesToIgnore.concat(
+                globalContext.onerror.additionalCasesToIgnore)
     // Handler to call for browser which should be ignored.
     if (!globalContext.onerror.caseToIgnoreHandler)
         globalContext.onerror.caseToIgnoreHandler = (
