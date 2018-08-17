@@ -1,6 +1,6 @@
 {
   "name": "errorreporter",
-  "version": "1.0.92",
+  "version": "1.0.93",
   "license": "CC-BY-3.0",
   "description": "Error reporter for client.",
   "homepage": "http://torben.website/errorReporter",
