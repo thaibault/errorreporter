@@ -1,6 +1,6 @@
 {
   "name": "errorreporter",
-  "version": "1.0.99",
+  "version": "1.0.100",
   "license": "CC-BY-3.0",
   "description": "Error reporter for client.",
   "homepage": "https://torben.website/errorReporter",
@@ -44,9 +44,9 @@
     "ua-parser-js": "*"
   },
   "devDependencies": {
-    "babel-eslint": "*",
     "@babel/plugin-transform-proto-to-assign": "*",
     "@babel/preset-env": "*",
+    "babel-eslint": "*",
     "clientnode": "*",
     "coveralls": "*",
     "documentation-website": "*",
