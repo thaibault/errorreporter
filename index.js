@@ -37,7 +37,10 @@ export default globalContext.onerror = (
     errorObject:Object, ...additionalParameter:Array<any>
 ):any => {
     if (
-        !globalContext.location.protocol.startsWith('http') &&
+        !(
+            'location' in globalContext &&
+            globalContext.location.protocol.startsWith('http')
+        ) &&
         typeof globalContext.onerror.callbackBackup === 'function'
     )
         return globalContext.onerror.callbackBackup(
