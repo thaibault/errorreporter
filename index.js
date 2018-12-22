@@ -95,7 +95,7 @@ export default globalContext.onerror = (
     if (!globalContext.onerror.casesToIgnore)
         globalContext.onerror.casesToIgnore = [
             /* eslint-disable max-len */
-            {browser: {name: 'IE', major: /[56789]/}},
+            {browser: {name: 'IE'}},
             {browser: {name: 'Firefox', major: /[123456789]|10/}},
             {errorMessage: /Access is denied/},
             {errorMessage: /Das System kann auf die Datei nicht zugreifen/},
@@ -106,26 +106,19 @@ export default globalContext.onerror = (
             {errorMessage: /^IndexSizeError: Index or size is negative or greater than the allowed amount/},
             {errorMessage: /Nicht genügend Arbeitsspeicher/},
             {errorMessage: /^NS_ERROR[A-Z_]*:.*/},
-            {errorMessage: /null is not an object \(evaluating 'window\.localStorage/},
             {errorMessage: /Permission denied to access property/},
             {errorMessage: /^QuotaExceededError:/},
             {errorMessage: /^ReferenceError: "gapi" is not defined\..*/},
             {errorMessage: 'Script error.'},
             {errorMessage: /^SecurityError/},
             {errorMessage: /TypeError: Expected argument of type object, but instead had type object/},
-            {errorMessage: 'TypeError: window.localStorage is null'},
             {errorMessage: /^TypeError: undefined is not an object \(evaluating 'window\.__firefox__\..+'\)$/},
-            {errorMessage: 'Uncaught ReferenceError: androidInterface is not defined'},
             {errorMessage: /Uncaught SecurityError: Failed to read the 'localStorage' property from 'Window': Access is denied/},
             {errorMessage: /Uncaught ReferenceError: ztePageScrollModule is not defined/},
             {errorMessage: 'Unbekannter Fehler'},
             {errorMessage: 'UnknownError'},
             {errorMessage: /^uncaught exception: /},
-            {errorMessage: /Zugriff verweigert/},
-            {
-                browser: {name: 'IE', version: '11'},
-                errorMessage: /Das System kann den angegebenen Pfad nicht finden/
-            }
+            {errorMessage: /Zugriff verweigert/}
             /* eslint-enable max-len */
         ]
     if (Array.isArray(globalContext.onerror.additionalCasesToIgnore))
