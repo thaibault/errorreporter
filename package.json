@@ -65,35 +65,11 @@
     "webpack-dev-server": "*"
   },
   "webOptimizer": {
-    "injection": {
-      "external": {
-        "implicit": {
-          "pattern": {
-            "exclude": {
-              "__append__": {
-                "__evaluate__": "/^clientnode\\/test(?:\\.compiled)?(?:\\.js)?$/"
-              }
-            }
-          }
-        }
-      }
-    },
     "module": {
-      "aliases": {
-        "#": "We want to use the pre-compiled artefacts.",
-        "clientnode/test$": "clientnode/test.compiled"
-      },
       "optimizer": {
         "babelMinify": {
           "#": "Bounding the \"onerror\" keyword to the global scope is necessary here.",
-          "bundle": {
-            "transform": {
-              "mangle": false
-            }
-          },
-          "module": {
-            "mangle": false
-          }
+          "__evaluate__": "self.debug ? {} : {bundle: {transform: {mangle: false}}, module: {mangle: false}}"
         }
       }
     },
