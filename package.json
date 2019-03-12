@@ -64,6 +64,7 @@
     "webpack-cli": "*",
     "webpack-dev-server": "*"
   },
+  "sideEffects": false,
   "webOptimizer": {
     "module": {
       "optimizer": {
