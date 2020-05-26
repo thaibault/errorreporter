@@ -40,9 +40,6 @@
     "update:documentation": "documentationWebsite --log-level info",
     "watch": "webOptimizer build --watch"
   },
-  "peerDependencies": {
-    "ua-parser-js": "*"
-  },
   "devDependencies": {
     "@babel/plugin-transform-proto-to-assign": "*",
     "@babel/preset-env": "*",
@@ -64,7 +61,10 @@
     "webpack-cli": "*",
     "webpack-dev-server": "*"
   },
-  "sideEffects": false,
+  "peerDependencies": {
+    "ua-parser-js": "*"
+  },
+  "sideEffects": true,
   "webOptimizer": {
     "module": {
       "optimizer": {
