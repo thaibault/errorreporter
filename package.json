@@ -15,9 +15,9 @@
     "reporter"
   ],
   "files": [
-    "index.js"
+    "index.ts"
   ],
-  "main": "index.compiled.js",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/thaibault/errorreporter"
@@ -26,35 +26,37 @@
     "build": "weboptimizer build",
     "build:export": "weboptimizer build '{__reference__: \"target:export\"}'",
     "build:export:compatible": "weboptimizer build '{__reference__: [\"target:export\", \"target:compatible\"]}'",
+    "check": "yarn check:types; yarn lint",
+    "check:types": "weboptimizer check:types",
     "clear": "weboptimizer clear",
     "document": "weboptimizer document",
-    "lint": "weboptimizer check:type; weboptimizer lint",
+    "lint": "weboptimizer lint",
     "prepare": "yarn build:export:compatible",
     "report:coverage": "nyc report --reporter=text-lcov | coveralls",
     "serve": "weboptimizer serve",
     "start": "yarn serve",
-    "test": "nyc yarn test:plain",
+    "test": "weboptimizer test",
     "test:browser": "weboptimizer test:browser",
-    "test:plain": "weboptimizer test",
     "update": "yarn version --patch && yarn publish",
     "update:documentation": "documentationWebsite --log-level info",
     "watch": "weboptimizer build --watch"
   },
   "devDependencies": {
     "@babel/plugin-transform-proto-to-assign": "*",
-    "@babel/preset-env": "*",
+    "@types/jest": "*",
+    "@types/jsdom": "*",
+    "@types/loader-utils": "*",
+    "@types/node": "*",
+    "@typescript-eslint/eslint-plugin": "*",
+    "@typescript-eslint/parser": "*",
     "babel-eslint": "*",
     "clientnode": "*",
-    "coveralls": "*",
     "documentation-website": "*",
     "eslint": "*",
     "eslint-config-google": "*",
-    "eslint-plugin-flowtype": "*",
     "eslint-plugin-jsdoc": "*",
-    "flow-bin": "*",
+    "jest": "*",
     "jsdoc": "*",
-    "nyc": "*",
-    "qunit": "*",
     "ua-parser-js": "*",
     "weboptimizer": "*",
     "webpack": "*",
@@ -81,10 +83,7 @@
             "options": {
               "plugins": {
                 "__append__": "@babel/plugin-transform-proto-to-assign"
-              },
-              "presets": [
-                "@babel/preset-env"
-              ]
+              }
             }
           }
         }

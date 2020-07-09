@@ -1,11 +1,10 @@
-// @flow
 // #!/usr/bin/env node
 // -*- coding: utf-8 -*-
-/** @module errorReporter */
+/** @module errorreporter */
 'use strict'
 /* !
     region header
-    [Project page](https://torben.website/errorReporter)
+    [Project page](https://torben.website/errorreporter)
 
     Copyright Torben Sickert (info["~at~"]torben.website) 16.12.2012
 
