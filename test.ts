@@ -14,13 +14,10 @@
     endregion
 */
 // region imports
-import Tools, {globalContext as genericGlobalContext} from 'clientnode'
-import registerTest from 'clientnode/test'
+import Tools from 'clientnode'
 // endregion
 registerTest(function(roundType:string, targetTechnology:?string):void {
     // region prepare environment
-    // NOTE: We have to save a dummy here to hide error fallbacks from qunit.
-    genericGlobalContext.onerror = Tools.noop
     const index:Object = require('./index')
     const globalContext:Object = index.globalContext
     const onError:Function = index.default
