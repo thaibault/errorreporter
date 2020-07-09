@@ -80,13 +80,20 @@ export type NativeErrorHandler = (
     error?:Error,
     ...additionalParameter:Array<any>
 ) => (false|void)
+export type BaseLocation = {
+    hostname:string;
+    href:string;
+    port?:string;
+    protocol:string;
+}
 export type ErrorHandler = NativeErrorHandler & {
     additionalIssuesToIgnore:Array<IssueSpecification>;
     callbackBackup:NativeErrorHandler;
+    failedHandler:(error:Error) => void;
     issuesToIgnore:Array<IssueSpecification>;
     issueToIgnoreHandler:(issue:Issue, issueToIgnore:IssueSpecification) =>
         void;
-    failedHandler:(error:Error) => void;
+    location:BaseLocation;
     reported:{[key:string]:true};
     reportedHandler:(response:Response) => Promise<void>|void;
     reportPath:string;

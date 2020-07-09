@@ -18,7 +18,7 @@
 */
 // region imports
 import {
-    ErrorHandler, Issue, IssueSpecification, NativeErrorHandler
+    BaseLocation, ErrorHandler, Issue, IssueSpecification, NativeErrorHandler
 } from './type'
 // endregion
 export const determineGlobalContext:(() => typeof globalThis) = (
@@ -47,21 +47,11 @@ export const errorHandler:ErrorHandler = ((
     error?:Error,
     ...additionalParameter:Array<any>
 ):false|void => {
-    if (
-        !(
-            'location' in globalContext &&
-            globalContext.location.protocol.startsWith('http')
-        ) &&
-        typeof errorHandler.callbackBackup === 'function'
-    )
-        return errorHandler.callbackBackup(
-            errorMessage,
-            url,
-            lineNumber,
-            columnNumber,
-            error,
-            ...additionalParameter
-        )
+    const location:BaseLocation = (
+        globalContext.window && globalContext.window.location
+    ) ?
+        globalContext.window.location as BaseLocation :
+        errorHandler.location
     /*
         Sends an error report to current requested domain via ajax in json
         format. Supported by Chrome 13+, Firefox 6.0+, Internet Explorer 5.5+,
@@ -226,20 +216,16 @@ export const errorHandler:ErrorHandler = ((
             return `${toString(value)}`
         }
         const errorKey:string =
-            `${errorMessage}#${globalContext.location.href}#${lineNumber}#` +
-            columnNumber
+            `${errorMessage}#${location.href}#${lineNumber}#${columnNumber}`
         if (!errorHandler.reported[errorKey]) {
             errorHandler.reported[errorKey] = true
-            const portPrefix:string = globalContext.location.port ?
-                `:${globalContext.location.port}` :
-                ''
+            const portPrefix:string = location.port ? `:${location.port}` : ''
             globalContext.fetch(
-                `${globalContext.location.protocol}//` +
-                `${globalContext.location.hostname}${portPrefix}` +
+                `${location.protocol}//${location.hostname}${portPrefix}` +
                 errorHandler.reportPath,
                 {
                     body: serialize({
-                        absoluteURL: globalContext.window.location.href,
+                        absoluteURL: location.href,
                         columnNumber: columnNumber,
                         errorMessage: errorMessage,
                         issuesToIgnore: errorHandler.issuesToIgnore,
@@ -247,7 +233,12 @@ export const errorHandler:ErrorHandler = ((
                         stack: error && error.stack,
                         technologyDescription: issue.technologyDescription,
                         url: url,
-                        userAgent: globalContext.window.navigator.userAgent
+                        userAgent: (
+                            globalContext.window &&
+                            globalContext.window.navigator &&
+                            globalContext.window.navigator.userAgent ||
+                            'unclear'
+                        )
                     }),
                     headers: new globalContext.Headers({
                         'Content-type': 'application/json'
@@ -271,6 +262,11 @@ export const errorHandler:ErrorHandler = ((
             ...additionalParameter
         )
 }) as ErrorHandler
+errorHandler.location = {
+    hostname: 'localhost',
+    href: 'http://localhost',
+    protocol: 'http'
+}
 const onErrorCallbackBackup:NativeErrorHandler|null = globalContext.onerror
 errorHandler.callbackBackup = onErrorCallbackBackup ?
     onErrorCallbackBackup.bind(globalContext) :

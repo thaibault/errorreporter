@@ -15,70 +15,69 @@
 */
 // region imports
 import Tools from 'clientnode'
+
+import {errorHandler, globalContext} from './index'
+import {NativeErrorHandler} from './type'
 // endregion
-registerTest(function(roundType:string, targetTechnology:?string):void {
-    // region prepare environment
-    const index:Object = require('./index')
-    const globalContext:Object = index.globalContext
-    const onError:Function = index.default
-    globalContext.Headers = class {}
+describe('errorreporter', ():void => {
+    // region mockup
+    globalContext.Headers = (class {} as unknown as Headers)
     let fetchHandlerCall:Array<any> = []
-    globalContext.fetch = (...parameter:Array<any>):Promise<string> => {
+    globalContext.fetch = ((...parameter:Array<any>):Promise<string> => {
         fetchHandlerCall = parameter
         return Promise.resolve('dummyFetchResult')
-    }
+    }) as unknown as typeof fetch
     let failedHandlerCall:Array<any> = []
-    onError.failedHandler = (...parameter:Array<any>):void => {
+    errorHandler.failedHandler = (...parameter:Array<any>):void => {
         failedHandlerCall = parameter
     }
     let reportedHandlerCall:Array<any> = []
-    onError.reportedHandler = (...parameter:Array<any>):void => {
+    errorHandler.reportedHandler = (...parameter:Array<any>):void => {
         reportedHandlerCall = parameter
     }
-    let caseToIgnoreHandlerCall:Array<any> = []
-    onError.caseToIgnoreHandler = (...parameter:Array<any>):void => {
-        caseToIgnoreHandlerCall = parameter
+    let issueToIgnoreHandlerCall:Array<any> = []
+    errorHandler.issueToIgnoreHandler = (...parameter:Array<any>):void => {
+        issueToIgnoreHandlerCall = parameter
     }
-    onError.casesToIgnore = []
+    errorHandler.issuesToIgnore = []
     // endregion
     // region tests
-    this.test('onError', async (assert:Object):Promise<void> => {
-        const done:Function = assert.async()
-        assert.deepEqual(onError.reported, {})
-        assert.notOk(onError('', '', 0, 0, {}))
-        assert.deepEqual(failedHandlerCall, [])
-        assert.deepEqual(caseToIgnoreHandlerCall, [])
-        assert.ok(fetchHandlerCall[0].endsWith(
-            globalContext.onerror.reportPath))
+    test('errorHandler', async ():Promise<void> => {
+        expect(errorHandler.reported).toStrictEqual({})
+        const callbackBackupBackup:NativeErrorHandler =
+            errorHandler.callbackBackup
+        errorHandler.callbackBackup = (():4 => 4) as
+            unknown as NativeErrorHandler
+        expect(errorHandler('')).toStrictEqual(4)
+        errorHandler.callbackBackup = callbackBackupBackup
+        expect(errorHandler('')).toStrictEqual(false)
+        expect(errorHandler('', '', 0, 0, {} as Error)).toStrictEqual(false)
+        expect(failedHandlerCall).toHaveLength(0)
+        expect(issueToIgnoreHandlerCall).toHaveLength(0)
+        expect(fetchHandlerCall[0].endsWith(errorHandler.reportPath))
+            .toStrictEqual(true)
         await Tools.timeout()
-        assert.strictEqual(reportedHandlerCall[0], 'dummyFetchResult')
-        if (targetTechnology === 'node') {
-            const protocol:string = globalContext.location.protocol
-            globalContext.location.protocol = 'file:'
-            assert.notOk(onError('', '', 0, 0, {}))
-            globalContext.location.protocol = protocol
-        }
-        onError.casesToIgnore = [{errorMessage: /Access is denied/}]
-        assert.notOk(onError('Access is denied.', '', 0, 0, {}))
-        assert.strictEqual(
-            caseToIgnoreHandlerCall[0].errorMessage, 'Access is denied.')
-        onError.casesToIgnore = [{errorMessage: 'Access is denied.'}]
-        assert.strictEqual(
-            caseToIgnoreHandlerCall[0].errorMessage, 'Access is denied.')
-        assert.notOk(onError('Access is denied.', '', 0, 0, {}))
-        caseToIgnoreHandlerCall = []
-        onError.casesToIgnore = []
-        assert.notOk(onError('Access is denied.', '', 0, 0, {}))
-        assert.deepEqual(caseToIgnoreHandlerCall, [])
-        globalContext.fetch = null
-        assert.notOk(onError('', '', 0, 0, {}))
-        assert.deepEqual(failedHandlerCall, [])
-        assert.notOk(onError('a', '', 0, 0, {}))
-        assert.ok(failedHandlerCall[0] instanceof Error)
-        done()
+        expect(reportedHandlerCall[0]).toStrictEqual('dummyFetchResult')
+        errorHandler.issuesToIgnore = [{errorMessage: /Access is denied/}]
+        expect(errorHandler('Access is denied.')).toStrictEqual(false)
+        expect(issueToIgnoreHandlerCall[0].errorMessage)
+            .toStrictEqual('Access is denied.')
+        errorHandler.issuesToIgnore = [{errorMessage: 'Access is denied.'}]
+        expect(issueToIgnoreHandlerCall[0].errorMessage)
+            .toStrictEqual('Access is denied.')
+        expect(errorHandler('Access is denied.')).toStrictEqual(false)
+        issueToIgnoreHandlerCall = []
+        errorHandler.issuesToIgnore = []
+        expect(errorHandler('Access is denied.')).toStrictEqual(false)
+        expect(issueToIgnoreHandlerCall).toHaveLength(0)
+        globalContext.fetch = null as unknown as typeof fetch
+        expect(errorHandler('')).toStrictEqual(false)
+        expect(failedHandlerCall).toHaveLength(0)
+        expect(errorHandler('a')).toStrictEqual(false)
+        expect(failedHandlerCall[0]).toBeInstanceOf(Error)
     })
     // endregion
-}, 'plain')
+})
 // region vim modline
 // vim: set tabstop=4 shiftwidth=4 expandtab:
 // vim: foldmethod=marker foldmarker=region,endregion:
