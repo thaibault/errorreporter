@@ -3,9 +3,9 @@
   "version": "1.0.196",
   "license": "CC-BY-3.0",
   "description": "Error reporter for client.",
-  "homepage": "https://torben.website/errorReporter",
+  "homepage": "https://torben.website/errorreporter",
   "documentationWebsite": {
-    "name": "errorReporter",
+    "name": "errorreporter",
     "tagline": "Error reporter for client.",
     "trackingCode": "UA-40192634-22"
   },
@@ -20,25 +20,25 @@
   "main": "index.compiled.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/thaibault/errorReporter"
+    "url": "https://github.com/thaibault/errorreporter"
   },
   "scripts": {
-    "build": "webOptimizer build",
-    "build:export": "webOptimizer build '{__reference__: \"target:export\"}'",
-    "build:export:compatible": "webOptimizer build '{__reference__: [\"target:export\", \"target:compatible\"]}'",
-    "clear": "webOptimizer clear",
-    "document": "webOptimizer document",
-    "lint": "webOptimizer check:type; webOptimizer lint",
+    "build": "weboptimizer build",
+    "build:export": "weboptimizer build '{__reference__: \"target:export\"}'",
+    "build:export:compatible": "weboptimizer build '{__reference__: [\"target:export\", \"target:compatible\"]}'",
+    "clear": "weboptimizer clear",
+    "document": "weboptimizer document",
+    "lint": "weboptimizer check:type; weboptimizer lint",
     "prepare": "yarn build:export:compatible",
     "report:coverage": "nyc report --reporter=text-lcov | coveralls",
-    "serve": "webOptimizer serve",
+    "serve": "weboptimizer serve",
     "start": "yarn serve",
     "test": "nyc yarn test:plain",
-    "test:browser": "webOptimizer test:browser",
-    "test:plain": "webOptimizer test",
+    "test:browser": "weboptimizer test:browser",
+    "test:plain": "weboptimizer test",
     "update": "yarn version --patch && yarn publish",
     "update:documentation": "documentationWebsite --log-level info",
-    "watch": "webOptimizer build --watch"
+    "watch": "weboptimizer build --watch"
   },
   "devDependencies": {
     "@babel/plugin-transform-proto-to-assign": "*",
