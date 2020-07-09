@@ -17,7 +17,9 @@
     endregion
 */
 // region imports
-import {ErrorHandler, Issue, IssueSpecification} from './type'
+import {
+    ErrorHandler, Issue, IssueSpecification, NativeErrorHandler
+} from './type'
 // endregion
 export const determineGlobalContext:(() => typeof globalThis) = (
 ):typeof globalThis => {
@@ -38,11 +40,11 @@ export const determineGlobalContext:(() => typeof globalThis) = (
 export const globalContext:typeof globalThis = determineGlobalContext()
 let issue:Issue = {} as Issue
 export const errorHandler:ErrorHandler = ((
-    errorMessage:string,
-    url:string,
-    lineNumber:number,
-    columnNumber:number,
-    error:Error,
+    errorMessage:Event|string,
+    url?:string,
+    lineNumber?:number,
+    columnNumber?:number,
+    error?:Error,
     ...additionalParameter:Array<any>
 ):false|void => {
     if (
@@ -129,7 +131,7 @@ export const errorHandler:ErrorHandler = ((
         errorHandler.reportedHandler = ():void => {}
     try {
         issue.technologyDescription = 'Unclear'
-        if (issue.hasOwnProperty('browser')) {
+        if (issue.browser) {
             issue.technologyDescription =
                 `${issue.browser.name} ${issue.browser.major} (` +
                 `${issue.browser.version} | ${issue.engine.name} ` +
@@ -144,37 +146,38 @@ export const errorHandler:ErrorHandler = ((
                     ` | ${issue.device.model} ${issue.device.type}` +
                     ` ${issue.device.vendor}`
         }
-        issue.errorMessage = errorMessage
+        issue.errorMessage = `${errorMessage}` || 'Unclear'
         // Checks if given object completely matches given match object.
-        const checkIfIssueMatches:Function = (
-            object:any, matchObject:any
+        const matches:Function = (
+            issueItem:any, issueItemSpecification:any
         ):boolean => {
             if (
-                Object.prototype.toString.call(
-                    matchObject
-                ) === '[object Object]' &&
-                Object.prototype.toString.call(object) === '[object Object]'
+                Object.prototype.toString.call(issueItemSpecification) ===
+                    '[object Object]' &&
+                Object.prototype.toString.call(issueItem) === '[object Object]'
             ) {
-                for (const key in matchObject)
+                for (const key in issueItemSpecification)
                     if (
-                        matchObject.hasOwnProperty(key) &&
+                        issueItemSpecification.hasOwnProperty(key) &&
                         !(
-                            object[key] &&
-                            checkIfIssueMatches(object[key], matchObject[key])
+                            issueItem[key] &&
+                            matches(
+                                issueItem[key], issueItemSpecification[key]
+                            )
                         )
                     )
                         return false
                 return true
             }
             if (
-                Object.prototype.toString.call(matchObject) ===
+                Object.prototype.toString.call(issueItemSpecification) ===
                     '[object RegExp]'
             )
-                return matchObject.test(`${object}`)
-            return matchObject === object
+                return issueItemSpecification.test(`${issueItem}`)
+            return issueItemSpecification === issueItem
         }
         for (const issueToIgnore of errorHandler.issuesToIgnore)
-            if (checkIfIssueMatches(issue, issueToIgnore)) {
+            if (matches(issue, issueToIgnore)) {
                 errorHandler.issueToIgnoreHandler(issue, issueToIgnore)
                 if (typeof errorHandler.callbackBackup === 'function')
                     return errorHandler.callbackBackup(
@@ -268,7 +271,7 @@ export const errorHandler:ErrorHandler = ((
             ...additionalParameter
         )
 }) as ErrorHandler
-const onErrorCallbackBackup:PlainErrorHandler|undefined = globalContext.onerror
+const onErrorCallbackBackup:NativeErrorHandler|null = globalContext.onerror
 errorHandler.callbackBackup = onErrorCallbackBackup ?
     onErrorCallbackBackup.bind(globalContext) :
     ():false => false

@@ -16,47 +16,76 @@
     See https://creativecommons.org/licenses/by/3.0/deed.de
     endregion
 */
-export type Issue<Type=string> = {
-    errorMessage:Type;
+export type Issue = {
+    errorMessage:string;
 
-    technologyDescription:Type;
+    technologyDescription:string;
+    ua:string;
+
+    browser?:{
+        name:string;
+        version:string;
+        major:string;
+    };
+    cpu?:{
+        architecture:string;
+    };
+    device?:{
+        model?:string;
+        type?:string;
+        vendor?:string;
+    };
+    engine:{
+        name:string;
+        version:string;
+    };
+    os:{
+        name:string;
+        version:string;
+    };
+}
+export type IssueSpecification<Type = null|RegExp|string> = {
+    errorMessage?:Type;
+
+    technologyDescription?:Type;
     ua?:Type;
 
     browser?:{
-        name:Type;
-        version:Type;
-        major:Type;
+        name?:Type;
+        version?:Type;
+        major?:Type;
     };
     cpu?:{
-        architecture:Type;
+        architecture?:Type;
     };
     device?:{
-        model:Type;
-        type:Type;
-        vendor:Type;
+        model?:Type;
+        type?:Type;
+        vendor?:Type;
     };
     engine?:{
-        name:Type;
-        version:Type;
+        name?:Type;
+        version?:Type;
     };
     os?:{
-        name:Type;
-        version:Type;
+        name?:Type;
+        version?:Type;
     };
 }
-export type IssueSpecification = Issue<null|RegExp|string|undefined>
-export type PlainErrorHandler = (
-    errorMessage:string,
-    url:string,
-    lineNumber:number,
-    columnNumber:number,
-    error:Error,
+export type NativeErrorHandler = (
+    errorMessage:Event|string,
+    url?:string,
+    lineNumber?:number,
+    columnNumber?:number,
+    error?:Error,
     ...additionalParameter:Array<any>
 ) => (false|void)
-export type ErrorHandler = PlainErrorHandler & {
+export type ErrorHandler = NativeErrorHandler & {
     additionalIssuesToIgnore:Array<IssueSpecification>;
-    callbackBackup:PlainErrorHandler;
+    callbackBackup:NativeErrorHandler;
     issuesToIgnore:Array<IssueSpecification>;
+    issueToIgnoreHandler:(issue:Issue, issueToIgnore:IssueSpecification) =>
+        void;
     failedHandler:(error:Error) => void;
     reported:{[key:string]:true};
     reportedHandler:(response:Response) => Promise<void>|void;
