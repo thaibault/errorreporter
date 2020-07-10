@@ -59,6 +59,7 @@
     "eslint-plugin-jsdoc": "*",
     "jest": "*",
     "jsdoc": "*",
+    "node-fetch": "*",
     "ua-parser-js": "*",
     "weboptimizer": "*",
     "webpack": "*",

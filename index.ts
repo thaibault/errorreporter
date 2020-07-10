@@ -17,6 +17,8 @@
     endregion
 */
 // region imports
+import {Mapping} from 'clientnode/type'
+
 import {
     BaseLocation, ErrorHandler, Issue, IssueSpecification, NativeErrorHandler
 } from './type'
@@ -220,6 +222,7 @@ export const errorHandler:ErrorHandler = ((
         if (!errorHandler.reported[errorKey]) {
             errorHandler.reported[errorKey] = true
             const portPrefix:string = location.port ? `:${location.port}` : ''
+            const headers:Mapping = {'Content-type': 'application/json'}
             globalContext.fetch(
                 `${location.protocol}//${location.hostname}${portPrefix}` +
                 errorHandler.reportPath,
@@ -240,9 +243,9 @@ export const errorHandler:ErrorHandler = ((
                             'unclear'
                         )
                     }),
-                    headers: new globalContext.Headers({
-                        'Content-type': 'application/json'
-                    }),
+                    headers: globalContext.Headers ? 
+                        new globalContext.Headers(headers) :
+                        headers,
                     method: 'PUT'
                 }
             )

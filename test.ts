@@ -21,7 +21,6 @@ import {NativeErrorHandler} from './type'
 // endregion
 describe('errorreporter', ():void => {
     // region mockup
-    globalContext.Headers = (class {} as unknown as Headers)
     let fetchHandlerCall:Array<any> = []
     globalContext.fetch = ((...parameter:Array<any>):Promise<string> => {
         fetchHandlerCall = parameter
