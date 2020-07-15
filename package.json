@@ -44,6 +44,7 @@
   },
   "devDependencies": {
     "@babel/plugin-transform-proto-to-assign": "*",
+    "@babel/plugin-transform-runtime": "*",
     "@types/jest": "*",
     "@types/jsdom": "*",
     "@types/loader-utils": "*",
@@ -67,6 +68,7 @@
     "webpack-dev-server": "*"
   },
   "peerDependencies": {
+    "@babel/runtime": "*",
     "ua-parser-js": "*"
   },
   "sideEffects": true,
