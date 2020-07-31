@@ -15,62 +15,35 @@
     See https://creativecommons.org/licenses/by/3.0/deed.de
     endregion
 */
-export type Issue = {
-    errorMessage:string;
+export type Issue<Type = string> = {
+    errorMessage:Type;
 
-    technologyDescription:string;
-    ua:string;
-
-    browser?:{
-        name:string;
-        version:string;
-        major:string;
-    };
-    cpu?:{
-        architecture:string;
-    };
-    device?:{
-        model?:string;
-        type?:string;
-        vendor?:string;
-    };
-    engine:{
-        name:string;
-        version:string;
-    };
-    os:{
-        name:string;
-        version:string;
-    };
-}
-export type IssueSpecification<Type = null|RegExp|string> = {
-    errorMessage?:Type;
-
-    technologyDescription?:Type;
-    ua?:Type;
+    technologyDescription:Type;
+    ua:Type;
 
     browser?:{
-        name?:Type;
-        version?:Type;
-        major?:Type;
+        name:Type;
+        version:Type;
+        major:Type;
     };
     cpu?:{
-        architecture?:Type;
+        architecture:Type;
     };
     device?:{
         model?:Type;
         type?:Type;
         vendor?:Type;
     };
-    engine?:{
-        name?:Type;
-        version?:Type;
+    engine:{
+        name:Type;
+        version:Type;
     };
-    os?:{
-        name?:Type;
-        version?:Type;
+    os:{
+        name:Type;
+        version:Type;
     };
 }
+export type IssueSpecification<Type = null|RegExp|string> = Partial<Issue<Type>
 export type NativeErrorHandler = (
     errorMessage:Event|string,
     url?:string,
