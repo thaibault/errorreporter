@@ -44,7 +44,6 @@
   },
   "devDependencies": {
     "@babel/plugin-transform-proto-to-assign": "*",
-    "@babel/plugin-transform-runtime": "*",
     "@types/jest": "*",
     "@types/jsdom": "*",
     "@types/loader-utils": "*",

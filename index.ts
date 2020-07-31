@@ -1,4 +1,4 @@
-// #!/usr/bin/env node
+// #!/usr/bin/env babel-node
 // -*- coding: utf-8 -*-
 /** @module errorreporter */
 'use strict'
@@ -73,7 +73,7 @@ export const errorHandler:ErrorHandler = ((
         errorHandler.issuesToIgnore = [
             /* eslint-disable max-len */
             {browser: {name: 'IE'}},
-            {browser: {name: 'Firefox', major: /[123456789]|10/}},
+            {browser: {major: /[123456789]|10/, name: 'Firefox'}},
             {errorMessage: /Access is denied/},
             {errorMessage: /Das System kann auf die Datei nicht zugreifen/},
             {errorMessage: /Der RPC-Server ist nicht verfügbar/},
