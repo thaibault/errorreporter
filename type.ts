@@ -15,6 +15,9 @@
     See https://creativecommons.org/licenses/by/3.0/deed.de
     endregion
 */
+// region imports
+import {RecursivePartial} from 'clientnode/type'
+// endregion
 export type Issue<Type = string> = {
     errorMessage:Type;
 
@@ -43,7 +46,8 @@ export type Issue<Type = string> = {
         version:Type;
     };
 }
-export type IssueSpecification<Type = null|RegExp|string> = Partial<Issue<Type>
+export type IssueSpecification<Type = null|RegExp|string> =
+    RecursivePartial<Issue<Type>>
 export type NativeErrorHandler = (
     errorMessage:Event|string,
     url?:string,
