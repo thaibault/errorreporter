@@ -49,9 +49,7 @@ export const errorHandler:ErrorHandler = ((
     error?:Error,
     ...additionalParameter:Array<any>
 ):false|void => {
-    const location:BaseLocation = (
-        globalContext.window && globalContext.window.location
-    ) ?
+    const location:BaseLocation = globalContext.window?.location ?
         globalContext.window.location as BaseLocation :
         errorHandler.location
     /*
@@ -129,8 +127,7 @@ export const errorHandler:ErrorHandler = ((
                 `${issue.browser.version} | ${issue.engine.name} ` +
                 `${issue.engine.version}) | ${issue.os.name} ${issue.os.version}`
             if (
-                issue.device &&
-                issue.device.model &&
+                issue.device?.model &&
                 issue.device.type &&
                 issue.device.vendor
             )
@@ -193,8 +190,8 @@ export const errorHandler:ErrorHandler = ((
         }
         const serialize:Function = (value:any):string => {
             if (
-                typeof value === 'object' &&
                 value !== null &&
+                typeof value === 'object' &&
                 !(value instanceof RegExp)
             ) {
                 if (Array.isArray(value)) {
@@ -233,13 +230,11 @@ export const errorHandler:ErrorHandler = ((
                         errorMessage: errorMessage,
                         issuesToIgnore: errorHandler.issuesToIgnore,
                         lineNumber: lineNumber,
-                        stack: error && error.stack,
+                        stack: error?.stack,
                         technologyDescription: issue.technologyDescription,
                         url: url,
                         userAgent: (
-                            globalContext.window &&
-                            globalContext.window.navigator &&
-                            globalContext.window.navigator.userAgent ||
+                            globalContext.window?.navigator?.userAgent ||
                             'unclear'
                         )
                     }),
