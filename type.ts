@@ -19,32 +19,32 @@
 import {RecursivePartial} from 'clientnode/type'
 // endregion
 export type Issue<Type = string> = {
-    errorMessage:Type;
+    errorMessage:Type
 
-    technologyDescription:Type;
-    ua:Type;
+    technologyDescription:Type
+    ua:Type
 
     browser?:{
-        name:Type;
-        version:Type;
-        major:Type;
-    };
+        name:Type
+        version:Type
+        major:Type
+    }
     cpu?:{
-        architecture:Type;
-    };
+        architecture:Type
+    }
     device?:{
-        model?:Type;
-        type?:Type;
-        vendor?:Type;
-    };
+        model?:Type
+        type?:Type
+        vendor?:Type
+    }
     engine:{
-        name:Type;
-        version:Type;
-    };
+        name:Type
+        version:Type
+    }
     os:{
-        name:Type;
-        version:Type;
-    };
+        name:Type
+        version:Type
+    }
 }
 export type IssueSpecification<Type = null|RegExp|string> =
     RecursivePartial<Issue<Type>>
@@ -57,20 +57,20 @@ export type NativeErrorHandler = (
     ...additionalParameter:Array<any>
 ) => (false|void)
 export type BaseLocation = {
-    hostname:string;
-    href:string;
-    port?:string;
-    protocol:string;
+    hostname:string
+    href:string
+    port?:string
+    protocol:string
 }
 export type ErrorHandler = NativeErrorHandler & {
-    additionalIssuesToIgnore:Array<IssueSpecification>;
-    callbackBackup:NativeErrorHandler;
-    failedHandler:(error:Error) => void;
-    issuesToIgnore:Array<IssueSpecification>;
+    additionalIssuesToIgnore:Array<IssueSpecification>
+    callbackBackup:NativeErrorHandler
+    failedHandler:(error:Error) => void
+    issuesToIgnore:Array<IssueSpecification>
     issueToIgnoreHandler:(issue:Issue, issueToIgnore:IssueSpecification) =>
-        void;
-    location:BaseLocation;
-    reported:{[key:string]:true};
-    reportedHandler:(response:Response) => Promise<void>|void;
-    reportPath:string;
+        void
+    location:BaseLocation
+    reported:{[key:string]:true}
+    reportedHandler:(response:Response) => Promise<void>|void
+    reportPath:string
 }
