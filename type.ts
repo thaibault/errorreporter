@@ -16,7 +16,7 @@
     endregion
 */
 // region imports
-import {RecursivePartial} from 'clientnode/type'
+import {Mapping, RecursivePartial} from 'clientnode/type'
 // endregion
 export type Issue<Type = string> = {
     errorMessage:Type
@@ -70,7 +70,7 @@ export type ErrorHandler = NativeErrorHandler & {
     issueToIgnoreHandler:(issue:Issue, issueToIgnore:IssueSpecification) =>
         void
     location:BaseLocation
-    reported:{[key:string]:true}
+    reported:Mapping<true>
     reportedHandler:(response:Response) => Promise<void>|void
     reportPath:string
 }
