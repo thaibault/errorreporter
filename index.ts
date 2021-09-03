@@ -248,7 +248,7 @@ export const errorHandler:ErrorHandler = ((
                 .catch(errorHandler.failedHandler)
         }
     } catch (error) {
-        errorHandler.failedHandler(error)
+        errorHandler.failedHandler(error as Error)
     }
     if (typeof errorHandler.callbackBackup === 'function')
         return errorHandler.callbackBackup(
