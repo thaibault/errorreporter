@@ -47,7 +47,6 @@
     "@babel/plugin-transform-proto-to-assign": "*",
     "@types/jest": "*",
     "@types/jsdom": "*",
-    "@types/loader-utils": "*",
     "@types/node": "*",
     "@types/node-fetch": "*",
     "@types/workbox-webpack-plugin": "*",
