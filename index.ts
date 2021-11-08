@@ -31,8 +31,7 @@ export const determineGlobalContext:(() => typeof globalThis) = (
                 return ((typeof module === 'undefined') ? {} : module) as
                     typeof globalThis
             if ('window' in global)
-                return (global as typeof globalThis).window as unknown as
-                    typeof globalThis
+                return global.window
             return global as unknown as typeof globalThis
         }
         return window as unknown as typeof globalThis
@@ -118,14 +117,17 @@ export const errorHandler:ErrorHandler = ((
         }
     // Handler to call when error reporting was successful.
     if (!errorHandler.reportedHandler)
-        errorHandler.reportedHandler = ():void => {}
+        errorHandler.reportedHandler = ():void => {
+            // Do nothing.
+        }
     try {
         issue.technologyDescription = 'Unclear'
         if (issue.browser) {
             issue.technologyDescription =
                 `${issue.browser.name} ${issue.browser.major} (` +
                 `${issue.browser.version} | ${issue.engine.name} ` +
-                `${issue.engine.version}) | ${issue.os.name} ${issue.os.version}`
+                `${issue.engine.version}) | ${issue.os.name} ` +
+                issue.os.version
             if (
                 issue.device?.model &&
                 issue.device.type &&
@@ -135,7 +137,7 @@ export const errorHandler:ErrorHandler = ((
                     ` | ${issue.device.model} ${issue.device.type}` +
                     ` ${issue.device.vendor}`
         }
-        issue.errorMessage = `${errorMessage}` || 'Unclear'
+        issue.errorMessage = `${errorMessage as string}` || 'Unclear'
         // Checks if given object completely matches given match object.
         const matches:Function = (
             issueItem:any, issueItemSpecification:any
