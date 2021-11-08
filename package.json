@@ -1,19 +1,23 @@
 {
   "name": "errorreporter",
   "version": "1.0.238",
-  "license": "CC-BY-3.0",
   "description": "Error reporter for client.",
-  "homepage": "https://torben.website/errorreporter",
-  "documentationWebsite": {
-    "name": "errorreporter",
-    "tagline": "Error reporter for client.",
-    "trackingCode": "UA-40192634-22"
-  },
   "keywords": [
     "client",
     "error",
     "reporter"
   ],
+  "homepage": "https://torben.website/errorreporter",
+  "bugs": {
+    "email": "info@torben.website",
+    "url": "https://github.com/thaibault/errorreporter/issues"
+  },
+  "license": "CC-BY-3.0",
+  "author": {
+    "name": "Torben Sickert",
+    "email": "info@torben.website",
+    "url": "https://torben.website"
+  },
   "files": [
     "index.d.ts",
     "index.js",
@@ -24,20 +28,23 @@
     "url": "https://github.com/thaibault/errorreporter"
   },
   "scripts": {
-    "build": "weboptimizer build",
+    "build": "yarn build:types; yarn build:plain",
     "build:export": "weboptimizer build '{__reference__: \"target:export\"}'",
     "build:export:compatible": "weboptimizer build '{__reference__: [\"target:export\", \"target:compatible\"]}'",
+    "build:plain": "weboptimizer build",
+    "build:types": "weboptimizer build:types",
     "check": "yarn check:types; yarn lint",
     "check:types": "weboptimizer check:types",
     "clear": "weboptimizer clear",
     "document": "weboptimizer document",
     "lint": "weboptimizer lint",
     "prepare": "yarn build:export:compatible",
-    "report:coverage": "nyc report --reporter=text-lcov | coveralls",
     "serve": "weboptimizer serve",
     "start": "yarn serve",
     "test": "weboptimizer test",
     "test:browser": "weboptimizer test:browser",
+    "test:coverage": "weboptimizer test:coverage",
+    "test:coverage:report": "weboptimizer test:coverage:report",
     "update": "yarn version --patch && yarn publish",
     "update:documentation": "documentationWebsite --log-level info",
     "watch": "weboptimizer build --watch"
@@ -71,12 +78,23 @@
     "@babel/runtime": {
       "optional": true
     },
-    "ua-parser-js": true
+    "ua-parser-js": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=14",
+    "npm": ">=7"
   },
   "resolutions": {
     "@types/webpack": "https://registry.yarnpkg.com/@favware/skip-dependency/-/skip-dependency-1.1.1.tgz"
   },
   "sideEffects": true,
+  "documentationWebsite": {
+    "name": "errorreporter",
+    "tagline": "Error reporter for client.",
+    "trackingCode": "UA-40192634-22"
+  },
   "webOptimizer": {
     "module": {
       "optimizer": {
