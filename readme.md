@@ -24,9 +24,11 @@ Project status
 
 [![code coverage](https://coveralls.io/repos/github/thaibault/errorreporter/badge.svg)](https://coveralls.io/github/thaibault/errorreporter)
 
+<!-- Too unstable yet
 [![dependencies](https://img.shields.io/david/thaibault/errorreporter.svg)](https://david-dm.org/thaibault/errorreporter)
 [![development dependencies](https://img.shields.io/david/dev/thaibault/errorreporter.svg)](https://david-dm.org/thaibault/errorreporter?type=dev)
 [![peer dependencies](https://img.shields.io/david/peer/thaibault/errorreporter.svg)](https://david-dm.org/thaibault/errorreporter?type=peer)
+-->
 [![documentation website](https://img.shields.io/website-up-down-green-red/https/torben.website/errorreporter.svg?label=documentation-website)](https://torben.website/errorreporter)
 
 Use case
