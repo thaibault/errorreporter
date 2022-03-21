@@ -18,7 +18,7 @@
 // region imports
 import {Mapping, RecursivePartial} from 'clientnode/type'
 // endregion
-export type Issue<Type = string> = {
+export interface Issue<Type = string> {
     errorMessage:Type
 
     technologyDescription:Type
@@ -46,6 +46,15 @@ export type Issue<Type = string> = {
         version:Type
     }
 }
+
+
+export interface BaseLocation {
+    hostname:string
+    href:string
+    port?:string
+    protocol:string
+}
+
 export type IssueSpecification<Type = null|RegExp|string> =
     RecursivePartial<Issue<Type>>
 export type NativeErrorHandler = (
@@ -54,23 +63,19 @@ export type NativeErrorHandler = (
     lineNumber?:number,
     columnNumber?:number,
     error?:Error,
-    ...additionalParameter:Array<any>
+    ...additionalParameter:Array<unknown>
 ) => (false|void)
-export type BaseLocation = {
-    hostname:string
-    href:string
-    port?:string
-    protocol:string
-}
-export type ErrorHandler = NativeErrorHandler & {
-    additionalIssuesToIgnore:Array<IssueSpecification>
-    callbackBackup:NativeErrorHandler
-    failedHandler:(error:Error) => void
-    issuesToIgnore:Array<IssueSpecification>
-    issueToIgnoreHandler:(issue:Issue, issueToIgnore:IssueSpecification) =>
-        void
-    location:BaseLocation
-    reported:Mapping<true>
-    reportedHandler:(response:Response) => Promise<void>|void
-    reportPath:string
-}
+export type ErrorHandler =
+    NativeErrorHandler &
+    {
+        additionalIssuesToIgnore:Array<IssueSpecification>
+        callbackBackup:NativeErrorHandler
+        failedHandler:(error:Error) => void
+        issuesToIgnore:Array<IssueSpecification>
+        issueToIgnoreHandler:(issue:Issue, issueToIgnore:IssueSpecification) =>
+            void
+        location:BaseLocation
+        reported:Mapping<true>
+        reportedHandler:(response:Response) => Promise<void>|void
+        reportPath:string
+    }

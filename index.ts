@@ -17,7 +17,7 @@
     endregion
 */
 // region imports
-import {Mapping} from 'clientnode/type'
+import {Mapping, ValueOf} from 'clientnode/type'
 
 import {
     BaseLocation, ErrorHandler, Issue, IssueSpecification, NativeErrorHandler
@@ -38,16 +38,19 @@ export const determineGlobalContext:(() => typeof globalThis) = (
     }
     return globalThis as unknown as typeof globalThis
 }
+
 export const globalContext:typeof globalThis = determineGlobalContext()
-let issue:Issue = {} as Issue
+
 export const errorHandler:ErrorHandler = ((
     errorMessage:Event|string,
     url?:string,
     lineNumber?:number,
     columnNumber?:number,
     error?:Error,
-    ...additionalParameter:Array<any>
+    ...additionalParameter:Array<unknown>
 ):false|void => {
+    const issue:Issue = {...BROWSER_ISSUE}
+
     const location:BaseLocation = globalContext.window?.location ?
         globalContext.window.location as BaseLocation :
         errorHandler.location
@@ -59,12 +62,14 @@ export const errorHandler:ErrorHandler = ((
     // URL to send error messages to.
     if (!errorHandler.reportPath)
         errorHandler.reportPath = '/__error_report__'
+
     // Handler to call if error reporting fails.
     if (!errorHandler.failedHandler)
         errorHandler.failedHandler = (error:Error):void => {
             if ('alert' in globalContext)
                 globalContext.alert(error)
         }
+
     // All issues which completely match will be ignored.
     if (!errorHandler.issuesToIgnore)
         errorHandler.issuesToIgnore = [
@@ -95,10 +100,12 @@ export const errorHandler:ErrorHandler = ((
             {errorMessage: /Zugriff verweigert/}
             /* eslint-enable max-len */
         ]
+
     if (Array.isArray(errorHandler.additionalIssuesToIgnore))
         errorHandler.issuesToIgnore = errorHandler.issuesToIgnore.concat(
             errorHandler.additionalIssuesToIgnore
         )
+
     // Handler to call for browser which should be ignored.
     if (!errorHandler.issueToIgnoreHandler)
         errorHandler.issueToIgnoreHandler = (
@@ -115,58 +122,47 @@ export const errorHandler:ErrorHandler = ((
                     'upgrade your browser engine.'
                 )
         }
+
     // Handler to call when error reporting was successful.
     if (!errorHandler.reportedHandler)
         errorHandler.reportedHandler = ():void => {
             // Do nothing.
         }
+
     try {
-        issue.technologyDescription = 'Unclear'
-        if (issue.browser) {
-            issue.technologyDescription =
-                `${issue.browser.name} ${issue.browser.major} (` +
-                `${issue.browser.version} | ${issue.engine.name} ` +
-                `${issue.engine.version}) | ${issue.os.name} ` +
-                issue.os.version
-            if (
-                issue.device?.model &&
-                issue.device.type &&
-                issue.device.vendor
-            )
-                issue.technologyDescription +=
-                    ` | ${issue.device.model} ${issue.device.type}` +
-                    ` ${issue.device.vendor}`
-        }
         issue.errorMessage = `${errorMessage as string}` || 'Unclear'
         // Checks if given object completely matches given match object.
-        const matches:Function = (
-            issueItem:any, issueItemSpecification:any
+        const matches = <I = Issue, IS = IssueSpecification>(
+            issueItem:I, issueItemSpecification:IS
         ):boolean => {
             if (
                 Object.prototype.toString.call(issueItemSpecification) ===
                     '[object Object]' &&
                 Object.prototype.toString.call(issueItem) === '[object Object]'
             ) {
-                for (const key in issueItemSpecification)
-                    if (
-                        issueItemSpecification.hasOwnProperty(key) &&
-                        !(
-                            issueItem[key] &&
-                            matches(
-                                issueItem[key], issueItemSpecification[key]
-                            )
+                for (const key of Object.keys(issueItemSpecification))
+                    if (!(
+                        issueItem[key as keyof I] &&
+                        matches<ValueOf<I>, ValueOf<IS>>(
+                            issueItem[key as keyof I],
+                            issueItemSpecification[key as keyof IS]
                         )
-                    )
+                    ))
                         return false
+
                 return true
             }
+
             if (
                 Object.prototype.toString.call(issueItemSpecification) ===
                     '[object RegExp]'
             )
-                return issueItemSpecification.test(`${issueItem}`)
-            return issueItemSpecification === issueItem
+                return (issueItemSpecification as unknown as RegExp)
+                    .test(`${issueItem as unknown as string}`)
+
+            return issueItemSpecification as unknown === issueItem as unknown
         }
+
         for (const issueToIgnore of errorHandler.issuesToIgnore)
             if (matches(issue, issueToIgnore)) {
                 errorHandler.issueToIgnoreHandler(issue, issueToIgnore)
@@ -180,44 +176,54 @@ export const errorHandler:ErrorHandler = ((
                         ...additionalParameter
                     )
             }
-        const toString:Function = (value:any):string => {
+
+        const toString = (value:unknown):string => {
             if (['boolean', 'number'].includes(typeof value) || value === null)
-                return `${value}`
+                return `${value as string}`
+
             return '"' +
-                `${value}`
+                `${value as string}`
                     .replace(/\\/g, '\\\\')
                     .replace(/(?:\r\n|\r)/g, '\\n')
                     .replace(/"/g, '\\"') +
                 '"'
         }
-        const serialize:Function = (value:any):string => {
+
+        const serialize = (value:unknown):string => {
             if (
                 value !== null &&
                 typeof value === 'object' &&
                 !(value instanceof RegExp)
             ) {
                 if (Array.isArray(value)) {
-                    let result:string = '['
+                    let result = '['
                     for (const item of value) {
                         if (result !== '[')
                             result += ','
                         result += serialize(item)
                     }
+
                     return `${result}]`
                 }
-                let result:string = '{'
-                for (const key in value)
-                    if (value.hasOwnProperty(key)) {
-                        if (result !== '{')
-                            result += ','
-                        result += `"${key}":${serialize(value[key])}`
-                    }
+
+                let result = '{'
+                for (const key of Object.keys(value)) {
+                    if (result !== '{')
+                        result += ','
+                    result +=
+                        `"${key}":` +
+                        serialize((value as Mapping<unknown>)[key])
+                }
+
                 return `${result}}`
             }
+
             return `${toString(value)}`
         }
-        const errorKey:string =
-            `${errorMessage}#${location.href}#${lineNumber}#${columnNumber}`
+
+        const errorKey =
+            `${errorMessage as string}#${location.href}#` +
+            `${lineNumber as number}#${columnNumber as number}`
         if (!errorHandler.reported[errorKey]) {
             errorHandler.reported[errorKey] = true
             const portPrefix:string = location.port ? `:${location.port}` : ''
@@ -240,7 +246,7 @@ export const errorHandler:ErrorHandler = ((
                             'unclear'
                         )
                     }),
-                    headers: globalContext.Headers ? 
+                    headers: globalContext.Headers ?
                         new globalContext.Headers(headers) :
                         headers,
                     method: 'PUT'
@@ -252,6 +258,7 @@ export const errorHandler:ErrorHandler = ((
     } catch (error) {
         errorHandler.failedHandler(error as Error)
     }
+
     if (typeof errorHandler.callbackBackup === 'function')
         return errorHandler.callbackBackup(
             errorMessage,
@@ -262,11 +269,13 @@ export const errorHandler:ErrorHandler = ((
             ...additionalParameter
         )
 }) as ErrorHandler
+
 errorHandler.location = {
     hostname: 'localhost',
     href: 'http://localhost',
     protocol: 'http'
 }
+
 const onErrorCallbackBackup:NativeErrorHandler|null = globalContext.onerror
 errorHandler.callbackBackup = onErrorCallbackBackup ?
     onErrorCallbackBackup.bind(globalContext) :
@@ -276,10 +285,55 @@ errorHandler.callbackBackup = onErrorCallbackBackup ?
     pollution.
 */
 errorHandler.reported = {}
+
+export const BASE_ISSUE:Issue = {
+    errorMessage: '',
+    technologyDescription: 'Unclear',
+    ua: '',
+
+    engine: {
+        name: '',
+        version: ''
+    },
+    os: {
+        name: '',
+        version: ''
+    }
+}
+
+export let BROWSER_ISSUE:Issue = {...BASE_ISSUE}
+
 try {
-    issue = require('ua-parser-js')() as Issue
-} catch (error) {}
+    BROWSER_ISSUE = {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        ...BROWSER_ISSUE, ...(require('ua-parser-js') as () => Issue)()
+    }
+} catch (error) {
+    // Ignore error.
+}
+try {
+    if (BROWSER_ISSUE.browser) {
+        BROWSER_ISSUE.technologyDescription =
+            `${BROWSER_ISSUE.browser.name} ${BROWSER_ISSUE.browser.major} (` +
+            `${BROWSER_ISSUE.browser.version} | ${BROWSER_ISSUE.engine.name} ` +
+            `${BROWSER_ISSUE.engine.version}) | ${BROWSER_ISSUE.os.name} ` +
+            BROWSER_ISSUE.os.version
+
+        if (
+            BROWSER_ISSUE.device?.model &&
+            BROWSER_ISSUE.device.type &&
+            BROWSER_ISSUE.device.vendor
+        )
+            BROWSER_ISSUE.technologyDescription +=
+                ` | ${BROWSER_ISSUE.device.model} ` +
+                `${BROWSER_ISSUE.device.type} ${BROWSER_ISSUE.device.vendor}`
+    }
+} catch (error) {
+    console.warn(error)
+}
+
 export default errorHandler
+
 // Register extended error handler globally.
 globalContext.onerror = errorHandler
 // region vim modline

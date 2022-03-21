@@ -15,27 +15,32 @@
 */
 // region imports
 import Tools from 'clientnode'
+import {Mapping} from 'clientnode/type'
 
 import {errorHandler, globalContext} from './index'
 import {NativeErrorHandler} from './type'
 // endregion
 describe('errorreporter', ():void => {
     // region mockup
-    let fetchHandlerCall:Array<any> = []
-    globalContext.fetch = ((...parameter:Array<any>):Promise<string> => {
+    let fetchHandlerCall:Array<unknown> = []
+    globalContext.fetch = ((...parameter:Array<unknown>):Promise<string> => {
         fetchHandlerCall = parameter
+
         return Promise.resolve('dummyFetchResult')
     }) as unknown as typeof fetch
-    let failedHandlerCall:Array<any> = []
-    errorHandler.failedHandler = (...parameter:Array<any>):void => {
+
+    let failedHandlerCall:Array<unknown> = []
+    errorHandler.failedHandler = (...parameter:Array<unknown>):void => {
         failedHandlerCall = parameter
     }
-    let reportedHandlerCall:Array<any> = []
-    errorHandler.reportedHandler = (...parameter:Array<any>):void => {
+
+    let reportedHandlerCall:Array<unknown> = []
+    errorHandler.reportedHandler = (...parameter:Array<unknown>):void => {
         reportedHandlerCall = parameter
     }
-    let issueToIgnoreHandlerCall:Array<any> = []
-    errorHandler.issueToIgnoreHandler = (...parameter:Array<any>):void => {
+
+    let issueToIgnoreHandlerCall:Array<unknown> = []
+    errorHandler.issueToIgnoreHandler = (...parameter:Array<unknown>):void => {
         issueToIgnoreHandlerCall = parameter
     }
     errorHandler.issuesToIgnore = []
@@ -43,33 +48,52 @@ describe('errorreporter', ():void => {
     // region tests
     test('errorHandler', async ():Promise<void> => {
         expect(errorHandler.reported).toStrictEqual({})
+
         const callbackBackupBackup:NativeErrorHandler =
             errorHandler.callbackBackup
         errorHandler.callbackBackup = (():4 => 4) as
             unknown as NativeErrorHandler
+
         expect(errorHandler('')).toStrictEqual(4)
+
         errorHandler.callbackBackup = callbackBackupBackup
+
         expect(errorHandler('')).toStrictEqual(false)
         expect(errorHandler('', '', 0, 0, {} as Error)).toStrictEqual(false)
         expect(failedHandlerCall).toHaveLength(0)
         expect(issueToIgnoreHandlerCall).toHaveLength(0)
-        expect(fetchHandlerCall[0].endsWith(errorHandler.reportPath))
+
+        expect(typeof fetchHandlerCall[0]).toStrictEqual('string')
+        expect(
+            (fetchHandlerCall[0] as string).endsWith(errorHandler.reportPath)
+        )
             .toStrictEqual(true)
+
         await Tools.timeout()
+
         expect(reportedHandlerCall[0]).toStrictEqual('dummyFetchResult')
+
         errorHandler.issuesToIgnore = [{errorMessage: /Access is denied/}]
         expect(errorHandler('Access is denied.')).toStrictEqual(false)
-        expect(issueToIgnoreHandlerCall[0].errorMessage)
+        expect(typeof (issueToIgnoreHandlerCall[0] as Mapping).errorMessage)
+            .toStrictEqual('string')
+        expect((issueToIgnoreHandlerCall[0] as Mapping).errorMessage)
             .toStrictEqual('Access is denied.')
+
         errorHandler.issuesToIgnore = [{errorMessage: 'Access is denied.'}]
-        expect(issueToIgnoreHandlerCall[0].errorMessage)
+        expect(typeof (issueToIgnoreHandlerCall[0] as Mapping).errorMessage)
+            .toStrictEqual('string')
+        expect((issueToIgnoreHandlerCall[0] as Mapping).errorMessage)
             .toStrictEqual('Access is denied.')
         expect(errorHandler('Access is denied.')).toStrictEqual(false)
+
         issueToIgnoreHandlerCall = []
         errorHandler.issuesToIgnore = []
         expect(errorHandler('Access is denied.')).toStrictEqual(false)
         expect(issueToIgnoreHandlerCall).toHaveLength(0)
+
         globalContext.fetch = null as unknown as typeof fetch
+
         expect(errorHandler('')).toStrictEqual(false)
         expect(failedHandlerCall).toHaveLength(0)
         expect(errorHandler('a')).toStrictEqual(false)
