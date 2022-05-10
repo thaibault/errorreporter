@@ -52,7 +52,6 @@
   "devDependencies": {
     "@babel/eslint-parser": "*",
     "@babel/plugin-transform-proto-to-assign": "*",
-    "@types/jest": "*",
     "@types/jsdom": "*",
     "@types/node": "*",
     "@types/webpack-env": "*",
