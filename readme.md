@@ -41,8 +41,9 @@ client technology to avoid getting error reports from environments which aren't
 expected.
 
 ```HTML
-<script src="https://torben.website/errorreporter/data/distributionBundle/index.compiled.js">
-</script>
+<script
+    src="https://torben.website/errorreporter/data/distributionBundle/index.compiled.js"
+></script>
 ```
 
 <!-- region vim modline
