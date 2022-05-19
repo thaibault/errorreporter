@@ -29,8 +29,9 @@
   },
   "scripts": {
     "build": "yarn build:types; yarn build:plain",
-    "build:bundle": "yarn build:types; weboptimizer build '{__reference__: \"target:bundle\"}'",
+    "build:bundle": "yarn build:types; yarn build:bundle:plain",
     "build:bundle:compatible": "yarn build:types; weboptimizer build '{__reference__: [\"target:bundle\", \"target:compatible\"]}'",
+    "build:bundle:plain": "weboptimizer build '{__reference__: \"target:bundle\"}'",
     "build:plain": "weboptimizer build",
     "build:types": "weboptimizer build:types",
     "check": "yarn check:types; yarn lint",
