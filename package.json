@@ -29,8 +29,8 @@
   },
   "scripts": {
     "build": "yarn build:types; yarn build:plain",
-    "build:export": "yarn build:types; weboptimizer build '{__reference__: \"target:export\"}'",
-    "build:export:compatible": "yarn build:types; weboptimizer build '{__reference__: [\"target:export\", \"target:compatible\"]}'",
+    "build:bundle": "yarn build:types; weboptimizer build '{__reference__: \"target:bundle\"}'",
+    "build:bundle:compatible": "yarn build:types; weboptimizer build '{__reference__: [\"target:bundle\", \"target:compatible\"]}'",
     "build:plain": "weboptimizer build",
     "build:types": "weboptimizer build:types",
     "check": "yarn check:types; yarn lint",
@@ -38,7 +38,7 @@
     "clear": "weboptimizer clear",
     "document TODO": "weboptimizer document",
     "lint": "weboptimizer lint",
-    "prepare": "yarn build:export:compatible",
+    "prepare": "yarn build:bundle:compatible",
     "serve": "weboptimizer serve",
     "start": "yarn serve",
     "test": "weboptimizer test",
@@ -117,7 +117,7 @@
         }
       }
     },
-    "target:export": {
+    "target:bundle": {
       "module": {
         "preprocessor": {
           "javaScript": {
