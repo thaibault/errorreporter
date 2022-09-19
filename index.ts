@@ -132,9 +132,9 @@ export const errorHandler:ErrorHandler = ((
     try {
         issue.errorMessage = `${errorMessage as string}` || 'Unclear'
         // Checks if given object completely matches given match object.
-        const matches = <I = Issue, IS = IssueSpecification>(
-            issueItem:I, issueItemSpecification:IS
-        ):boolean => {
+        const matches = <
+            I = Issue, IS extends Mapping<unknown> = IssueSpecification
+        >(issueItem:I, issueItemSpecification:IS):boolean => {
             if (
                 Object.prototype.toString.call(issueItemSpecification) ===
                     '[object Object]' &&
@@ -143,9 +143,10 @@ export const errorHandler:ErrorHandler = ((
                 for (const key of Object.keys(issueItemSpecification))
                     if (!(
                         issueItem[key as keyof I] &&
-                        matches<ValueOf<I>, ValueOf<IS>>(
+                        matches<ValueOf<I>, Mapping<unknown>>(
                             issueItem[key as keyof I],
-                            issueItemSpecification[key as keyof IS]
+                            issueItemSpecification[key as keyof IS] as
+                                Mapping<unknown>
                         )
                     ))
                         return false
