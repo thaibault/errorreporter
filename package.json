@@ -39,7 +39,7 @@
     "clear": "weboptimizer clear",
     "document TODO": "weboptimizer document",
     "lint": "weboptimizer lint",
-    "postversion": "yarn publish --non-interactive && git push --tags && git push",
+    "postversion": "yarn publish --non-interactive; git push --tags && git push",
     "prepare": "yarn build:bundle:compatible",
     "serve": "weboptimizer serve",
     "start": "yarn serve",
