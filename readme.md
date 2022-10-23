@@ -18,17 +18,12 @@ Project status
 
 [![<LABEL>](https://github.com/thaibault/errorreporter/actions/workflows/build.yaml/badge.svg)](https://github.com/thaibault/errorreporter/actions/workflows/build.yaml)
 [![<LABEL>](https://github.com/thaibault/errorreporter/actions/workflows/test.yaml/badge.svg)](https://github.com/thaibault/errorreporter/actions/workflows/test.yaml)
-[![<LABEL>](https://github.com/thaibault/errorreporter/actions/workflows/test:coverage:report.yaml/badge.svg)](https://github.com/thaibault/errorreporter/actions/workflows/test:coverage:report.yaml)
-[![<LABEL>](https://github.com/thaibault/errorreporter/actions/workflows/check:types.yaml/badge.svg)](https://github.com/thaibault/errorreporter/actions/workflows/check:types.yaml)
+[![<LABEL>](https://github.com/thaibault/errorreporter/actions/workflows/test-coverage-report.yaml/badge.svg)](https://github.com/thaibault/errorreporter/actions/workflows/test-coverage-report.yaml)
+[![<LABEL>](https://github.com/thaibault/errorreporter/actions/workflows/check-types.yaml/badge.svg)](https://github.com/thaibault/errorreporter/actions/workflows/check-types.yaml)
 [![<LABEL>](https://github.com/thaibault/errorreporter/actions/workflows/lint.yaml/badge.svg)](https://github.com/thaibault/errorreporter/actions/workflows/lint.yaml)
 
 [![code coverage](https://coveralls.io/repos/github/thaibault/errorreporter/badge.svg)](https://coveralls.io/github/thaibault/errorreporter)
 
-<!-- Too unstable yet
-[![dependencies](https://img.shields.io/david/thaibault/errorreporter.svg)](https://david-dm.org/thaibault/errorreporter)
-[![development dependencies](https://img.shields.io/david/dev/thaibault/errorreporter.svg)](https://david-dm.org/thaibault/errorreporter?type=dev)
-[![peer dependencies](https://img.shields.io/david/peer/thaibault/errorreporter.svg)](https://david-dm.org/thaibault/errorreporter?type=peer)
--->
 [![documentation website](https://img.shields.io/website-up-down-green-red/https/torben.website/errorreporter.svg?label=documentation-website)](https://torben.website/errorreporter)
 
 Use case
