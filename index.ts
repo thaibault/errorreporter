@@ -16,13 +16,12 @@
     See https://creativecommons.org/licenses/by/3.0/deed.de
     endregion
 */
-// region imports
-import {Mapping, ValueOf} from 'clientnode/type'
+import {Mapping, ValueOf} from 'clientnode'
 
 import {
     BaseLocation, ErrorHandler, Issue, IssueSpecification, NativeErrorHandler
 } from './type'
-// endregion
+
 export const determineGlobalContext:(() => typeof globalThis) = (
 ):typeof globalThis => {
     if (typeof globalThis === 'undefined') {
@@ -337,7 +336,3 @@ export default errorHandler
 
 // Register extended error handler globally.
 globalContext.onerror = errorHandler
-// region vim modline
-// vim: set tabstop=4 shiftwidth=4 expandtab:
-// vim: foldmethod=marker foldmarker=region,endregion:
-// endregion

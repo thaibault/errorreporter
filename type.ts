@@ -15,9 +15,8 @@
     See https://creativecommons.org/licenses/by/3.0/deed.de
     endregion
 */
-// region imports
-import {Mapping, RecursivePartial} from 'clientnode/type'
-// endregion
+import {Mapping, RecursivePartial} from 'clientnode'
+
 export interface Issue<Type = string> {
     errorMessage:Type
 
