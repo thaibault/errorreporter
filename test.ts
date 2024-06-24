@@ -13,14 +13,12 @@
     See https://creativecommons.org/licenses/by/3.0/deed.de
     endregion
 */
-// region imports
 import {describe, expect, test} from '@jest/globals'
-import Tools from 'clientnode'
-import {Mapping} from 'clientnode/type'
+import {Mapping, timeout} from 'clientnode'
 
 import {errorHandler, globalContext} from './index'
 import {NativeErrorHandler} from './type'
-// endregion
+
 describe('errorreporter', ():void => {
     // region mockup
     let fetchHandlerCall:Array<unknown> = []
@@ -70,7 +68,7 @@ describe('errorreporter', ():void => {
         )
             .toStrictEqual(true)
 
-        await Tools.timeout()
+        await timeout()
 
         expect(reportedHandlerCall[0]).toStrictEqual('dummyFetchResult')
 
@@ -102,7 +100,3 @@ describe('errorreporter', ():void => {
     })
     // endregion
 })
-// region vim modline
-// vim: set tabstop=4 shiftwidth=4 expandtab:
-// vim: foldmethod=marker foldmarker=region,endregion:
-// endregion
