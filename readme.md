@@ -40,8 +40,3 @@ expected.
     src="https://torben.website/errorreporter/data/distributionBundle/index.compiled.js"
 ></script>
 ```
-
-<!-- region vim modline
-vim: set tabstop=4 shiftwidth=4 expandtab:
-vim: foldmethod=marker foldmarker=region,endregion:
-endregion -->
