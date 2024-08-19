@@ -63,7 +63,7 @@ export type NativeErrorHandler = (
     columnNumber?:number,
     error?:Error,
     ...additionalParameter:Array<unknown>
-) => (false|void)
+) => (false|undefined)
 export type ErrorHandler =
     NativeErrorHandler &
     {

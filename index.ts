@@ -47,7 +47,7 @@ export const errorHandler:ErrorHandler = ((
     columnNumber?:number,
     error?:Error,
     ...additionalParameter:Array<unknown>
-):false|void => {
+):false|undefined => {
     const issue:Issue = {...BROWSER_ISSUE}
 
     const location:BaseLocation = globalContext.window?.location ?
