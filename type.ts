@@ -63,13 +63,13 @@ export type NativeErrorHandler = (
     columnNumber?:number,
     error?:Error,
     ...additionalParameter:Array<unknown>
-) => (false|void)
+) => (false|undefined)
 export type ErrorHandler =
     NativeErrorHandler &
     {
         additionalIssuesToIgnore:Array<IssueSpecification>
         callbackBackup:NativeErrorHandler
-        failedHandler:(error:Error) => void
+        failedHandler:(error:unknown) => void
         issuesToIgnore:Array<IssueSpecification>
         issueToIgnoreHandler:(issue:Issue, issueToIgnore:IssueSpecification) =>
             void
