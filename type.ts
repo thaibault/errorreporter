@@ -69,7 +69,7 @@ export type ErrorHandler =
     {
         additionalIssuesToIgnore:Array<IssueSpecification>
         callbackBackup:NativeErrorHandler
-        failedHandler:(error:Error) => void
+        failedHandler:(error:unknown) => void
         issuesToIgnore:Array<IssueSpecification>
         issueToIgnoreHandler:(issue:Issue, issueToIgnore:IssueSpecification) =>
             void

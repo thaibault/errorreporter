@@ -50,9 +50,13 @@ export const errorHandler:ErrorHandler = ((
 ):false|undefined => {
     const issue:Issue = {...BROWSER_ISSUE}
 
-    const location:BaseLocation = globalContext.window?.location ?
-        globalContext.window.location as BaseLocation :
-        errorHandler.location
+    const location:BaseLocation =
+        Object.prototype.hasOwnProperty.call(globalContext, 'window') &&
+        Object.prototype.hasOwnProperty.call(
+            globalContext.window, 'location'
+        ) ?
+            globalContext.window.location as BaseLocation :
+            errorHandler.location
     /*
         Sends an error report to current requested domain via ajax in json
         format. Supported by Chrome 13+, Firefox 6.0+, Internet Explorer 5.5+,
@@ -63,14 +67,14 @@ export const errorHandler:ErrorHandler = ((
         errorHandler.reportPath = '/__error_report__'
 
     // Handler to call if error reporting fails.
-    if (!errorHandler.failedHandler)
-        errorHandler.failedHandler = (error:Error):void => {
+    if (!Object.prototype.hasOwnProperty.call(errorHandler, 'failedHandler'))
+        errorHandler.failedHandler = (error:unknown) => {
             if ('alert' in globalContext)
                 globalContext.alert(error)
         }
 
     // All issues which completely match will be ignored.
-    if (!errorHandler.issuesToIgnore)
+    if (!Object.prototype.hasOwnProperty.call(errorHandler, 'issuesToIgnore'))
         errorHandler.issuesToIgnore = [
             /* eslint-disable max-len */
             {browser: {name: 'IE'}},
@@ -106,7 +110,9 @@ export const errorHandler:ErrorHandler = ((
         )
 
     // Handler to call for browser which should be ignored.
-    if (!errorHandler.issueToIgnoreHandler)
+    if (!Object.prototype.hasOwnProperty.call(
+        errorHandler, 'issueToIgnoreHandler'
+    ))
         errorHandler.issueToIgnoreHandler = (
             issue:Issue, issueToIgnore:IssueSpecification
         ):void => {
@@ -123,13 +129,15 @@ export const errorHandler:ErrorHandler = ((
         }
 
     // Handler to call when error reporting was successful.
-    if (!errorHandler.reportedHandler)
-        errorHandler.reportedHandler = ():void => {
+    if (!Object.prototype.hasOwnProperty.call(
+        errorHandler, 'reportedHandler'
+    ))
+        errorHandler.reportedHandler = () => {
             // Do nothing.
         }
 
     try {
-        issue.errorMessage = `${errorMessage as string}` || 'Unclear'
+        issue.errorMessage = String(errorMessage) || 'Unclear'
         // Checks if given object completely matches given match object.
         const matches = <
             I = Issue, IS extends Mapping<unknown> = IssueSpecification
@@ -158,7 +166,7 @@ export const errorHandler:ErrorHandler = ((
                     '[object RegExp]'
             )
                 return (issueItemSpecification as unknown as RegExp)
-                    .test(`${issueItem as unknown as string}`)
+                    .test(String(issueItem))
 
             return issueItemSpecification as unknown === issueItem as unknown
         }
@@ -179,12 +187,12 @@ export const errorHandler:ErrorHandler = ((
 
         const toString = (value:unknown):string => {
             if (['boolean', 'number'].includes(typeof value) || value === null)
-                return `${value as string}`
+                return String(value)
 
             return '"' +
-                `${value as string}`
+                String(value)
                     .replace(/\\/g, '\\\\')
-                    .replace(/(?:\r\n|\r)/g, '\\n')
+                    .replace(/\r\n|\r/g, '\\n')
                     .replace(/"/g, '\\"') +
                 '"'
         }
@@ -218,13 +226,15 @@ export const errorHandler:ErrorHandler = ((
                 return `${result}}`
             }
 
-            return `${toString(value)}`
+            return String(toString(value))
         }
 
         const errorKey =
             `${errorMessage as string}#${location.href}#` +
-            `${lineNumber as number}#${columnNumber as number}`
-        if (!errorHandler.reported[errorKey]) {
+            `${String(lineNumber)}#${String(columnNumber)}`
+        if (!Object.prototype.hasOwnProperty.call(
+            errorHandler.reported, errorKey
+        )) {
             errorHandler.reported[errorKey] = true
             const portPrefix:string = location.port ? `:${location.port}` : ''
             const headers:Mapping = {'Content-type': 'application/json'}
@@ -242,18 +252,29 @@ export const errorHandler:ErrorHandler = ((
                         technologyDescription: issue.technologyDescription,
                         url: url,
                         userAgent: (
-                            globalContext.window?.navigator?.userAgent ||
-                            'unclear'
+                            Object.prototype.hasOwnProperty.call(
+                                globalContext, 'window'
+                            ) &&
+                            Object.prototype.hasOwnProperty.call(
+                                globalContext.window, 'navigator'
+                            ) &&
+                            globalContext.window.navigator.userAgent ?
+                                globalContext.window.navigator.userAgent :
+                                'unclear'
                         )
                     }),
-                    headers: globalContext.Headers ?
+                    headers: Object.prototype.hasOwnProperty.call(
+                        globalContext, 'Headers'
+                    ) ?
                         new globalContext.Headers(headers) :
                         headers,
                     method: 'PUT'
                 }
             )
                 .then(errorHandler.reportedHandler)
-                .catch(errorHandler.failedHandler)
+                .catch((error:unknown) => {
+                    errorHandler.failedHandler(error as Error)
+                })
         }
     } catch (error) {
         errorHandler.failedHandler(error as Error)
@@ -305,10 +326,10 @@ export let BROWSER_ISSUE:Issue = {...BASE_ISSUE}
 
 try {
     BROWSER_ISSUE = {
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
         ...BROWSER_ISSUE, ...(require('ua-parser-js') as () => Issue)()
     }
-} catch (error) {
+} catch (_error) {
     // Ignore error.
 }
 try {
