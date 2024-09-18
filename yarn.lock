@@ -2721,18 +2721,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@stylistic/eslint-plugin@npm:^2.8.0":
+"@stylistic/eslint-plugin-ts@npm:^2.8.0":
   version: 2.8.0
-  resolution: "@stylistic/eslint-plugin@npm:2.8.0"
+  resolution: "@stylistic/eslint-plugin-ts@npm:2.8.0"
   dependencies:
     "@typescript-eslint/utils": "npm:^8.4.0"
     eslint-visitor-keys: "npm:^4.0.0"
     espree: "npm:^10.1.0"
-    estraverse: "npm:^5.3.0"
-    picomatch: "npm:^4.0.2"
   peerDependencies:
     eslint: ">=8.40.0"
-  checksum: 10c0/e85fc3ecad6df8b18e4c8e25ae4dfb330565efe5b91176fa84ec0fb636f07b1efa75eddc91fb36d146fc983a3538efc294f04d4b5636b3a708da123c70470671
+  checksum: 10c0/74cfa44933ca39431d96cb6e7d13e5277c2aabbfeb49c017757feaf78827327f34d6047021c8ad258d89bf756922b3bcc4563b3040a3859c44044269aecc25a8
   languageName: node
   linkType: hard
 
@@ -5984,7 +5982,7 @@ __metadata:
     "@babel/eslint-parser": "npm:^7.25.1"
     "@babel/plugin-transform-proto-to-assign": "npm:^7.24.7"
     "@babel/runtime": "npm:^7.25.6"
-    "@stylistic/eslint-plugin": "npm:^2.8.0"
+    "@stylistic/eslint-plugin-ts": "npm:^2.8.0"
     "@types/jsdom": "npm:^21.1.7"
     "@types/node": "npm:^22.5.5"
     "@types/webpack-env": "npm:^1.18.5"
@@ -6271,7 +6269,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"estraverse@npm:^5.1.0, estraverse@npm:^5.2.0, estraverse@npm:^5.3.0":
+"estraverse@npm:^5.1.0, estraverse@npm:^5.2.0":
   version: 5.3.0
   resolution: "estraverse@npm:5.3.0"
   checksum: 10c0/1ff9447b96263dec95d6d67431c5e0771eb9776427421260a3e2f0fdd5d6bd4f8e37a7338f5ad2880c9f143450c9b1e4fc2069060724570a49cf9cf0312bd107
@@ -9548,13 +9546,6 @@ __metadata:
   version: 2.3.1
   resolution: "picomatch@npm:2.3.1"
   checksum: 10c0/26c02b8d06f03206fc2ab8d16f19960f2ff9e81a658f831ecb656d8f17d9edc799e8364b1f4a7873e89d9702dff96204be0fa26fe4181f6843f040f819dac4be
-  languageName: node
-  linkType: hard
-
-"picomatch@npm:^4.0.2":
-  version: 4.0.2
-  resolution: "picomatch@npm:4.0.2"
-  checksum: 10c0/7c51f3ad2bb42c776f49ebf964c644958158be30d0a510efd5a395e8d49cb5acfed5b82c0c5b365523ce18e6ab85013c9ebe574f60305892ec3fa8eee8304ccc
   languageName: node
   linkType: hard
 
