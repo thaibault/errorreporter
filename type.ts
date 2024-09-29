@@ -18,63 +18,64 @@
 import {Mapping, RecursivePartial} from 'clientnode'
 
 export interface Issue<Type = string> {
-    errorMessage:Type
+    errorMessage: Type
 
-    technologyDescription:Type
-    ua:Type
+    technologyDescription: Type
+    ua: Type
 
-    browser?:{
-        name:Type
-        version:Type
-        major:Type
+    browser?: {
+        name: Type
+        version: Type
+        major: Type
     }
-    cpu?:{
-        architecture:Type
+    cpu?: {
+        architecture: Type
     }
-    device?:{
-        model?:Type
-        type?:Type
-        vendor?:Type
+    device?: {
+        model?: Type
+        type?: Type
+        vendor?: Type
     }
-    engine:{
-        name:Type
-        version:Type
+    engine: {
+        name: Type
+        version: Type
     }
-    os:{
-        name:Type
-        version:Type
+    os: {
+        name: Type
+        version: Type
     }
 }
 
 
 export interface BaseLocation {
-    hostname:string
-    href:string
-    port?:string
-    protocol:string
+    hostname: string
+    href: string
+    port?: string
+    protocol: string
 }
 
 export type IssueSpecification<Type = null|RegExp|string> =
     RecursivePartial<Issue<Type>>
 export type NativeErrorHandler = (
-    errorMessage:Event|string,
-    url?:string,
-    lineNumber?:number,
-    columnNumber?:number,
-    error?:Error,
-    ...additionalParameter:Array<unknown>
+    errorMessage: Event|string,
+    url?: string,
+    lineNumber?: number,
+    columnNumber?: number,
+    error?: Error,
+    ...additionalParameter: Array<unknown>
 ) => (false|undefined)
 export type ErrorHandler =
     NativeErrorHandler &
     {
-        additionalIssuesToIgnore:Array<IssueSpecification>
-        callbackBackup:NativeErrorHandler
-        failedHandler:(error:unknown) => void
-        issuesToIgnore:Array<IssueSpecification>
-        issueToIgnoreHandler:(issue:Issue, issueToIgnore:IssueSpecification) =>
-            void
-        location:BaseLocation
-        reported:Mapping<true>
-        reportedHandler:(response:Response) => Promise<void>|void
-        reportPath:string
+        additionalIssuesToIgnore: Array<IssueSpecification>
+        callbackBackup: NativeErrorHandler
+        failedHandler: (error: unknown) => void
+        issuesToIgnore: Array<IssueSpecification>
+        issueToIgnoreHandler: (
+            issue: Issue, issueToIgnore: IssueSpecification
+        ) => void
+        location: BaseLocation
+        reported: Mapping<true>
+        reportedHandler: (response: Response) => Promise<void>|void
+        reportPath: string
     }

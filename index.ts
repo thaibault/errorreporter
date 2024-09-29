@@ -22,8 +22,8 @@ import {
     BaseLocation, ErrorHandler, Issue, IssueSpecification, NativeErrorHandler
 } from './type'
 
-export const determineGlobalContext:(() => typeof globalThis) = (
-):typeof globalThis => {
+export const determineGlobalContext: (() => typeof globalThis) = (
+): typeof globalThis => {
     if (typeof globalThis === 'undefined') {
         if (typeof window === 'undefined') {
             if (typeof global === 'undefined')
@@ -38,19 +38,19 @@ export const determineGlobalContext:(() => typeof globalThis) = (
     return globalThis as unknown as typeof globalThis
 }
 
-export const globalContext:typeof globalThis = determineGlobalContext()
+export const globalContext: typeof globalThis = determineGlobalContext()
 
-export const errorHandler:ErrorHandler = ((
-    errorMessage:Event|string,
-    url?:string,
-    lineNumber?:number,
-    columnNumber?:number,
-    error?:Error,
-    ...additionalParameter:Array<unknown>
-):false|undefined => {
-    const issue:Issue = {...BROWSER_ISSUE}
+export const errorHandler: ErrorHandler = ((
+    errorMessage: Event|string,
+    url?: string,
+    lineNumber?: number,
+    columnNumber?: number,
+    error?: Error,
+    ...additionalParameter: Array<unknown>
+): false|undefined => {
+    const issue: Issue = {...BROWSER_ISSUE}
 
-    const location:BaseLocation =
+    const location: BaseLocation =
         Object.prototype.hasOwnProperty.call(globalContext, 'window') &&
         Object.prototype.hasOwnProperty.call(
             globalContext.window, 'location'
@@ -68,7 +68,7 @@ export const errorHandler:ErrorHandler = ((
 
     // Handler to call if error reporting fails.
     if (!Object.prototype.hasOwnProperty.call(errorHandler, 'failedHandler'))
-        errorHandler.failedHandler = (error:unknown) => {
+        errorHandler.failedHandler = (error: unknown) => {
             if ('alert' in globalContext)
                 globalContext.alert(error)
         }
@@ -114,8 +114,8 @@ export const errorHandler:ErrorHandler = ((
         errorHandler, 'issueToIgnoreHandler'
     ))
         errorHandler.issueToIgnoreHandler = (
-            issue:Issue, issueToIgnore:IssueSpecification
-        ):void => {
+            issue: Issue, issueToIgnore: IssueSpecification
+        ) => {
             /*
                 We should avoid error message if a specific error message
                 should be ignored.
@@ -141,7 +141,7 @@ export const errorHandler:ErrorHandler = ((
         // Checks if given object completely matches given match object.
         const matches = <
             I = Issue, IS extends Mapping<unknown> = IssueSpecification
-        >(issueItem:I, issueItemSpecification:IS):boolean => {
+        >(issueItem: I, issueItemSpecification: IS): boolean => {
             if (
                 Object.prototype.toString.call(issueItemSpecification) ===
                     '[object Object]' &&
@@ -185,7 +185,7 @@ export const errorHandler:ErrorHandler = ((
                     )
             }
 
-        const toString = (value:unknown):string => {
+        const toString = (value: unknown): string => {
             if (['boolean', 'number'].includes(typeof value) || value === null)
                 return String(value)
 
@@ -197,7 +197,7 @@ export const errorHandler:ErrorHandler = ((
                 '"'
         }
 
-        const serialize = (value:unknown):string => {
+        const serialize = (value: unknown): string => {
             if (
                 value !== null &&
                 typeof value === 'object' &&
@@ -236,8 +236,8 @@ export const errorHandler:ErrorHandler = ((
             errorHandler.reported, errorKey
         )) {
             errorHandler.reported[errorKey] = true
-            const portPrefix:string = location.port ? `:${location.port}` : ''
-            const headers:Mapping = {'Content-type': 'application/json'}
+            const portPrefix = location.port ? `: ${location.port}` : ''
+            const headers = {'Content-type': 'application/json'}
             globalContext.fetch(
                 `${location.protocol}//${location.hostname}${portPrefix}` +
                 errorHandler.reportPath,
@@ -272,7 +272,7 @@ export const errorHandler:ErrorHandler = ((
                 }
             )
                 .then(errorHandler.reportedHandler)
-                .catch((error:unknown) => {
+                .catch((error: unknown) => {
                     errorHandler.failedHandler(error as Error)
                 })
         }
@@ -297,17 +297,17 @@ errorHandler.location = {
     protocol: 'http'
 }
 
-const onErrorCallbackBackup:NativeErrorHandler|null = globalContext.onerror
+const onErrorCallbackBackup: NativeErrorHandler|null = globalContext.onerror
 errorHandler.callbackBackup = onErrorCallbackBackup ?
     onErrorCallbackBackup.bind(globalContext) :
-    ():false => false
+    () => false
 /*
     Bound reported errors to globale error handler to avoid global variable
     pollution.
 */
 errorHandler.reported = {}
 
-export const BASE_ISSUE:Issue = {
+export const BASE_ISSUE: Issue = {
     errorMessage: '',
     technologyDescription: 'Unclear',
     ua: '',
@@ -322,7 +322,7 @@ export const BASE_ISSUE:Issue = {
     }
 }
 
-export let BROWSER_ISSUE:Issue = {...BASE_ISSUE}
+export let BROWSER_ISSUE: Issue = {...BASE_ISSUE}
 
 try {
     BROWSER_ISSUE = {

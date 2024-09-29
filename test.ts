@@ -19,38 +19,38 @@ import {Mapping, timeout} from 'clientnode'
 import {errorHandler, globalContext} from './index'
 import {NativeErrorHandler} from './type'
 
-describe('errorreporter', ():void => {
+describe('errorreporter', (): void => {
     // region mockup
-    let fetchHandlerCall:Array<unknown> = []
-    globalContext.fetch = ((...parameter:Array<unknown>):Promise<string> => {
+    let fetchHandlerCall: Array<unknown> = []
+    globalContext.fetch = ((...parameter: Array<unknown>): Promise<string> => {
         fetchHandlerCall = parameter
 
         return Promise.resolve('dummyFetchResult')
     }) as unknown as typeof fetch
 
-    let failedHandlerCall:Array<unknown> = []
-    errorHandler.failedHandler = (...parameter:Array<unknown>):void => {
+    let failedHandlerCall: Array<unknown> = []
+    errorHandler.failedHandler = (...parameter: Array<unknown>) => {
         failedHandlerCall = parameter
     }
 
-    let reportedHandlerCall:Array<unknown> = []
-    errorHandler.reportedHandler = (...parameter:Array<unknown>):void => {
+    let reportedHandlerCall: Array<unknown> = []
+    errorHandler.reportedHandler = (...parameter: Array<unknown>) => {
         reportedHandlerCall = parameter
     }
 
-    let issueToIgnoreHandlerCall:Array<unknown> = []
-    errorHandler.issueToIgnoreHandler = (...parameter:Array<unknown>):void => {
+    let issueToIgnoreHandlerCall: Array<unknown> = []
+    errorHandler.issueToIgnoreHandler = (...parameter: Array<unknown>) => {
         issueToIgnoreHandlerCall = parameter
     }
     errorHandler.issuesToIgnore = []
     // endregion
     // region tests
-    test('errorHandler', async ():Promise<void> => {
+    test('errorHandler', async (): Promise<void> => {
         expect(errorHandler.reported).toStrictEqual({})
 
-        const callbackBackupBackup:NativeErrorHandler =
+        const callbackBackupBackup: NativeErrorHandler =
             errorHandler.callbackBackup
-        errorHandler.callbackBackup = (():4 => 4) as
+        errorHandler.callbackBackup = (() => 4) as
             unknown as NativeErrorHandler
 
         expect(errorHandler('')).toStrictEqual(4)
