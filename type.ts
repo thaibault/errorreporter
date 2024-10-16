@@ -54,16 +54,16 @@ export interface BaseLocation {
     protocol: string
 }
 
-export type IssueSpecification<Type = null|RegExp|string> =
+export type IssueSpecification<Type = null | RegExp | string> =
     RecursivePartial<Issue<Type>>
 export type NativeErrorHandler = (
-    errorMessage: Event|string,
+    errorMessage: Event | string,
     url?: string,
     lineNumber?: number,
     columnNumber?: number,
     error?: Error,
     ...additionalParameter: Array<unknown>
-) => (false|undefined)
+) => (false | undefined)
 export type ErrorHandler =
     NativeErrorHandler &
     {
@@ -76,6 +76,6 @@ export type ErrorHandler =
         ) => void
         location: BaseLocation
         reported: Mapping<true>
-        reportedHandler: (response: Response) => Promise<void>|void
+        reportedHandler: (response: Response) => Promise<void> | void
         reportPath: string
     }
