@@ -41,13 +41,13 @@ export const determineGlobalContext: (() => typeof globalThis) = (
 export const globalContext: typeof globalThis = determineGlobalContext()
 
 export const errorHandler: ErrorHandler = ((
-    errorMessage: Event|string,
+    errorMessage: Event | string,
     url?: string,
     lineNumber?: number,
     columnNumber?: number,
     error?: Error,
     ...additionalParameter: Array<unknown>
-): false|undefined => {
+): false | undefined => {
     const issue: Issue = {...BROWSER_ISSUE}
 
     const location: BaseLocation =
@@ -297,7 +297,7 @@ errorHandler.location = {
     protocol: 'http'
 }
 
-const onErrorCallbackBackup: NativeErrorHandler|null = globalContext.onerror
+const onErrorCallbackBackup: NativeErrorHandler | null = globalContext.onerror
 errorHandler.callbackBackup = onErrorCallbackBackup ?
     onErrorCallbackBackup.bind(globalContext) :
     () => false
