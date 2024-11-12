@@ -329,7 +329,7 @@ try {
         // eslint-disable-next-line @typescript-eslint/no-require-imports
         ...BROWSER_ISSUE, ...(require('ua-parser-js') as () => Issue)()
     }
-} catch (_error) {
+} catch {
     // Ignore error.
 }
 try {
