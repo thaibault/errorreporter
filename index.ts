@@ -137,7 +137,7 @@ export const errorHandler: ErrorHandler = ((
         }
 
     try {
-        issue.errorMessage = String(errorMessage) || 'Unclear'
+        issue.errorMessage = String(errorMessage as string) || 'Unclear'
         // Checks if given object completely matches given match object.
         const matches = <
             I = Issue, IS extends Mapping<unknown> = IssueSpecification
