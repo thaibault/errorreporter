@@ -190,7 +190,7 @@ export const errorHandler: ErrorHandler = ((
                 return String(value)
 
             return '"' +
-                String(value)
+                String(value as string)
                     .replace(/\\/g, '\\\\')
                     .replace(/\r\n|\r/g, '\\n')
                     .replace(/"/g, '\\"') +
