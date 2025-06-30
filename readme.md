@@ -25,6 +25,7 @@ Project status
 
 [![code coverage](https://img.shields.io/coverallsCoverage/github/thaibault/errorreporter?label=code%20coverage&style=for-the-badge)](https://coveralls.io/github/thaibault/errorreporter)
 
+[![deploy documentation website](https://img.shields.io/github/actions/workflow/status/thaibault/errorreporter/deploy-documentation-website.yaml?label=deploy%20documentation%20website&style=for-the-badge)](https://github.com/thaibault/errorreporter/actions/workflows/deploy-documentation-website.yaml)
 [![documentation website](https://img.shields.io/website-up-down-green-red/https/torben.website/errorreporter.svg?label=documentation-website&style=for-the-badge)](https://torben.website/errorreporter)
 
 Use case
