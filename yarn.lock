@@ -2954,12 +2954,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^24.0.7":
-  version: 24.0.7
-  resolution: "@types/node@npm:24.0.7"
+"@types/node@npm:^24.0.8":
+  version: 24.0.8
+  resolution: "@types/node@npm:24.0.8"
   dependencies:
     undici-types: "npm:~7.8.0"
-  checksum: 10c0/be3849816dafc54ec79e6be6dafcf60bdb6466beaf0081b941142d260e2b2864855210dfe5b4395c59b276468528695aefcf4f060ac95cc433b2968e80a311f9
+  checksum: 10c0/afc014193a1a58f545be023bd63a47639f09fddcaaf1ce271ae1b0f700d422aae425f453a8f428d98f772e08cc9bc54815da2b46ace2d1d4362f657c4172065f
   languageName: node
   linkType: hard
 
@@ -5141,9 +5141,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30000844, caniuse-lite@npm:^1.0.30001587, caniuse-lite@npm:^1.0.30001663, caniuse-lite@npm:^1.0.30001688":
-  version: 1.0.30001721
-  resolution: "caniuse-lite@npm:1.0.30001721"
-  checksum: 10c0/fa3a8926899824b385279f1f886fe34c5efb1321c9ece1b9df25c8d567a2706db8450cc5b4d969e769e641593e08ea644909324aba93636a43e4949a75f81c4c
+  version: 1.0.30001726
+  resolution: "caniuse-lite@npm:1.0.30001726"
+  checksum: 10c0/2c5f91da7fd9ebf8c6b432818b1498ea28aca8de22b30dafabe2a2a6da1e014f10e67e14f8e68e872a0867b6b4cd6001558dde04e3ab9770c9252ca5c8849d0e
   languageName: node
   linkType: hard
 
@@ -6057,7 +6057,7 @@ __metadata:
     "@babel/runtime": "npm:^7.27.6"
     "@stylistic/eslint-plugin": "npm:^5.1.0"
     "@types/jsdom": "npm:^21.1.7"
-    "@types/node": "npm:^24.0.7"
+    "@types/node": "npm:^24.0.8"
     "@types/webpack-env": "npm:^1.18.8"
     "@typescript-eslint/eslint-plugin": "npm:^8.35.1"
     "@typescript-eslint/parser": "npm:^8.35.1"
@@ -6071,7 +6071,7 @@ __metadata:
     node-fetch: "npm:^3.3.2"
     typescript-eslint: "npm:^8.35.1"
     ua-parser-js: "npm:^2.0.4"
-    weboptimizer: "npm:^2.0.1592"
+    weboptimizer: "npm:^2.0.1593"
     webpack-dev-server: "npm:^5.2.2"
   peerDependencies:
     "@babel/runtime": "*"
@@ -11489,9 +11489,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"weboptimizer@npm:^2.0.1592":
-  version: 2.0.1592
-  resolution: "weboptimizer@npm:2.0.1592"
+"weboptimizer@npm:^2.0.1593":
+  version: 2.0.1593
+  resolution: "weboptimizer@npm:2.0.1593"
   dependencies:
     "@babel/core": "npm:^7.27.7"
     "@babel/plugin-proposal-class-properties": "npm:^7.18.6"
@@ -11631,7 +11631,7 @@ __metadata:
       optional: true
   bin:
     weboptimizer: index.js
-  checksum: 10c0/72e8b1ad5d5cafb0f26599609a082ba5788837b758048673c8ebb26774c0faa20d4455dea4ce4af1af652fa9f6c4f839b6611a39b396a0410cb83d66bed8a184
+  checksum: 10c0/2d5ab4814c4af7f7c8bf21aa3af47cf44890685d017b77cd71b69a018b2d75219e943b22f841dbc51be8fe5b8ca766366be894d7b0ff50e4c9f9bb515f7825a2
   languageName: node
   linkType: hard
 
