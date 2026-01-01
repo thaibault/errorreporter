@@ -16,7 +16,7 @@
     See https://creativecommons.org/licenses/by/3.0/deed.de
     endregion
 */
-import {Mapping, ValueOf} from 'clientnode'
+import {Mapping, Primitive, ValueOf} from 'clientnode'
 
 import {
     BaseLocation, ErrorHandler, Issue, IssueSpecification, NativeErrorHandler
@@ -58,7 +58,7 @@ export const errorHandler: ErrorHandler = ((
             globalContext.window.location as BaseLocation :
             errorHandler.location
     /*
-        Sends an error report to current requested domain via ajax in json
+        Sends an error report to current requested domain via ajax in JSON
         format. Supported by Chrome 13+, Firefox 6.0+, Internet Explorer 5.5+,
         Opera 11.60+, Safari 5.1+
     */
@@ -137,7 +137,7 @@ export const errorHandler: ErrorHandler = ((
         }
 
     try {
-        issue.errorMessage = String(errorMessage as string) || 'Unclear'
+        issue.errorMessage = String(errorMessage as Primitive) || 'Unclear'
         // Checks if given object completely matches given match object.
         const matches = <
             I = Issue, IS extends Mapping<unknown> = IssueSpecification
@@ -190,7 +190,7 @@ export const errorHandler: ErrorHandler = ((
                 return String(value)
 
             return '"' +
-                String(value as string)
+                String(value as Primitive)
                     .replace(/\\/g, '\\\\')
                     .replace(/\r\n|\r/g, '\\n')
                     .replace(/"/g, '\\"') +
@@ -226,7 +226,7 @@ export const errorHandler: ErrorHandler = ((
                 return `${result}}`
             }
 
-            return String(toString(value))
+            return toString(value)
         }
 
         const errorKey =
