@@ -16,7 +16,7 @@
     See https://creativecommons.org/licenses/by/3.0/deed.de
     endregion
 */
-import {Mapping, Primitive, ValueOf} from 'clientnode'
+import {Mapping, Primitive} from 'clientnode'
 
 import {
     BaseLocation, ErrorHandler, Issue, IssueSpecification, NativeErrorHandler
@@ -150,7 +150,7 @@ export const errorHandler: ErrorHandler = ((
                 for (const key of Object.keys(issueItemSpecification))
                     if (!(
                         issueItem[key as keyof I] &&
-                        matches<ValueOf<I>, Mapping<unknown>>(
+                        matches(
                             issueItem[key as keyof I],
                             issueItemSpecification[key as keyof IS] as
                                 Mapping<unknown>
