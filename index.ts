@@ -16,7 +16,7 @@
     See https://creativecommons.org/licenses/by/3.0/deed.de
     endregion
 */
-import {Mapping, Primitive} from 'clientnode'
+import {Mapping} from 'clientnode'
 
 import {
     BaseLocation, ErrorHandler, Issue, IssueSpecification, NativeErrorHandler
@@ -31,11 +31,11 @@ export const determineGlobalContext: (() => typeof globalThis) = (
                     typeof globalThis
             if ('window' in global)
                 return global.window
-            return global as unknown as typeof globalThis
+            return global
         }
-        return window as unknown as typeof globalThis
+        return window
     }
-    return globalThis as unknown as typeof globalThis
+    return globalThis
 }
 
 export const globalContext: typeof globalThis = determineGlobalContext()
@@ -55,7 +55,7 @@ export const errorHandler: ErrorHandler = ((
         Object.prototype.hasOwnProperty.call(
             globalContext.window, 'location'
         ) ?
-            globalContext.window.location as BaseLocation :
+            globalContext.window.location :
             errorHandler.location
     /*
         Sends an error report to current requested domain via ajax in JSON
@@ -137,7 +137,8 @@ export const errorHandler: ErrorHandler = ((
         }
 
     try {
-        issue.errorMessage = String(errorMessage as Primitive) || 'Unclear'
+        // eslint-disable-next-line @typescript-eslint/no-base-to-string
+        issue.errorMessage = String(errorMessage) || 'Unclear'
         // Checks if given object completely matches given match object.
         const matches = <
             I = Issue, IS extends Mapping<unknown> = IssueSpecification
@@ -190,7 +191,9 @@ export const errorHandler: ErrorHandler = ((
                 return String(value)
 
             return '"' +
-                String(value as Primitive)
+                /* eslint-disable @typescript-eslint/no-base-to-string */
+                String(value)
+                /* eslint-enable @typescript-eslint/no-base-to-string */
                     .replace(/\\/g, '\\\\')
                     .replace(/\r\n|\r/g, '\\n')
                     .replace(/"/g, '\\"') +
@@ -273,11 +276,11 @@ export const errorHandler: ErrorHandler = ((
             )
                 .then(errorHandler.reportedHandler)
                 .catch((error: unknown) => {
-                    errorHandler.failedHandler(error as Error)
+                    errorHandler.failedHandler(error)
                 })
         }
     } catch (error) {
-        errorHandler.failedHandler(error as Error)
+        errorHandler.failedHandler(error)
     }
 
     if (typeof errorHandler.callbackBackup === 'function')
