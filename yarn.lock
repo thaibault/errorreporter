@@ -5830,7 +5830,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"clientnode@npm:4.0.1387, clientnode@npm:^4.0.1387":
+"clientnode@npm:4.0.1387":
   version: 4.0.1387
   resolution: "clientnode@npm:4.0.1387"
   peerDependencies:
@@ -5848,6 +5848,27 @@ __metadata:
     prop-types:
       optional: true
   checksum: 10c0/bbc067fe3d3893e1820fc66d3022975d0ca206363cec2e338371bd471ca882efc53d66510f2a24a1b487098a80ada87df0a230022c396de9f86f2fb8949733c7
+  languageName: node
+  linkType: hard
+
+"clientnode@npm:^4.0.1388":
+  version: 4.0.1388
+  resolution: "clientnode@npm:4.0.1388"
+  peerDependencies:
+    "@babel/runtime": "*"
+    "@types/prop-types": "*"
+    node-fetch: "*"
+    prop-types: "*"
+  peerDependenciesMeta:
+    "@babel/runtime":
+      optional: true
+    "@types/prop-types":
+      optional: true
+    node-fetch:
+      optional: true
+    prop-types:
+      optional: true
+  checksum: 10c0/d2fb843201725769a849a19a2c39da710dbc7addc80a26a0511716aaf0ad41b8747e1ad1de1d179ac0502b938017b462de42b9a33b0102b50ec4cf7cf8a24647
   languageName: node
   linkType: hard
 
@@ -6600,7 +6621,7 @@ __metadata:
     "@types/webpack-env": "npm:^1.18.8"
     "@typescript-eslint/eslint-plugin": "npm:^8.59.0"
     "@typescript-eslint/parser": "npm:^8.59.0"
-    clientnode: "npm:^4.0.1387"
+    clientnode: "npm:^4.0.1388"
     eslint: "npm:^10.2.1"
     eslint-config-google: "npm:^0.14.0"
     eslint-plugin-jsdoc: "npm:^62.9.0"
@@ -6609,7 +6630,7 @@ __metadata:
     node-fetch: "npm:^3.3.2"
     typescript-eslint: "npm:^8.59.0"
     ua-parser-js: "npm:^2.0.9"
-    web-documentation: "npm:^1.0.2"
+    web-documentation: "npm:^1.0.3"
     weboptimizer: "npm:^3.0.22"
     webpack-dev-server: "npm:^5.2.3"
   peerDependencies:
@@ -12165,12 +12186,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"web-documentation@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "web-documentation@npm:1.0.2"
+"web-documentation@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "web-documentation@npm:1.0.3"
   bin:
     web-documentation: build/deploy.js
-  checksum: 10c0/e95ffd9e7ffefa0f8b1b44161079c21b6dcf80ae16343dbc63452430c6768cf3cee09f2039c4cf4672b811bc884231cc02b193c4f0d6d37174af53627d6d1aa5
+  checksum: 10c0/e7bc74c495f5f0c4d1496186868478b4d86a10ee02f23f8b81a1a36340b49fc44983cc50dcb5976bd42f765236eb166ec9536129e9b9b88e536d9e0cb5917472
   languageName: node
   linkType: hard
 
