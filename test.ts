@@ -17,7 +17,6 @@ import {describe, expect, test} from '@jest/globals'
 import {Mapping, timeout} from 'clientnode'
 
 import {errorHandler, globalContext} from './index'
-import {NativeErrorHandler} from './type'
 
 describe('errorreporter', (): void => {
     // region mockup
@@ -48,17 +47,8 @@ describe('errorreporter', (): void => {
     test('errorHandler', async (): Promise<void> => {
         expect(errorHandler.reported).toStrictEqual({})
 
-        const callbackBackupBackup: NativeErrorHandler =
-            errorHandler.callbackBackup
-        errorHandler.callbackBackup = (() => 4) as
-            unknown as NativeErrorHandler
-
-        expect(errorHandler('')).toStrictEqual(4)
-
-        errorHandler.callbackBackup = callbackBackupBackup
-
-        expect(errorHandler('')).toStrictEqual(false)
-        expect(errorHandler('', '', 0, 0, {} as Error)).toStrictEqual(false)
+        expect(errorHandler('')).toBeUndefined()
+        expect(errorHandler('', '', 0, 0, {} as Error)).toBeUndefined()
         expect(failedHandlerCall).toHaveLength(0)
         expect(issueToIgnoreHandlerCall).toHaveLength(0)
 
@@ -73,7 +63,7 @@ describe('errorreporter', (): void => {
         expect(reportedHandlerCall[0]).toStrictEqual('dummyFetchResult')
 
         errorHandler.issuesToIgnore = [{errorMessage: /Access is denied/}]
-        expect(errorHandler('Access is denied.')).toStrictEqual(false)
+        expect(errorHandler('Access is denied.')).toBeUndefined()
         expect(typeof (issueToIgnoreHandlerCall[0] as Mapping).errorMessage)
             .toStrictEqual('string')
         expect((issueToIgnoreHandlerCall[0] as Mapping).errorMessage)
@@ -84,18 +74,18 @@ describe('errorreporter', (): void => {
             .toStrictEqual('string')
         expect((issueToIgnoreHandlerCall[0] as Mapping).errorMessage)
             .toStrictEqual('Access is denied.')
-        expect(errorHandler('Access is denied.')).toStrictEqual(false)
+        expect(errorHandler('Access is denied.')).toBeUndefined()
 
         issueToIgnoreHandlerCall = []
         errorHandler.issuesToIgnore = []
-        expect(errorHandler('Access is denied.')).toStrictEqual(false)
+        expect(errorHandler('Access is denied.')).toBeUndefined()
         expect(issueToIgnoreHandlerCall).toHaveLength(0)
 
         globalContext.fetch = null as unknown as typeof fetch
 
-        expect(errorHandler('')).toStrictEqual(false)
+        expect(errorHandler('')).toBeUndefined()
         expect(failedHandlerCall).toHaveLength(0)
-        expect(errorHandler('a')).toStrictEqual(false)
+        expect(errorHandler('a')).toBeUndefined()
         expect(failedHandlerCall[0]).toBeInstanceOf(Error)
     })
     // endregion

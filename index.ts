@@ -18,9 +18,7 @@
 */
 import {Mapping} from 'clientnode'
 
-import {
-    BaseLocation, ErrorHandler, Issue, IssueSpecification, NativeErrorHandler
-} from './type'
+import {BaseLocation, ErrorHandler, Issue, IssueSpecification} from './type'
 
 export const determineGlobalContext: (() => typeof globalThis) = (
 ): typeof globalThis => {
@@ -29,12 +27,16 @@ export const determineGlobalContext: (() => typeof globalThis) = (
             if (typeof global === 'undefined')
                 return ((typeof module === 'undefined') ? {} : module) as
                     typeof globalThis
+
             if ('window' in global)
                 return global.window
+
             return global
         }
+
         return window
     }
+
     return globalThis
 }
 
@@ -46,8 +48,8 @@ export const errorHandler: ErrorHandler = ((
     lineNumber?: number,
     columnNumber?: number,
     error?: Error,
-    ...additionalParameter: Array<unknown>
-): false | undefined => {
+    ..._additionalParameter: Array<unknown>
+): void => {
     const issue: Issue = {...BROWSER_ISSUE}
 
     const location: BaseLocation =
@@ -173,18 +175,8 @@ export const errorHandler: ErrorHandler = ((
         }
 
         for (const issueToIgnore of errorHandler.issuesToIgnore)
-            if (matches(issue, issueToIgnore)) {
+            if (matches(issue, issueToIgnore))
                 errorHandler.issueToIgnoreHandler(issue, issueToIgnore)
-                if (typeof errorHandler.callbackBackup === 'function')
-                    return errorHandler.callbackBackup(
-                        errorMessage,
-                        url,
-                        lineNumber,
-                        columnNumber,
-                        error,
-                        ...additionalParameter
-                    )
-            }
 
         const toString = (value: unknown): string => {
             if (['boolean', 'number'].includes(typeof value) || value === null)
@@ -282,16 +274,6 @@ export const errorHandler: ErrorHandler = ((
     } catch (error) {
         errorHandler.failedHandler(error)
     }
-
-    if (typeof errorHandler.callbackBackup === 'function')
-        return errorHandler.callbackBackup(
-            errorMessage,
-            url,
-            lineNumber,
-            columnNumber,
-            error,
-            ...additionalParameter
-        )
 }) as ErrorHandler
 
 errorHandler.location = {
@@ -300,10 +282,6 @@ errorHandler.location = {
     protocol: 'http'
 }
 
-const onErrorCallbackBackup: NativeErrorHandler | null = globalContext.onerror
-errorHandler.callbackBackup = onErrorCallbackBackup ?
-    onErrorCallbackBackup.bind(globalContext) :
-    () => false
 /*
     Bound reported errors to globale error handler to avoid global variable
     pollution.
@@ -359,4 +337,28 @@ try {
 export default errorHandler
 
 // Register extended error handler globally.
-globalContext.onerror = errorHandler
+
+if (globalContext.addEventListener as unknown) {
+    // Handling synchronous errors and general runtime errors
+    globalContext.addEventListener(
+        'error',
+        (event: ErrorEvent & { source?: string }) => {
+            errorHandler(
+                event.message,
+                event.source,
+                event.lineno,
+                event.colno,
+                event.error as Error,
+                event.filename
+            )
+        }
+    )
+
+    // Intercepting unhandled promise rejections (async/await)
+    globalContext.addEventListener(
+        'unhandledrejection',
+        (event) => {
+            errorHandler(event.reason as string)
+        }
+    )
+}
