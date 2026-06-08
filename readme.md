@@ -69,8 +69,10 @@ expected.
 
 ```JavaScript
 errorreporter.globalContext.fetch = (url, options) => {
-    console.log('A', options);
-    document.querySelector('#error-output').textContent = options.body;
+    document.querySelector('#error-output').textContent =
+        JSON.parse(options.body).errorMessage;
+    
+    return Promise.resolve();
 };
-Promise.reject('Example error')
+Promise.reject('Example error');
 ```
