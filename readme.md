@@ -44,7 +44,7 @@ zip file here and inject or request via cdn in HTML:
 npm install errorreporter
 ```
 
-<!--showExample-->
+<!--showExample:hidden-->
 
 ```HTML
 <script src="https://unpkg.com/errorreporter@latest/index.js"></script>
@@ -59,8 +59,18 @@ error with detailed client information. You can filter each non-supported
 client technology to avoid getting error reports from environments which aren't
 expected.
 
+<!--showExample-->
+
+```HTML
+<div id="error-output"></div>
+```
+
 <!--showExample:JavaScript-->
 
 ```JavaScript
-console.log('A', errorreporter)
+window.fetch = (url, options) => {
+    console.log('A', options)
+    document.querySelector('#error-output').textContent = options.body
+}
+Promise.reject('Example error')
 ```
