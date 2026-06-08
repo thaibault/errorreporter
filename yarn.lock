@@ -5893,9 +5893,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"clientnode@npm:^4.0.1420":
-  version: 4.0.1420
-  resolution: "clientnode@npm:4.0.1420"
+"clientnode@npm:^4.0.1421":
+  version: 4.0.1421
+  resolution: "clientnode@npm:4.0.1421"
   peerDependencies:
     "@babel/runtime": "*"
     "@types/prop-types": "*"
@@ -5910,7 +5910,7 @@ __metadata:
       optional: true
     prop-types:
       optional: true
-  checksum: 10c0/c903e2db2dd4f83da31c4e1b540336bb241f5d53e972822df776eb43e78b78b0a15e4f9a06125926246904987f6b43e7774c42cf7505bf7d6340b63b4ba203e0
+  checksum: 10c0/85d8349c77072477fff101f541e568a3227ca290733ce35ed15df1c5f80b8ac3c201bac390535fde911423507e7aa05bfd9d59fa27c16fa2f4d41ce9df0ff163
   languageName: node
   linkType: hard
 
@@ -6670,7 +6670,7 @@ __metadata:
     "@types/webpack-env": "npm:^1.18.8"
     "@typescript-eslint/eslint-plugin": "npm:^8.60.1"
     "@typescript-eslint/parser": "npm:^8.60.1"
-    clientnode: "npm:^4.0.1420"
+    clientnode: "npm:^4.0.1421"
     eslint: "npm:^10.4.1"
     eslint-config-google: "npm:^0.14.0"
     eslint-plugin-jsdoc: "npm:^63.0.2"
@@ -6679,7 +6679,7 @@ __metadata:
     node-fetch: "npm:^3.3.2"
     typescript-eslint: "npm:^8.60.1"
     ua-parser-js: "npm:^2.0.10"
-    web-documentation: "npm:^1.0.29"
+    web-documentation: "npm:^1.0.30"
     weboptimizer: "npm:^3.0.24"
     webpack-dev-server: "npm:^5.2.4"
   peerDependencies:
@@ -12253,12 +12253,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"web-documentation@npm:^1.0.29":
-  version: 1.0.29
-  resolution: "web-documentation@npm:1.0.29"
+"web-documentation@npm:^1.0.30":
+  version: 1.0.30
+  resolution: "web-documentation@npm:1.0.30"
   bin:
     web-documentation: build/deploy.js
-  checksum: 10c0/c059cc7db7ec19d0a93e91ede51c56dc9d7a549d45ec277aca892894a94dd74852b340cbce29497dd85f5a849fbe38cb8afaac0ca4faec42b944b71369a964ec
+  checksum: 10c0/0ac8771a6cc43a4b8f1dc88085124b197a18b6ddf6d69b021e7cad4106b06e03529016de62079f30fba37e980a8c8b074ecdf1cefa0907e9f083bc28f83b6fa1
   languageName: node
   linkType: hard
 
