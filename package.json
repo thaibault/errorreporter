@@ -19,7 +19,6 @@
     "url": "https://torben.website"
   },
   "files": [
-    "bundle/index.js",
     "index.d.ts",
     "index.js",
     "type.d.ts"
@@ -30,7 +29,7 @@
   },
   "scripts": {
     "build": "yarn build:types; yarn build:bundle:compatible",
-    "build:bundle": "yarn build:types; yarn build:bundle:plain",
+    "build:bundle": "yarn build:types; yarn build:bundle:compatible",
     "build:bundle:compatible": "yarn build:types; weboptimizer build '{__reference__: [\"target:bundle\", \"target:compatible\"]}'",
     "build:bundle:plain": "weboptimizer build '{__reference__: \"target:bundle\"}'",
     "build:plain": "weboptimizer build",
