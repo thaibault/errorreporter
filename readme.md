@@ -28,17 +28,37 @@ Project status
 [![deploy web documentation](https://img.shields.io/github/actions/workflow/status/thaibault/errorreporter/deploy-web-documentation.yaml?label=deploy%20web%20documentation&style=for-the-badge)](https://github.com/thaibault/errorreporter/actions/workflows/deploy-web-documentation.yaml)
 [![web documentation](https://img.shields.io/website-up-down-green-red/https/torben.website/errorreporter.svg?label=web-documentation&style=for-the-badge)](https://torben.website/errorreporter)
 
+<!--|deDE:Installation-->
+Installation
+------------
+
+You can install via package manager, simply download the compiled version as
+zip file here and inject or request via cdn in HTML:
+<!--deDE:
+    Sie können das Paket über den Paketmanager installieren oder einfach die
+    kompilierte Version als ZIP-Datei hier herunterladen und in HTML einbinden
+    oder über ein CDN abrufen:
+-->
+
+```bash
+npm install errorreporter
+```
+
+<!--showExample-->
+
+```HTML
+<script src="https://unpkg.com/errorreporter@latest/index.js"></script>
+```
+
 Use case
 --------
 
-An client side error reporter written in javaScript. Embed this code into your
+A client side error reporter written in JavaScript. Embed this code into your
 website markup and get an ajax call to a specified resource for each distinct
-error with detailed client informations. You can filter each non supported
+error with detailed client information. You can filter each non-supported
 client technology to avoid getting error reports from environments which aren't
 expected.
 
 ```HTML
-<script
-    src="https://torben.website/errorreporter/data/distributionBundle/index.compiled.js"
-></script>
+console.log('A', errorreporter)
 ```
