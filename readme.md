@@ -59,6 +59,8 @@ error with detailed client information. You can filter each non-supported
 client technology to avoid getting error reports from environments which aren't
 expected.
 
-```HTML
+<!--showExample:JavaScript-->
+
+```JavaScript
 console.log('A', errorreporter)
 ```
