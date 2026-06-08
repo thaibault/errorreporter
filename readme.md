@@ -69,8 +69,8 @@ expected.
 
 ```JavaScript
 window.fetch = (url, options) => {
-    console.log('A', options)
-    document.querySelector('#error-output').textContent = options.body
-}
+    console.log('A', options);
+    document.querySelector('#error-output').textContent = options.body;
+};
 Promise.reject('Example error')
 ```
