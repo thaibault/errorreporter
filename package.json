@@ -19,6 +19,7 @@
     "url": "https://torben.website"
   },
   "files": [
+    "bundle/index.js",
     "index.d.ts",
     "index.js",
     "type.d.ts"
@@ -28,9 +29,8 @@
     "url": "https://github.com/thaibault/errorreporter"
   },
   "scripts": {
-    "build": "yarn build:types; yarn build:plain; yarn build:bundle:additional",
+    "build": "yarn build:types; yarn build:bundle:compatible",
     "build:bundle": "yarn build:types; yarn build:bundle:plain",
-    "build:bundle:additional": "weboptimizer build '{__reference__: [\"target:bundle\", \"target:bundle:additional\"]}'",
     "build:bundle:compatible": "yarn build:types; weboptimizer build '{__reference__: [\"target:bundle\", \"target:compatible\"]}'",
     "build:bundle:plain": "weboptimizer build '{__reference__: \"target:bundle\"}'",
     "build:plain": "weboptimizer build",
@@ -136,13 +136,6 @@
               }
             }
           }
-        }
-      }
-    },
-    "target:bundle:additional": {
-      "path": {
-        "target": {
-          "base": "dist/bundle/"
         }
       }
     }
