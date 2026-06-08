@@ -6679,7 +6679,7 @@ __metadata:
     node-fetch: "npm:^3.3.2"
     typescript-eslint: "npm:^8.60.1"
     ua-parser-js: "npm:^2.0.10"
-    web-documentation: "npm:^1.0.30"
+    web-documentation: "npm:^1.0.31"
     weboptimizer: "npm:^3.0.24"
     webpack-dev-server: "npm:^5.2.4"
   peerDependencies:
@@ -12253,12 +12253,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"web-documentation@npm:^1.0.30":
-  version: 1.0.30
-  resolution: "web-documentation@npm:1.0.30"
+"web-documentation@npm:^1.0.31":
+  version: 1.0.31
+  resolution: "web-documentation@npm:1.0.31"
   bin:
     web-documentation: build/deploy.js
-  checksum: 10c0/0ac8771a6cc43a4b8f1dc88085124b197a18b6ddf6d69b021e7cad4106b06e03529016de62079f30fba37e980a8c8b074ecdf1cefa0907e9f083bc28f83b6fa1
+  checksum: 10c0/e2e02ce519b864f719e007358699c2e4137007478198473dca4c5c1fe2a06a65cb832edc0c9573a51a174e8ae67faf9108934b8e9d67c7276beb5ab0c1b5550f
   languageName: node
   linkType: hard
 

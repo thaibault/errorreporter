@@ -68,7 +68,7 @@ expected.
 <!--showExample:JavaScript-->
 
 ```JavaScript
-window.fetch = (url, options) => {
+errorreporter.globalContext.fetch = (url, options) => {
     console.log('A', options);
     document.querySelector('#error-output').textContent = options.body;
 };
