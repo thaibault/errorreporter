@@ -70,9 +70,9 @@ expected.
 ```JavaScript
 errorreporter.globalContext.fetch = (url, options) => {
     document.querySelector('#error-output').textContent =
-        JSON.parse(options.body).errorMessage;
+        JSON.parse(options.body).errorMessage
     
-    return Promise.resolve();
-};
-Promise.reject('Example error');
+    return Promise.resolve()
+}
+Promise.reject('Example error')
 ```
