@@ -102,14 +102,6 @@
     "trackingCode": "UA-40192634-22"
   },
   "webOptimizer": {
-    "module": {
-      "optimizer": {
-        "babelMinify": {
-          "#": "Bounding the \"onerror\" keyword to the global scope is necessary here.",
-          "__evaluate__": "self.debug ? {} : {bundle: {transform: {mangle: false}}, module: {mangle: false}}"
-        }
-      }
-    },
     "target:compatible": {
       "module": {
         "preprocessor": {
