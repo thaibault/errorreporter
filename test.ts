@@ -13,8 +13,10 @@
     See https://creativecommons.org/licenses/by/3.0/deed.de
     endregion
 */
+import type {Mapping} from 'clientnode'
+
+import {timeout} from 'clientnode'
 import {describe, expect, test} from '@jest/globals'
-import {Mapping, timeout} from 'clientnode'
 
 import {errorHandler, globalContext} from './index'
 
