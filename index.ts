@@ -16,9 +16,11 @@
     See https://creativecommons.org/licenses/by/3.0/deed.de
     endregion
 */
-import {Mapping} from 'clientnode'
+import type {Mapping} from 'clientnode'
 
-import {BaseLocation, ErrorHandler, Issue, IssueSpecification} from './type'
+import type {
+    BaseLocation, ErrorHandler, Issue, IssueSpecification
+} from './type'
 
 export const determineGlobalContext: (() => typeof globalThis) = (
 ): typeof globalThis => {
