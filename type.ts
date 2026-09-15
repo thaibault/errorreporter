@@ -21,6 +21,7 @@ export interface Issue<Type = string> {
     errorMessage: Type
 
     technologyDescription: Type
+
     ua: Type
 
     browser?: {
@@ -78,4 +79,5 @@ export type ErrorHandler =
         reported: Mapping<true>
         reportedHandler: (response: Response) => Promise<void> | void
         reportPath: string
+        UAParser: (typeof import('ua-parser-js'))['UAParser'] | null
     }

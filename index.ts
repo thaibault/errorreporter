@@ -142,7 +142,7 @@ export const errorHandler: ErrorHandler = ((
 
     try {
         // eslint-disable-next-line @typescript-eslint/no-base-to-string
-        issue.errorMessage = String(errorMessage) || 'Unclear'
+        issue.errorMessage = String(errorMessage) || 'unknown'
         // Checks if given object completely matches given match object.
         const matches = <
             I = Issue, IS extends Mapping<unknown> = IssueSpecification
@@ -292,7 +292,7 @@ errorHandler.reported = {}
 
 export const BASE_ISSUE: Issue = {
     errorMessage: '',
-    technologyDescription: 'Unclear',
+    technologyDescription: 'unknown',
     ua: '',
 
     engine: {
@@ -307,14 +307,35 @@ export const BASE_ISSUE: Issue = {
 
 export let BROWSER_ISSUE: Issue = {...BASE_ISSUE}
 
-try {
+errorHandler.UAParser = null
+if (globalThis.UAParser as unknown)
+    errorHandler.UAParser =
+        globalThis.UAParser as
+            unknown as
+            (typeof import('ua-parser-js'))['UAParser'] |
+            undefined ??
+        null
+if (errorHandler.UAParser) {
+    const {browser, engine, os, ua} = (new errorHandler.UAParser()).getResult()
     BROWSER_ISSUE = {
-        // eslint-disable-next-line @typescript-eslint/no-require-imports
-        ...BROWSER_ISSUE, ...(require('ua-parser-js') as () => Issue)()
+        ...BROWSER_ISSUE,
+        browser: {
+            name: browser.name || '',
+            major: browser.major || '',
+            version: browser.version || ''
+        },
+        engine: {
+            name: engine.name || '',
+            version: engine.version || ''
+        },
+        os: {
+            name: os.name || '',
+            version: os.version || ''
+        },
+        ua: ua || ''
     }
-} catch {
-    // Ignore error.
 }
+
 try {
     if (BROWSER_ISSUE.browser) {
         BROWSER_ISSUE.technologyDescription =
