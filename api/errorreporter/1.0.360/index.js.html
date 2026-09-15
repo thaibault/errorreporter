@@ -32,25 +32,15 @@
 /* 0 */
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
-// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, {
-  BASE_ISSUE: () => (/* binding */ BASE_ISSUE),
-  BROWSER_ISSUE: () => (/* binding */ BROWSER_ISSUE),
-  "default": () => (/* binding */ index),
-  determineGlobalContext: () => (/* binding */ determineGlobalContext),
-  errorHandler: () => (/* binding */ errorHandler),
-  globalContext: () => (/* binding */ globalContext)
-});
-
-// MODULE: external "uaParserJs"
-var external_uaParserJs_namespaceFn = /*#__PURE__*/__webpack_require__.cw(function(module, exports) {
-module.exports = window["uaParserJs"];
-});
-
-;// ./index.ts
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   BASE_ISSUE: () => (/* binding */ BASE_ISSUE),
+/* harmony export */   BROWSER_ISSUE: () => (/* binding */ BROWSER_ISSUE),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   determineGlobalContext: () => (/* binding */ determineGlobalContext),
+/* harmony export */   errorHandler: () => (/* binding */ errorHandler),
+/* harmony export */   globalContext: () => (/* binding */ globalContext)
+/* harmony export */ });
 /* module decorator */ module = __webpack_require__.hmd(module);
 // #!/usr/bin/env babel-node
 // -*- coding: utf-8 -*-
@@ -81,13 +71,11 @@ if(!Object.prototype.hasOwnProperty.call(errorHandler,"issueToIgnoreHandler"))er
             */if(!issueToIgnore.errorMessage)globalContext.alert(`Your technology "${issue.technologyDescription}" to `+`display this website isn't supported any more. Please `+"upgrade your browser engine.")};// Handler to call when error reporting was successful.
 if(!Object.prototype.hasOwnProperty.call(errorHandler,"reportedHandler"))errorHandler.reportedHandler=()=>{// Do nothing.
 };try{// eslint-disable-next-line @typescript-eslint/no-base-to-string
-issue.errorMessage=String(errorMessage)||"Unclear";// Checks if given object completely matches given match object.
+issue.errorMessage=String(errorMessage)||"unknown";// Checks if given object completely matches given match object.
 const matches=(issueItem,issueItemSpecification)=>{if(Object.prototype.toString.call(issueItemSpecification)==="[object Object]"&amp;&amp;Object.prototype.toString.call(issueItem)==="[object Object]"){for(const key of Object.keys(issueItemSpecification))if(!(issueItem[key]&amp;&amp;matches(issueItem[key],issueItemSpecification[key])))return false;return true}if(Object.prototype.toString.call(issueItemSpecification)==="[object RegExp]")return issueItemSpecification.test(String(issueItem));return issueItemSpecification===issueItem};for(const issueToIgnore of errorHandler.issuesToIgnore)if(matches(issue,issueToIgnore))errorHandler.issueToIgnoreHandler(issue,issueToIgnore);const toString=value=>{if(["boolean","number"].includes(typeof value)||value===null)return String(value);return"\""+/* eslint-disable @typescript-eslint/no-base-to-string */String(value)/* eslint-enable @typescript-eslint/no-base-to-string */.replace(/\\/g,"\\\\").replace(/\r\n|\r/g,"\\n").replace(/"/g,"\\\"")+"\""};const serialize=value=>{if(value!==null&amp;&amp;typeof value==="object"&amp;&amp;!(value instanceof RegExp)){if(Array.isArray(value)){let result="[";for(const item of value){if(result!=="[")result+=",";result+=serialize(item)}return`${result}]`}let result="{";for(const key of Object.keys(value)){if(result!=="{")result+=",";result+=`"${key}":`+serialize(value[key])}return`${result}}`}return toString(value)};const errorKey=`${errorMessage}#${location.href}#`+`${String(lineNumber)}#${String(columnNumber)}`;if(!Object.prototype.hasOwnProperty.call(errorHandler.reported,errorKey)){errorHandler.reported[errorKey]=true;const portPrefix=location.port?`: ${location.port}`:"";const headers={"Content-type":"application/json"};globalContext.fetch(`${location.protocol}//${location.hostname}${portPrefix}`+errorHandler.reportPath,{body:serialize({absoluteURL:location.href,columnNumber:columnNumber,errorMessage:errorMessage,issuesToIgnore:errorHandler.issuesToIgnore,lineNumber:lineNumber,stack:error?.stack,technologyDescription:issue.technologyDescription,url:url,userAgent:Object.prototype.hasOwnProperty.call(globalContext,"window")&amp;&amp;Object.prototype.hasOwnProperty.call(globalContext.window,"navigator")&amp;&amp;globalContext.window.navigator.userAgent?globalContext.window.navigator.userAgent:"unclear"}),headers:Object.prototype.hasOwnProperty.call(globalContext,"Headers")?new globalContext.Headers(headers):headers,method:"PUT"}).then(errorHandler.reportedHandler).catch(error=>{errorHandler.failedHandler(error)})}}catch(error){errorHandler.failedHandler(error)}};errorHandler.location={hostname:"localhost",href:"http://localhost",protocol:"http"};/*
     Bound reported errors to globale error handler to avoid global variable
     pollution.
-*/errorHandler.reported={};const BASE_ISSUE={errorMessage:"",technologyDescription:"Unclear",ua:"",engine:{name:"",version:""},os:{name:"",version:""}};let BROWSER_ISSUE={...BASE_ISSUE};try{BROWSER_ISSUE={// eslint-disable-next-line @typescript-eslint/no-require-imports
-...BROWSER_ISSUE,...(external_uaParserJs_namespaceFn())()}}catch{// Ignore error.
-}try{if(BROWSER_ISSUE.browser){BROWSER_ISSUE.technologyDescription=`${BROWSER_ISSUE.browser.name} ${BROWSER_ISSUE.browser.major} (`+`${BROWSER_ISSUE.browser.version} | ${BROWSER_ISSUE.engine.name} `+`${BROWSER_ISSUE.engine.version}) | ${BROWSER_ISSUE.os.name} `+BROWSER_ISSUE.os.version;if(BROWSER_ISSUE.device?.model&amp;&amp;BROWSER_ISSUE.device.type&amp;&amp;BROWSER_ISSUE.device.vendor)BROWSER_ISSUE.technologyDescription+=` | ${BROWSER_ISSUE.device.model} `+`${BROWSER_ISSUE.device.type} ${BROWSER_ISSUE.device.vendor}`}}catch(error){console.warn(error)}/* harmony default export */ const index = (errorHandler);// Register extended error handler globally.
+*/errorHandler.reported={};const BASE_ISSUE={errorMessage:"",technologyDescription:"unknown",ua:"",engine:{name:"",version:""},os:{name:"",version:""}};let BROWSER_ISSUE={...BASE_ISSUE};errorHandler.UAParser=null;if(globalThis.UAParser)errorHandler.UAParser=globalThis.UAParser??null;if(errorHandler.UAParser){const{browser,engine,os,ua}=new errorHandler.UAParser().getResult();BROWSER_ISSUE={...BROWSER_ISSUE,browser:{name:browser.name||"",major:browser.major||"",version:browser.version||""},engine:{name:engine.name||"",version:engine.version||""},os:{name:os.name||"",version:os.version||""},ua:ua||""}}try{if(BROWSER_ISSUE.browser){BROWSER_ISSUE.technologyDescription=`${BROWSER_ISSUE.browser.name} ${BROWSER_ISSUE.browser.major} (`+`${BROWSER_ISSUE.browser.version} | ${BROWSER_ISSUE.engine.name} `+`${BROWSER_ISSUE.engine.version}) | ${BROWSER_ISSUE.os.name} `+BROWSER_ISSUE.os.version;if(BROWSER_ISSUE.device?.model&amp;&amp;BROWSER_ISSUE.device.type&amp;&amp;BROWSER_ISSUE.device.vendor)BROWSER_ISSUE.technologyDescription+=` | ${BROWSER_ISSUE.device.model} `+`${BROWSER_ISSUE.device.type} ${BROWSER_ISSUE.device.vendor}`}}catch(error){console.warn(error)}/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (errorHandler);// Register extended error handler globally.
 if(globalContext.addEventListener){// Handling synchronous errors and general runtime errors
 globalContext.addEventListener("error",event=>{errorHandler(event.message,event.source,event.lineno,event.colno,event.error,event.filename)});// Intercepting unhandled promise rejections (async/await)
 globalContext.addEventListener("unhandledrejection",event=>{errorHandler(event.reason)})}
@@ -123,23 +111,6 @@ globalContext.addEventListener("unhandledrejection",event=>{errorHandler(event.r
 /******/ 	}
 /******/ 	
 /************************************************************************/
-/******/ 	/* webpack/runtime/concatenation wrap */
-/******/ 	// wrap a concatenated module body as a lazy, memoized accessor; mod is
-/******/ 	// set before the body runs so re-entrant calls (require cycles) observe
-/******/ 	// the partial exports like Node.js
-/******/ 	__webpack_require__.cw = (body) => {
-/******/ 		var mod;
-/******/ 		return () => {
-/******/ 			if (body) {
-/******/ 				var fn = body;
-/******/ 				body = 0;
-/******/ 				mod = { exports: {} };
-/******/ 				fn.call(mod.exports, mod, mod.exports);
-/******/ 			}
-/******/ 			return mod.exports;
-/******/ 		};
-/******/ 	};
-/******/ 	
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	// define getter/value functions for harmony exports
 /******/ 	__webpack_require__.d = (exports, definition) => {
@@ -208,7 +179,7 @@ globalContext.addEventListener("unhandledrejection",event=>{errorHandler(event.r
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Tue Sep 15 2026 16:48:41 GMT+0200 (Mitteleuropäische Sommerzeit)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Tue Sep 15 2026 18:02:30 GMT+0200 (Mitteleuropäische Sommerzeit)
 </footer>
 
 <script> prettyPrint(); </script>
