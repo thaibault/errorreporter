@@ -1,7 +1,7 @@
 <!-- !/usr/bin/env markdown
 -*- coding: utf-8 -*-
 region header
-Copyright Torben Sickert (info["~at~"]torben.website) 16.12.2012
+Copyright Torben Sickert (info["~at~"]tsickert.com) 16.12.2012
 
 License
 -------
@@ -10,7 +10,8 @@ This library written by Torben Sickert stands under a creative commons naming
 3.0 unported license. See https://creativecommons.org/licenses/by/3.0/deed.de
 endregion -->
 
-Project status
+<!--|deDE:Projektstatus-->
+Project Status
 --------------
 
 [![npm](https://img.shields.io/npm/v/errorreporter?color=%23d55e5d&label=npm%20package%20version&logoColor=%23d55e5d&style=for-the-badge)](https://www.npmjs.com/package/errorreporter)
@@ -26,9 +27,18 @@ Project status
 [![code coverage](https://img.shields.io/coverallsCoverage/github/thaibault/errorreporter?label=code%20coverage&style=for-the-badge)](https://coveralls.io/github/thaibault/errorreporter)
 
 [![deploy web documentation](https://img.shields.io/github/actions/workflow/status/thaibault/errorreporter/deploy-web-documentation.yaml?label=deploy%20web%20documentation&style=for-the-badge)](https://github.com/thaibault/errorreporter/actions/workflows/deploy-web-documentation.yaml)
-[![web documentation](https://img.shields.io/website-up-down-green-red/https/torben.website/errorreporter.svg?label=web-documentation&style=for-the-badge)](https://torben.website/errorreporter)
+[![web documentation](https://img.shields.io/website-up-down-green-red/https/tsickert.com/errorreporter.svg?label=web-documentation&style=for-the-badge)](https://tsickert.com/errorreporter)
 
-<!--|deDE:Installation-->
+<!--|deDE:Verwendung-->
+Use case
+--------
+
+A client side error reporter written in JavaScript. Embed this code into your
+website markup and get an ajax call to a specified resource for each distinct
+error with detailed client information. You can filter each non-supported
+client technology to avoid getting error reports from environments which aren't
+expected.
+
 Installation
 ------------
 
@@ -50,14 +60,9 @@ npm install errorreporter
 <script src="https://unpkg.com/errorreporter@latest/index.js"></script>
 ```
 
-Use case
---------
-
-A client side error reporter written in JavaScript. Embed this code into your
-website markup and get an ajax call to a specified resource for each distinct
-error with detailed client information. You can filter each non-supported
-client technology to avoid getting error reports from environments which aren't
-expected.
+<!--|deDE:Beispiel-->
+Example
+-------
 
 <!--showExample-->
 
