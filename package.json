@@ -59,20 +59,20 @@
     "@types/jsdom": "^30.0.0",
     "@types/node": "^26.6.5",
     "@types/webpack-env": "^1.18.8",
-    "@typescript-eslint/eslint-plugin": "^8.71.2",
-    "@typescript-eslint/parser": "^8.71.2",
-    "clientnode": "^4.0.1522",
+    "@typescript-eslint/eslint-plugin": "^8.72.0",
+    "@typescript-eslint/parser": "^8.72.0",
+    "clientnode": "^4.0.1524",
     "eslint": "^10.13.0",
     "eslint-config-google": "^0.14.0",
-    "eslint-plugin-jsdoc": "^65.3.8",
+    "eslint-plugin-jsdoc": "^65.4.2",
     "jest": "^30.5.2",
     "jsdoc": "^4.0.5",
     "node-fetch": "^3.3.2",
-    "typescript-eslint": "^8.71.2",
+    "typescript-eslint": "^8.72.0",
     "ua-parser-js": "^2.0.10",
-    "web-documentation": "^1.0.61",
-    "weboptimizer": "^4.0.88",
-    "webpack-dev-server": "^6.0.0"
+    "web-documentation": "^1.0.64",
+    "weboptimizer": "^4.0.91",
+    "webpack-dev-server": "^6.1.0"
   },
   "peerDependencies": {
     "ua-parser-js": "*"
