@@ -194,7 +194,10 @@ export const errorHandler: ErrorHandler = ((
                 // NOTE: JSON does not know "NaN" or "Infinity".
                 return isFinite(value) ? String(value) : 'null'
 
-            if (typeof value === 'boolean' || value === null)
+            if (value === null || value === undefined)
+                return 'null'
+
+            if (typeof value === 'boolean')
                 return String(value)
 
             return '"' +

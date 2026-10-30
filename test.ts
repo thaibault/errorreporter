@@ -141,6 +141,15 @@ describe('errorreporter', (): void => {
 
         expect(getLastBody().lineNumber).toBeNull()
         expect(getLastBody().columnNumber).toBeNull()
+
+        errorHandler('c')
+
+        const minimalBody = getLastBody()
+
+        expect(minimalBody.columnNumber).toBeNull()
+        expect(minimalBody.lineNumber).toBeNull()
+        expect(minimalBody.stack).toBeNull()
+        expect(minimalBody.url).toBeNull()
     })
 
     test('errorHandler sends headers', (): void => {
