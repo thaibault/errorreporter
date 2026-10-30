@@ -108,10 +108,16 @@ export const errorHandler: ErrorHandler = ((
             /* eslint-enable max-len */
         ]
 
-    if (Array.isArray(errorHandler.additionalIssuesToIgnore))
-        errorHandler.issuesToIgnore = errorHandler.issuesToIgnore.concat(
-            errorHandler.additionalIssuesToIgnore
-        )
+    /*
+        NOTE: Do not write the merged list back to avoid adding additional
+        issues again on each call.
+    */
+    const issuesToIgnore: Array<IssueSpecification> =
+        Array.isArray(errorHandler.additionalIssuesToIgnore) ?
+            errorHandler.issuesToIgnore.concat(
+                errorHandler.additionalIssuesToIgnore
+            ) :
+            errorHandler.issuesToIgnore
 
     // Handler to call for browser which should be ignored.
     if (!Object.prototype.hasOwnProperty.call(
@@ -176,12 +182,19 @@ export const errorHandler: ErrorHandler = ((
             return issueItemSpecification as unknown === issueItem as unknown
         }
 
-        for (const issueToIgnore of errorHandler.issuesToIgnore)
-            if (matches(issue, issueToIgnore))
+        for (const issueToIgnore of issuesToIgnore)
+            if (matches(issue, issueToIgnore)) {
                 errorHandler.issueToIgnoreHandler(issue, issueToIgnore)
 
+                return
+            }
+
         const toString = (value: unknown): string => {
-            if (['boolean', 'number'].includes(typeof value) || value === null)
+            if (typeof value === 'number')
+                // NOTE: JSON does not know "NaN" or "Infinity".
+                return isFinite(value) ? String(value) : 'null'
+
+            if (typeof value === 'boolean' || value === null)
                 return String(value)
 
             return '"' +
@@ -189,8 +202,14 @@ export const errorHandler: ErrorHandler = ((
                 String(value)
                 /* eslint-enable @typescript-eslint/no-base-to-string */
                     .replace(/\\/g, '\\\\')
-                    .replace(/\r\n|\r/g, '\\n')
-                    .replace(/"/g, '\\"') +
+                    .replace(/"/g, '\\"')
+                    .replace(/\r\n|\r|\n/g, '\\n')
+                    .replace(/\t/g, '\\t')
+                    // eslint-disable-next-line no-control-regex
+                    .replace(/[\u0000-\u001f]/g, (character: string) =>
+                        '\\u' +
+                        character.charCodeAt(0).toString(16).padStart(4, '0')
+                    ) +
                 '"'
         }
 
@@ -233,7 +252,7 @@ export const errorHandler: ErrorHandler = ((
             errorHandler.reported, errorKey
         )) {
             errorHandler.reported[errorKey] = true
-            const portPrefix = location.port ? `: ${location.port}` : ''
+            const portPrefix = location.port ? `:${location.port}` : ''
             const headers = {'Content-type': 'application/json'}
             globalContext.fetch(
                 `${location.protocol}//${location.hostname}${portPrefix}` +
@@ -243,7 +262,7 @@ export const errorHandler: ErrorHandler = ((
                         absoluteURL: location.href,
                         columnNumber: columnNumber,
                         errorMessage: errorMessage,
-                        issuesToIgnore: errorHandler.issuesToIgnore,
+                        issuesToIgnore,
                         lineNumber: lineNumber,
                         stack: error?.stack,
                         technologyDescription: issue.technologyDescription,
@@ -281,7 +300,7 @@ export const errorHandler: ErrorHandler = ((
 errorHandler.location = {
     hostname: 'localhost',
     href: 'http://localhost',
-    protocol: 'http'
+    protocol: 'http:'
 }
 
 /*
@@ -381,7 +400,14 @@ if (globalContext.addEventListener as unknown) {
     globalContext.addEventListener(
         'unhandledrejection',
         (event) => {
-            errorHandler(event.reason as string)
+            const reason: unknown = event.reason
+
+            if (reason instanceof Error)
+                errorHandler(
+                    reason.message, undefined, undefined, undefined, reason
+                )
+            else
+                errorHandler(reason as string)
         }
     )
 }
