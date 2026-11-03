@@ -71,7 +71,7 @@
     "typescript-eslint": "^8.72.1",
     "ua-parser-js": "^2.0.10",
     "web-documentation": "^1.0.68",
-    "weboptimizer": "^4.0.96",
+    "weboptimizer": "^4.0.103",
     "webpack-dev-server": "^6.1.0"
   },
   "peerDependencies": {
