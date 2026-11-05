@@ -94,8 +94,7 @@
     "yarn": ">=4"
   },
   "webDocumentation": {
-    "tagline": "Error reporter for client.",
-    "trackingCode": "UA-40192634-22"
+    "tagline": "Error reporter for client."
   },
   "webOptimizer": {
     "target:compatible": {
