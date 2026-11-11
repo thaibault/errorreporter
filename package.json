@@ -94,6 +94,11 @@
     "yarn": ">=4"
   },
   "webDocumentation": {
+    "languages": [
+      "enUS",
+      "deDE",
+      "frFR"
+    ],
     "tagline": "Error reporter for client."
   },
   "webOptimizer": {
