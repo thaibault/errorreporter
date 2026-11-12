@@ -18,7 +18,9 @@ import type {Mapping} from 'clientnode'
 import {timeout} from 'clientnode'
 import {beforeEach, describe, expect, test} from '@jest/globals'
 
-import {determineGlobalContext, errorHandler, globalContext} from './index'
+import {
+    BROWSER_ISSUE, determineGlobalContext, errorHandler, globalContext
+} from './index'
 
 describe('errorreporter', (): void => {
     // region mockup
@@ -312,6 +314,35 @@ describe('errorreporter', (): void => {
         } finally {
             errorHandler.issueToIgnoreHandler = issueToIgnoreHandler
             errorHandler.reportPath = reportPath
+        }
+    })
+    test('errorHandler ignores only old firefox versions', (): void => {
+        const browser = BROWSER_ISSUE.browser
+
+        delete (errorHandler as Partial<typeof errorHandler>).issuesToIgnore
+
+        try {
+            for (const major of ['100', '115', '130', '140']) {
+                BROWSER_ISSUE.browser =
+                    {major, name: 'Firefox', version: `${major}.0`}
+                errorHandler(`a${major}`)
+            }
+
+            expect(issueToIgnoreHandlerCall).toHaveLength(0)
+            expect(fetchHandlerCalls).toHaveLength(4)
+
+            for (const major of ['1', '9', '10']) {
+                BROWSER_ISSUE.browser =
+                    {major, name: 'Firefox', version: `${major}.0`}
+                errorHandler(`b${major}`)
+
+                expect(issueToIgnoreHandlerCall[1])
+                    .toHaveProperty('browser.name', 'Firefox')
+            }
+
+            expect(fetchHandlerCalls).toHaveLength(4)
+        } finally {
+            BROWSER_ISSUE.browser = browser
         }
     })
     // endregion
