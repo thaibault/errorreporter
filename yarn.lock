@@ -7123,6 +7123,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": "npm:^8.72.1"
     "@typescript-eslint/parser": "npm:^8.72.1"
     clientnode: "npm:^4.0.1527"
+    core-js: "npm:^3.51.0"
     eslint: "npm:^10.13.0"
     eslint-config-google: "npm:^0.14.0"
     eslint-plugin-jsdoc: "npm:^65.4.2"
