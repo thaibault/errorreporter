@@ -30,11 +30,8 @@
   ],
   "sideEffects": true,
   "scripts": {
-    "build": "yarn build:types && yarn build:bundle:compatible",
-    "build:bundle": "yarn build:types && yarn build:bundle:compatible",
-    "build:bundle:compatible": "yarn build:types && weboptimizer build '{__reference__: [\"target:bundle\", \"target:compatible\"]}'",
-    "build:bundle:plain": "weboptimizer build '{__reference__: \"target:bundle\"}'",
-    "build:plain": "weboptimizer build",
+    "build": "yarn build:types && yarn build:compatible",
+    "build:compatible": "yarn build:types && weboptimizer build '{__reference__: [\"target:compatible\"]}'",
     "build:types": "weboptimizer build:types",
     "check": "yarn check:types && yarn lint",
     "check:types": "weboptimizer check:types",
