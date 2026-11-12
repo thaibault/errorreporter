@@ -73,7 +73,8 @@
     "webpack-dev-server": "^6.1.0"
   },
   "peerDependencies": {
-    "ua-parser-js": "*"
+    "ua-parser-js": "*",
+    "core-js": "*"
   },
   "peerDependenciesMeta": {
     "ua-parser-js": {
