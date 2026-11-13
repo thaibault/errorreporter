@@ -49,6 +49,7 @@
     "watch": "weboptimizer build --watch"
   },
   "devDependencies": {
+    "@babel/core": "^8.1.0",
     "@babel/eslint-parser": "^8.0.7",
     "@babel/plugin-transform-proto-to-assign": "^8.0.1",
     "@eslint/js": "^10.0.1",
@@ -73,8 +74,8 @@
     "webpack-dev-server": "^6.1.0"
   },
   "peerDependencies": {
-    "ua-parser-js": "*",
-    "core-js": "*"
+    "core-js": "*",
+    "ua-parser-js": "*"
   },
   "peerDependenciesMeta": {
     "ua-parser-js": {
