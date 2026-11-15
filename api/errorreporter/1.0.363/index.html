@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Home</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Home</h1>
+
+    
+
+
+
+    
+
+
+    <h3>errorreporter 1.0.363</h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><!-- !/usr/bin/env markdown
+-*- coding: utf-8 -*-
+region header
+Copyright Torben Sickert (info["~at~"]tsickert.com) 16.12.2012
+
+License
+-------
+
+This library written by Torben Sickert stands under a creative commons naming
+4.0 international license.
+See https://creativecommons.org/licenses/by/4.0/deed.de
+endregion -->
+<!--|deDE:Projektstatus-->
+<!--|frFR:Statut du projet-->
+<h2>Project Status</h2>
+<p><a href="https://www.npmjs.com/package/errorreporter"><img src="https://img.shields.io/npm/v/errorreporter?color=%23d55e5d&amp;label=npm%20package%20version&amp;logoColor=%23d55e5d&amp;style=for-the-badge" alt="npm"></a>
+<a href="https://www.npmjs.com/package/errorreporter"><img src="https://img.shields.io/npm/dy/errorreporter.svg?style=for-the-badge" alt="npm downloads"></a></p>
+<p><a href="https://github.com/thaibault/errorreporter/actions/workflows/build.yaml"><img src="https://img.shields.io/github/actions/workflow/status/thaibault/errorreporter/build.yaml?style=for-the-badge" alt="build"></a>
+<a href="https://github.com/thaibault/errorreporter/actions/workflows/build-package-and-push.yaml"><img src="https://img.shields.io/github/actions/workflow/status/thaibault/errorreporter/build-package-and-push.yaml?label=build%20push%20package&amp;style=for-the-badge" alt="build push package"></a></p>
+<p><a href="https://github.com/thaibault/errorreporter/actions/workflows/check-types.yaml"><img src="https://img.shields.io/github/actions/workflow/status/thaibault/errorreporter/check-types.yaml?label=check%20types&amp;style=for-the-badge" alt="check types"></a>
+<a href="https://github.com/thaibault/errorreporter/actions/workflows/lint.yaml"><img src="https://img.shields.io/github/actions/workflow/status/thaibault/errorreporter/lint.yaml?label=lint&amp;style=for-the-badge" alt="lint"></a>
+<a href="https://github.com/thaibault/errorreporter/actions/workflows/test-coverage-report.yaml"><img src="https://img.shields.io/github/actions/workflow/status/thaibault/errorreporter/test-coverage-report.yaml?label=test&amp;style=for-the-badge" alt="test"></a></p>
+<p><a href="https://coveralls.io/github/thaibault/errorreporter"><img src="https://img.shields.io/coverallsCoverage/github/thaibault/errorreporter?label=code%20coverage&amp;style=for-the-badge" alt="code coverage"></a></p>
+<p><a href="https://github.com/thaibault/errorreporter/actions/workflows/deploy-web-documentation.yaml"><img src="https://img.shields.io/github/actions/workflow/status/thaibault/errorreporter/deploy-web-documentation.yaml?label=deploy%20web%20documentation&amp;style=for-the-badge" alt="deploy web documentation"></a>
+<a href="https://tsickert.com/errorreporter"><img src="https://img.shields.io/website-up-down-green-red/https/tsickert.com/errorreporter.svg?label=web-documentation&amp;style=for-the-badge" alt="web documentation"></a></p>
+<!--|deDE:Einsatzmöglichkeiten-->
+<!--|frFR:Cas d'utilisation-->
+<h2>Use case</h2>
+<p>A small client side error reporter. Include it in your website and every
+uncaught error and unhandled promise rejection in your visitors' browsers is
+sent to your server, together with details about the browser, the operating
+system and the page. You learn about problems in production without asking
+users to open their developer tools.</p>
+<!--deDE:
+    Ein kleiner clientseitiger Fehlerreporter. Binden Sie ihn in Ihre Website
+    ein, und jeder nicht abgefangene Fehler sowie jede nicht behandelte
+    Promise-Ablehnung im Browser Ihrer Besucher wird an Ihren Server gesendet,
+    zusammen mit Angaben zu Browser, Betriebssystem und Seite. So erfahren Sie
+    von Problemen im Produktivbetrieb, ohne Nutzer bitten zu müssen, ihre
+    Entwicklerwerkzeuge zu öffnen.
+-->
+<!--frFR:
+    Un petit outil de signalement d'erreurs côté client. Intégrez-le à votre
+    site web et chaque erreur non interceptée ainsi que chaque rejet de
+    promesse non traité dans le navigateur de vos visiteurs est envoyé à
+    votre serveur, accompagné d'informations sur le navigateur, le système
+    d'exploitation et la page. Vous êtes informé des problèmes en production
+    sans demander aux utilisateurs d'ouvrir leurs outils de développement.
+-->
+<p>Features included:</p>
+<!--deDE:Enthaltene Funktionen:-->
+<!--frFR:Fonctionnalités incluses:-->
+<ul>
+<li>Registers itself on load, no further code needed.<!--deDE:Registriert sich beim Laden selbst, kein weiterer Code nötig.--><!--frFR:S'enregistre automatiquement au chargement, aucun code supplémentaire nécessaire.--></li>
+<li>Reports each distinct error only once per page view.<!--deDE:Meldet jeden unterschiedlichen Fehler nur einmal pro Seitenaufruf.--><!--frFR:Signale chaque erreur distincte une seule fois par affichage de page.--></li>
+<li>Detailed browser, engine, operating system and device information via the
+optional <a href="https://www.npmjs.com/package/ua-parser-js">ua-parser-js</a>.<!--deDE:Detaillierte Angaben zu Browser, Engine, Betriebssystem und Gerät über das optionale [ua-parser-js](https://www.npmjs.com/package/ua-parser-js).--><!--frFR:Informations détaillées sur le navigateur, le moteur, le système d'exploitation et l'appareil grâce au paquet optionnel [ua-parser-js](https://www.npmjs.com/package/ua-parser-js).--></li>
+<li>Filters for known noise and unsupported browsers, extendable with your own
+rules.<!--deDE:Filter für bekanntes Rauschen und nicht unterstützte Browser, erweiterbar um eigene Regeln.--><!--frFR:Filtres pour les erreurs parasites connues et les navigateurs non pris en charge, extensibles avec vos propres règles.--></li>
+<li>Hooks for successful, failed and ignored reports.<!--deDE:Hooks für erfolgreiche, fehlgeschlagene und ignorierte Meldungen.--><!--frFR:Hooks pour les signalements réussis, échoués et ignorés.--></li>
+</ul>
+<div class="wd-table-of-contents">
+    <h2 id="content">Content<!--deDE:Inhalt--><!--frFR:Contenu--></h2>
+    <!--wd-table-of-contents-->
+</div>
+<h2>Installation</h2>
+<p>Install it via a package manager and import it once in your entry module:</p>
+<!--deDE:
+    Installieren Sie es über einen Paketmanager und importieren Sie es einmal
+    in Ihrem Einstiegsmodul:
+-->
+<!--frFR:
+    Installez-le via un gestionnaire de paquets et importez-le une fois dans
+    votre module d'entrée:
+-->
+<pre class="prettyprint source lang-bash"><code>npm install errorreporter
+</code></pre>
+<pre class="prettyprint source lang-JavaScript"><code>import 'errorreporter'
+</code></pre>
+<p>Or include the compiled version from a CDN as early as possible in your HTML,
+ideally as first script. It is then available as global &quot;errorreporter&quot;:</p>
+<!--deDE:
+    Oder binden Sie die kompilierte Version über ein CDN möglichst früh in Ihr
+    HTML ein, idealerweise als erstes Skript. Sie ist dann als globales
+    "errorreporter" verfügbar:
+-->
+<!--frFR:
+    Ou intégrez la version compilée depuis un CDN le plus tôt possible dans
+    votre HTML, idéalement comme premier script. Elle est alors disponible
+    sous le nom global "errorreporter":
+-->
+<!--showExample:hidden-->
+<pre class="prettyprint source lang-HTML"><code>&lt;script src=&quot;https://unpkg.com/errorreporter@latest/index.js&quot;>&lt;/script>
+</code></pre>
+<p>For browser details load
+<a href="https://www.npmjs.com/package/ua-parser-js">ua-parser-js</a> before, so that a
+global &quot;UAParser&quot; exists when the error reporter is loaded. Without it reports
+contain the raw user agent only and browser based filter rules do not apply:</p>
+<!--deDE:
+    Für Browserdetails laden Sie zuvor
+    [ua-parser-js](https://www.npmjs.com/package/ua-parser-js), sodass beim
+    Laden des Fehlerreporters ein globales "UAParser" existiert. Ohne es
+    enthalten Meldungen nur den rohen User-Agent und browserbasierte
+    Filterregeln greifen nicht:
+-->
+<!--frFR:
+    Pour obtenir les détails du navigateur, chargez d'abord
+    [ua-parser-js](https://www.npmjs.com/package/ua-parser-js) afin qu'un
+    "UAParser" global existe lors du chargement de l'outil de signalement.
+    Sans lui, les signalements ne contiennent que l'agent utilisateur brut et
+    les règles de filtrage basées sur le navigateur ne s'appliquent pas:
+-->
+<pre class="prettyprint source lang-HTML"><code>&lt;script src=&quot;https://unpkg.com/ua-parser-js@2/dist/ua-parser.min.js&quot;>&lt;/script>
+&lt;script src=&quot;https://unpkg.com/errorreporter@latest/index.js&quot;>&lt;/script>
+</code></pre>
+<!--|deDE:Beispiel-->
+<!--|frFR:Exemple-->
+<h2>Example</h2>
+<p>This live example replaces the network request with a function that shows the
+reported message:</p>
+<!--deDE:
+    Dieses Live-Beispiel ersetzt die Netzwerkanfrage durch eine Funktion, die
+    die gemeldete Nachricht anzeigt:
+-->
+<!--frFR:
+    Cet exemple en direct remplace la requête réseau par une fonction qui
+    affiche le message signalé:
+-->
+<!--showExample-->
+<pre class="prettyprint source lang-HTML"><code>&lt;div id=&quot;error-output&quot;>&lt;/div>
+</code></pre>
+<!--showExample:JavaScript-->
+<pre class="prettyprint source lang-JavaScript"><code>errorreporter.globalContext.fetch = (url, options) => {
+    document.querySelector('#error-output').textContent =
+        JSON.parse(options.body).errorMessage
+
+    return Promise.resolve()
+}
+Promise.reject('Example error')
+</code></pre>
+<!--|deDE:Empfang auf dem Server-->
+<!--|frFR:Réception sur le serveur-->
+<h2>Receiving reports on the server</h2>
+<p>Each report is a &quot;PUT&quot; request with a JSON body to &quot;/<strong>error_report</strong>&quot; on the
+host the page was loaded from. Store or forward it as you like. The body
+contains:</p>
+<!--deDE:
+    Jede Meldung ist eine "PUT"-Anfrage mit JSON-Inhalt an
+    "/__error_report__" auf dem Host, von dem die Seite geladen wurde.
+    Speichern oder leiten Sie sie nach Belieben weiter. Der Inhalt umfasst:
+-->
+<!--frFR:
+    Chaque signalement est une requête "PUT" avec un corps JSON envoyée à
+    "/__error_report__" sur l'hôte depuis lequel la page a été chargée.
+    Stockez-le ou transmettez-le comme vous le souhaitez. Le corps contient:
+-->
+<ul>
+<li>&quot;errorMessage&quot;, &quot;stack&quot;, &quot;url&quot;, &quot;lineNumber&quot; and &quot;columnNumber&quot;: The error
+itself.<!--deDE:"errorMessage", "stack", "url", "lineNumber" und "columnNumber": Der Fehler selbst.--><!--frFR:"errorMessage", "stack", "url", "lineNumber" et "columnNumber": L'erreur elle-même.--></li>
+<li>&quot;absoluteURL&quot;: Address of the page where it happened.<!--deDE:"absoluteURL": Adresse der Seite, auf der er auftrat.--><!--frFR:"absoluteURL": Adresse de la page où elle s'est produite.--></li>
+<li>&quot;userAgent&quot; and &quot;technologyDescription&quot;: Raw user agent and a readable
+summary like &quot;Firefox 140 (140.0 | Gecko 140.0) | Windows 10&quot;.<!--deDE:"userAgent" und "technologyDescription": Roher User-Agent und eine lesbare Zusammenfassung wie "Firefox 140 (140.0 | Gecko 140.0) | Windows 10".--><!--frFR:"userAgent" et "technologyDescription": Agent utilisateur brut et un résumé lisible comme "Firefox 140 (140.0 | Gecko 140.0) | Windows 10".--></li>
+<li>&quot;issuesToIgnore&quot;: The filter rules active on the client.<!--deDE:"issuesToIgnore": Die auf dem Client aktiven Filterregeln.--><!--frFR:"issuesToIgnore": Les règles de filtrage actives sur le client.--></li>
+</ul>
+<!--|deDE:Konfiguration-->
+<!--|frFR:Configuration-->
+<h2>Configuration</h2>
+<p>All settings are properties of the exported &quot;errorHandler&quot;. Set them right
+after loading, before the first error occurs:</p>
+<!--deDE:
+    Alle Einstellungen sind Eigenschaften des exportierten "errorHandler".
+    Setzen Sie sie direkt nach dem Laden, bevor der erste Fehler auftritt:
+-->
+<!--frFR:
+    Tous les réglages sont des propriétés du "errorHandler" exporté.
+    Définissez-les juste après le chargement, avant la première erreur:
+-->
+<pre class="prettyprint source lang-JavaScript"><code>import {errorHandler} from 'errorreporter'
+
+errorHandler.reportPath = '/api/client-error'
+errorHandler.additionalIssuesToIgnore = [
+    {errorMessage: /ResizeObserver loop/},
+    {browser: {name: 'Safari', major: '15'}}
+]
+errorHandler.failedHandler = (error) => console.warn(error)
+</code></pre>
+<ul>
+<li>&quot;reportPath&quot;: Path on the current host to send reports to. Defaults to
+&quot;/<strong>error_report</strong>&quot;.<!--deDE:"reportPath": Pfad auf dem aktuellen Host, an den Meldungen gesendet werden. Standardmäßig "/__error_report__".--><!--frFR:"reportPath": Chemin sur l'hôte courant auquel les signalements sont envoyés. Par défaut "/__error_report__".--></li>
+<li>&quot;additionalIssuesToIgnore&quot;: Your own filter rules, added to the built-in
+ones.<!--deDE:"additionalIssuesToIgnore": Eigene Filterregeln, die zu den eingebauten hinzukommen.--><!--frFR:"additionalIssuesToIgnore": Vos propres règles de filtrage, ajoutées à celles intégrées.--></li>
+<li>&quot;issuesToIgnore&quot;: Replaces the built-in filter rules. They cover old
+Internet Explorer and Firefox versions and common messages caused by browser
+extensions or the environment.<!--deDE:"issuesToIgnore": Ersetzt die eingebauten Filterregeln. Diese decken alte Internet-Explorer- und Firefox-Versionen sowie häufige, durch Browsererweiterungen oder die Umgebung verursachte Meldungen ab.--><!--frFR:"issuesToIgnore": Remplace les règles de filtrage intégrées. Celles-ci couvrent les anciennes versions d'Internet Explorer et de Firefox ainsi que les messages fréquents causés par des extensions de navigateur ou l'environnement.--></li>
+<li>&quot;reportedHandler&quot;: Called with the response after a report was sent.<!--deDE:"reportedHandler": Wird nach dem Senden einer Meldung mit der Antwort aufgerufen.--><!--frFR:"reportedHandler": Appelé avec la réponse après l'envoi d'un signalement.--></li>
+<li>&quot;failedHandler&quot;: Called if sending fails. Shows a browser alert by default.<!--deDE:"failedHandler": Wird aufgerufen, wenn das Senden fehlschlägt. Zeigt standardmäßig einen Browser-Hinweis an.--><!--frFR:"failedHandler": Appelé si l'envoi échoue. Affiche par défaut une alerte du navigateur.--></li>
+<li>&quot;issueToIgnoreHandler&quot;: Called for filtered errors. If a rule without
+&quot;errorMessage&quot; matched, i.e. an unsupported browser, it shows an alert
+asking the visitor to upgrade by default.<!--deDE:"issueToIgnoreHandler": Wird für herausgefilterte Fehler aufgerufen. Hat eine Regel ohne "errorMessage" gegriffen, also ein nicht unterstützter Browser, zeigt es standardmäßig einen Hinweis an, der zum Aktualisieren auffordert.--><!--frFR:"issueToIgnoreHandler": Appelé pour les erreurs filtrées. Si une règle sans "errorMessage" s'est appliquée, c'est-à-dire un navigateur non pris en charge, il affiche par défaut une alerte invitant le visiteur à mettre à jour.--></li>
+</ul>
+<!--|deDE:Filterregeln-->
+<!--|frFR:Règles de filtrage-->
+<h3>Filter rules</h3>
+<p>A rule is a partial error description. It matches if all given properties
+match: strings have to be equal, regular expressions have to match. Available
+properties are &quot;errorMessage&quot;, &quot;technologyDescription&quot;, &quot;ua&quot; and the objects
+&quot;browser&quot; (&quot;name&quot;, &quot;major&quot;, &quot;version&quot;), &quot;engine&quot; and &quot;os&quot; (&quot;name&quot;,
+&quot;version&quot;).</p>
+<!--deDE:
+    Eine Regel ist eine teilweise Fehlerbeschreibung. Sie greift, wenn alle
+    angegebenen Eigenschaften passen: Zeichenketten müssen gleich sein,
+    reguläre Ausdrücke müssen zutreffen. Verfügbar sind "errorMessage",
+    "technologyDescription", "ua" sowie die Objekte "browser" ("name",
+    "major", "version"), "engine" und "os" ("name", "version").
+-->
+<!--frFR:
+    Une règle est une description partielle d'erreur. Elle s'applique si
+    toutes les propriétés indiquées correspondent: les chaînes doivent être
+    égales, les expressions régulières doivent correspondre. Les propriétés
+    disponibles sont "errorMessage", "technologyDescription", "ua" ainsi que
+    les objets "browser" ("name", "major", "version"), "engine" et "os"
+    ("name", "version").
+-->
+<!--|deDE:Entwicklung-->
+<!--|frFR:Développement-->
+<h2>Development</h2>
+<pre class="prettyprint source lang-bash"><code>yarn install
+yarn build
+yarn test
+</code></pre></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#base">base</a></li><li><a href="global.html#baseMinusTMin">baseMinusTMin</a></li><li><a href="global.html#errors">errors</a></li><li><a href="global.html#maxInt">maxInt</a></li><li><a href="global.html#punycode">punycode</a></li><li><a href="global.html#regexPunycode">regexPunycode</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Sun Nov 15 2026 14:09:03 GMT+0100 (Mitteleuropäische Normalzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
