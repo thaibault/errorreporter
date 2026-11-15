@@ -24,21 +24,23 @@
   },
   "type": "module",
   "files": [
+    "bundle/index.js",
     "index.d.ts",
     "index.js",
     "type.d.ts"
   ],
   "sideEffects": true,
   "scripts": {
-    "build": "yarn build:types && yarn build:compatible",
+    "build": "yarn build:types && yarn build:compatible && yarn build:compatible:bundle",
     "build:compatible": "yarn build:types && weboptimizer build '{__reference__: [\"target:compatible\"]}'",
+    "build:compatible:bundle": "weboptimizer build '{__reference__: [\"target:compatible\", \"target:bundle\"]}'",
     "build:types": "weboptimizer build:types",
     "check": "yarn check:types && yarn lint",
     "check:types": "weboptimizer check:types",
     "clear": "weboptimizer clear",
     "document": "weboptimizer document",
     "lint": "weboptimizer lint",
-    "prepare": "yarn build:compatible",
+    "prepare": "yarn build",
     "serve": "weboptimizer serve",
     "start": "yarn serve",
     "test": "weboptimizer test",
@@ -102,6 +104,19 @@
     "tagline": "Error reporter for client."
   },
   "webOptimizer": {
+    "target:bundle": {
+      "inPlace": {
+        "externalLibrary": {
+          "dynamic": true,
+          "normal": true
+        }
+      },
+      "path": {
+        "target": {
+          "base": "bundle/"
+        }
+      }
+    },
     "target:compatible": {
       "exportFormat": {
         "self": "window"
