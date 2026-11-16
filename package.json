@@ -23,11 +23,24 @@
     "url": "git+https://github.com/thaibault/errorreporter.git"
   },
   "type": "module",
+  "main": "dist/index.js",
+  "exports": {
+    ".": "./dist/index.js",
+    "./bundle": "./dist/bundle/index.js",
+    "./type": "./dist/type.d.ts"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*"
+      ]
+    }
+  },
   "files": [
-    "bundle/index.js",
-    "index.d.ts",
-    "index.js",
-    "type.d.ts"
+    "dist/bundle/index.js",
+    "dist/index.d.ts",
+    "dist/index.js",
+    "dist/type.d.ts"
   ],
   "sideEffects": true,
   "scripts": {
@@ -55,7 +68,7 @@
     "@babel/eslint-parser": "^8.1.2",
     "@babel/plugin-transform-proto-to-assign": "^8.0.1",
     "@eslint/js": "^10.0.1",
-    "@stylistic/eslint-plugin": "^5.10.0",
+    "@stylistic/eslint-plugin": "^6.0.0",
     "@types/jsdom": "^30.0.0",
     "@types/node": "^26.6.6",
     "@types/webpack-env": "^1.18.8",
@@ -72,7 +85,7 @@
     "typescript-eslint": "^8.72.2",
     "ua-parser-js": "^2.0.10",
     "web-documentation": "^1.0.75",
-    "weboptimizer": "^4.0.119",
+    "weboptimizer": "^4.0.120",
     "webpack-dev-server": "^6.1.0"
   },
   "peerDependencies": {
@@ -113,7 +126,7 @@
       },
       "path": {
         "target": {
-          "base": "bundle/"
+          "base": "dist/bundle/"
         }
       }
     },
@@ -132,6 +145,14 @@
             }
           }
         }
+      }
+    },
+    "path": {
+      "source": {
+        "base": "src/"
+      },
+      "target": {
+        "base": "dist/"
       }
     }
   },

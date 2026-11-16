@@ -97,29 +97,29 @@ npm install errorreporter
 import 'errorreporter'
 ```
 
-Or include the self-contained bundle "bundle/index.js" as early as possible in
-your HTML, ideally as first script. It contains all needed polyfills, has no
-dependencies, runs synchronously as a plain (non module) script in any
-environment and is then available as global "errorreporter":
+Or include the self-contained bundle "dist/bundle/index.js" as early as
+possible in your HTML, ideally as first script. It contains all needed
+polyfills, has no dependencies, runs synchronously as a plain (non module)
+script in any environment and is then available as global "errorreporter":
 <!--deDE:
-    Oder binden Sie das eigenständige Bundle "bundle/index.js" möglichst früh
-    in Ihr HTML ein, idealerweise als erstes Skript. Es enthält alle nötigen
-    Polyfills, hat keine Abhängigkeiten, läuft synchron als einfaches (nicht
-    modulares) Skript in jeder Umgebung und ist dann als globales
-    "errorreporter" verfügbar:
+    Oder binden Sie das eigenständige Bundle "dist/bundle/index.js"
+    möglichst früh in Ihr HTML ein, idealerweise als erstes Skript. Es enthält
+    alle nötigen Polyfills, hat keine Abhängigkeiten, läuft synchron als
+    einfaches (nicht modulares) Skript in jeder Umgebung und ist dann als
+    globales "errorreporter" verfügbar:
 -->
 <!--frFR:
-    Ou intégrez le bundle autonome "bundle/index.js" le plus tôt possible dans
-    votre HTML, idéalement comme premier script. Il contient tous les
-    polyfills nécessaires, n'a aucune dépendance, s'exécute de manière
-    synchrone comme simple script (non module) dans n'importe quel
+    Ou intégrez le bundle autonome "dist/bundle/index.js" le plus tôt
+    possible dans votre HTML, idéalement comme premier script. Il contient
+    tous les polyfills nécessaires, n'a aucune dépendance, s'exécute de
+    manière synchrone comme simple script (non module) dans n'importe quel
     environnement et est alors disponible sous le nom global "errorreporter":
 -->
 
 <!--showExample:hidden-->
 
 ```HTML
-<script src="https://unpkg.com/errorreporter@latest/bundle/index.js"></script>
+<script src="https://unpkg.com/errorreporter@latest/dist/bundle/index.js"></script>
 ```
 
 For browser details load
@@ -143,7 +143,7 @@ contain the raw user agent only and browser based filter rules do not apply:
 
 ```HTML
 <script src="https://unpkg.com/ua-parser-js@2/dist/ua-parser.min.js"></script>
-<script src="https://unpkg.com/errorreporter@latest/bundle/index.js"></script>
+<script src="https://unpkg.com/errorreporter@latest/dist/bundle/index.js"></script>
 ```
 
 <!--|deDE:Beispiel-->
