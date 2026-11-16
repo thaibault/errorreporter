@@ -84,8 +84,8 @@
     "node-fetch": "^3.3.2",
     "typescript-eslint": "^8.72.2",
     "ua-parser-js": "^2.0.10",
-    "web-documentation": "^1.0.75",
-    "weboptimizer": "^4.0.120",
+    "web-documentation": "^1.0.76",
+    "weboptimizer": "^4.0.121",
     "webpack-dev-server": "^6.1.0"
   },
   "peerDependencies": {
